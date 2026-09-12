@@ -13,6 +13,7 @@ dist/
 .pytest_cache/
 .coverage
 data/raw/*
+data/*.parquet
 data/interim/*
 data/processed/*
 data/annotations/*

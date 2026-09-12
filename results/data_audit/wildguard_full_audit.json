@@ -1,0 +1,152 @@
+{
+  "config": {
+    "seed": 42,
+    "sample_per_stratum": 5,
+    "train": "data/raw/wildguard_train.parquet",
+    "test": "data/raw/wildguard_test.parquet",
+    "report": "results/data_audit/wildguard_full_audit.json",
+    "review_queue": "data/annotations/wildguard_semantic_review.jsonl",
+    "near_duplicate_pairs": "data/interim/wildguard_near_duplicate_pairs.jsonl",
+    "shingle_words": 5,
+    "near_jaccard_threshold": 0.85
+  },
+  "sources": {
+    "train": {
+      "sha256": "02ecea8a724a9146a1e473a95a7cdf262adfe9c7d5408953ca86d2fcfbdc8953",
+      "bytes": 53744450,
+      "rows": 86759
+    },
+    "test": {
+      "sha256": "6ccc2909c1ae6d41424fac69f1fc32535b1de39cb8f80407d81e8bc64a0bebca",
+      "bytes": 2258878,
+      "rows": 1725
+    }
+  },
+  "gate_1_passed": false,
+  "safellm_labels_assigned": false,
+  "train": {
+    "source_adversarial_counts": {
+      "True": 40956,
+      "False": 45803
+    },
+    "source_risk_category_counts": {
+      "benign": 40543,
+      "others": 10727,
+      "copyright_violations": 1771,
+      "cyberattack": 1599,
+      "violence_and_physical_harm": 2901,
+      "toxic_language_hate_speech": 3020,
+      "causing_material_harm_by_disseminating_misinformation": 1482,
+      "sensitive_information_organization_government": 3085,
+      "sexual_content": 2156,
+      "private_information_individual": 2535,
+      "mental_health_over-reliance_crisis": 1813,
+      "defamation_encouraging_unethical_or_unsafe_actions": 2420,
+      "social_stereotypes_and_unfair_discrimination": 6343,
+      "disseminating_false_or_misleading_information_encouraging_disinformation_campaigns": 4084,
+      "fraud_assisting_illegal_activities": 2280
+    },
+    "source_flag_harm_strata": {
+      "True/unharmful": 20389,
+      "True/harmful": 20567,
+      "False/unharmful": 20154,
+      "False/harmful": 25649
+    },
+    "empty_or_invalid_ids": [
+      "wildguard:train:9547",
+      "wildguard:train:10346",
+      "wildguard:train:10693",
+      "wildguard:train:18478",
+      "wildguard:train:20839",
+      "wildguard:train:20894",
+      "wildguard:train:23574",
+      "wildguard:train:37891",
+      "wildguard:train:37898",
+      "wildguard:train:38037",
+      "wildguard:train:38081",
+      "wildguard:train:38134",
+      "wildguard:train:38282",
+      "wildguard:train:38357"
+    ],
+    "characters": {
+      "min": 0,
+      "max": 12814,
+      "mean": 500.48439931303955,
+      "median": 242
+    }
+  },
+  "test": {
+    "source_adversarial_counts": {
+      "False": 915,
+      "True": 810
+    },
+    "source_risk_category_counts": {
+      "benign": 971,
+      "private_information_individual": 81,
+      "others": 98,
+      "cyberattack": 48,
+      "sexual_content": 47,
+      "social_stereotypes_and_unfair_discrimination": 76,
+      "toxic_language_hate_speech": 41,
+      "violence_and_physical_harm": 40,
+      "defamation_encouraging_unethical_or_unsafe_actions": 46,
+      "fraud_assisting_illegal_activities": 60,
+      "mental_health_over-reliance_crisis": 47,
+      "causing_material_harm_by_disseminating_misinformation": 45,
+      "disseminating_false_or_misleading_information_encouraging_disinformation_campaigns": 44,
+      "copyright_violations": 31,
+      "sensitive_information_organization_government": 50
+    },
+    "source_flag_harm_strata": {
+      "False/unharmful": 490,
+      "False/harmful": 413,
+      "True/harmful": 341,
+      "True/unharmful": 455,
+      "False/None": 12,
+      "True/None": 14
+    },
+    "empty_or_invalid_ids": [],
+    "characters": {
+      "min": 27,
+      "max": 3013,
+      "mean": 480.3849275362319,
+      "median": 254
+    }
+  },
+  "exact": {
+    "unique_nonempty_prompts": 49576,
+    "duplicate_excess": 38894,
+    "duplicate_groups": 18914,
+    "cross_official_split_groups": 0,
+    "cross_official_split_rows": 0,
+    "conflicting_adversarial_groups": 0,
+    "conflicting_adversarial_rows": 0,
+    "conflict_ids": [],
+    "cross_split_ids": []
+  },
+  "normalized": {
+    "unique_nonempty_prompts": 49527,
+    "duplicate_excess": 38943,
+    "duplicate_groups": 18924,
+    "cross_official_split_groups": 1,
+    "cross_official_split_rows": 4,
+    "conflicting_adversarial_groups": 0,
+    "conflicting_adversarial_rows": 0,
+    "conflict_ids": [],
+    "cross_split_ids": [
+      [
+        "wildguard:train:3193",
+        "wildguard:train:3194",
+        "wildguard:train:3367",
+        "wildguard:test:675"
+      ]
+    ]
+  },
+  "near_duplicate_diagnostic": {
+    "method": "adjacent sorted normalized unique prompts; word-shingle Jaccard",
+    "limitations": "low recall; not a template or leakage clearance",
+    "pairs": 133,
+    "cross_official_split_pairs": 0
+  },
+  "review_queue_rows": 20
+}

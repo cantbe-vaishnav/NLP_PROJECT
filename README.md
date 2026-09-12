@@ -8,13 +8,14 @@ combination and evaluation of established methods, including robustness,
 verification granularity, and legitimate utility. It does not claim to invent
 jailbreak detection or detect all hallucinations.
 
-**Current status: Phase 0 infrastructure only. No datasets, trained models,
-research predictions, or measured research results exist.**
+**Current status: Phase 1 source audit. Source datasets are present locally; no
+trained models, research predictions, or measured model results exist.**
 
 Phase 1 has begun with a [preliminary dataset audit](docs/task_a_dataset_audit.md).
-The label policy is approved. Work is paused at an
-[access/source-selection gate](docs/phase1_access_gate_report.md); no dataset has
-been accepted or split and Phase 1 is not complete.
+The label policy is approved and full source files are available. The
+[actual dataset audit](docs/phase1_gate_report.md) identifies a semantic-validation
+gate: source flags do not always match the approved definition. No labeled corpus
+or splits have been accepted; Phase 1 remains incomplete.
 
 ## Installation and checks
 

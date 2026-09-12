@@ -1,0 +1,63 @@
+{
+  "status": "source inspection only; not Gate 1 approval",
+  "train": {
+    "filename": "wildguard_train.parquet",
+    "bytes": 53744450,
+    "sha256": "02ecea8a724a9146a1e473a95a7cdf262adfe9c7d5408953ca86d2fcfbdc8953",
+    "rows": 86759,
+    "schema": "prompt: string\nadversarial: bool\nresponse: string\nprompt_harm_label: string\nresponse_refusal_label: string\nresponse_harm_label: string\nsubcategory: string\n-- schema metadata --\npandas: '{\"index_columns\": [{\"kind\": \"range\", \"name\": null, \"start\": 0, \"' + 1146",
+    "null_counts": {
+      "prompt": 0,
+      "adversarial": 0,
+      "response": 48825,
+      "prompt_harm_label": 0,
+      "response_refusal_label": 48783,
+      "response_harm_label": 48783,
+      "subcategory": 0
+    },
+    "source_adversarial_counts": {
+      "true": 40956,
+      "false": 45803
+    },
+    "source_harmfulness_counts": {
+      "\"unharmful\"": 40543,
+      "\"harmful\"": 46216
+    },
+    "invalid_adversarial_values": 0,
+    "empty_or_invalid_prompts": 14,
+    "exact_prompt_duplicate_excess": 38907,
+    "safellm_labels_assigned": false
+  },
+  "test": {
+    "filename": "wildguard_test.parquet",
+    "bytes": 2258878,
+    "sha256": "6ccc2909c1ae6d41424fac69f1fc32535b1de39cb8f80407d81e8bc64a0bebca",
+    "rows": 1725,
+    "schema": "prompt: string\nresponse: string\nadversarial: bool\nprompt_harm_label: string\nresponse_refusal_agreement: double\nresponse_refusal_label: string\nresponse_harm_label: string\nsubcategory: string\nprompt_harm_agreement: double\nresponse_harm_agreement: double\n-- schema metadata --\npandas: '{\"index_columns\": [], \"column_indexes\": [], \"columns\": [{\"name\":' + 1401",
+    "null_counts": {
+      "prompt": 0,
+      "response": 0,
+      "adversarial": 0,
+      "prompt_harm_label": 26,
+      "response_refusal_agreement": 5,
+      "response_refusal_label": 5,
+      "response_harm_label": 16,
+      "subcategory": 0,
+      "prompt_harm_agreement": 26,
+      "response_harm_agreement": 16
+    },
+    "source_adversarial_counts": {
+      "false": 915,
+      "true": 810
+    },
+    "source_harmfulness_counts": {
+      "\"unharmful\"": 945,
+      "\"harmful\"": 754,
+      "null": 26
+    },
+    "invalid_adversarial_values": 0,
+    "empty_or_invalid_prompts": 0,
+    "exact_prompt_duplicate_excess": 0,
+    "safellm_labels_assigned": false
+  }
+}

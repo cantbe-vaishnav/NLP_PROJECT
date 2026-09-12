@@ -56,3 +56,13 @@ Browser access is confirmed, but dataset downloads did not become available to
 local tools. Added pinned Parquet inspection dependency, offline source inspector,
 and three engineering tests; all 13 tests pass. No dataset mapping or splits.
 See the latest section of phase1_gate_report.md for checks and exact blocker.
+
+## Actual full-source audit
+
+Local WildGuardMix files verified: 86,759 train and 1,725 test rows. Ran source,
+exact/normalized duplicate and bounded near-duplicate audits. Inspected a seed-42
+20-row stratified training sample, finding source-adversarial flags that do not
+unambiguously match SafeLLM's definition. No automatic relabeling. Saved pending
+human review queue. Eighteen tests and deterministic full-audit rerun passed.
+Current gate is semantic validation/annotation procedure, not authentication.
+See phase1_gate_report.md for counts, commands, limitations and proposed decision.

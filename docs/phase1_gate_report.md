@@ -1,119 +1,149 @@
-# Phase 1 preliminary research gate report
+# Phase 1 gate report — actual WildGuardMix source audit
 
-2026-09-12. This is an audit checkpoint, not Phase 1 completion.
+Status: **Gate 1 NOT passed**. Access and local transfer are resolved. No model,
+Task B, integration or UI work performed. No SafeLLM label mapping accepted yet.
 
-Implemented: candidate audit and concrete proposed label policy. Updated README
-and experiment log. No dataset adapter or data-generation code implemented before
-resolution of the policy. Dataset statistics and leakage findings are unavailable;
-only potential risks from source documentation were identified.
+## Sources and provenance
 
-Research decision: approve or revise BENIGN as non-adversarial (not necessarily
-harmless), ADVERSARIAL as boundary manipulation, and quarantine context-ambiguous
-examples. Recommended next step: resolve policy then continue Phase 1 source and
-sample inspection. No dataset is finalized; no split or annotations exist.
+User supplied both official Parquet files in `data/` and `data/raw/`. Copies are
+byte-identical; use `data/raw/`. All Parquet copies are ignored by Git, retained
+locally without deletion. Full SHA-256 values and actual schemas are in
+`results/data_audit/wildguard_source_inspection.json` and `wildguard_full_audit.json`.
+The referenced upstream revision is d29c47f41c8b51348b5c8e8c81c039b3132b66d1.
+Local hashes are recorded; they have not independently been compared to upstream
+LFS hashes. The source card declares ODC-BY; the user accepted its access terms.
+Source: https://huggingface.co/datasets/allenai/wildguardmix
 
-## Exact local commands executed
+WildGuardMix is selected for source/semantic audit, **not accepted as a labeled
+training corpus**. Deepset remains a diagnostic candidate with context-dependent
+labels. WildJailbreak is deferred for similar semantics and additional provenance
+inspection. JBB/HarmBench behavior-only positive mappings are rejected because a
+harmful goal alone does not establish manipulation; separate artifacts are not
+ruled out. Role-play candidates from any source are retained, not discarded by form.
 
-| Command | Outcome |
-| --- | --- |
-| `cat /Users/vaishnavrmenon/Downloads/message.txt` | Read supplied Phase 1 brief |
-| `git status --short --branch` | Clean `main` at audit start |
-| `rg --files -g 'AGENTS.md' -g '!\.venv' -g '!\.git'` | No matching files |
-| `cat configs/phase0.json` | Confirmed existing seed 42 configuration |
-| `cat docs/experiment_log.md` | Confirmed Phase 0 history |
-| `ls docs/task_a_dataset_audit.md` | Initially absent after a failed patch; corrected by adding the file |
-| `.venv/bin/python -m unittest discover -s tests -v` | 5/5 passed |
-| `.venv/bin/python -m pip check` | No broken requirements; non-blocking cache-permission warning |
-| `.venv/bin/safellm doctor` | Python 3.14.5; imports OK; implemented CLI phase remains 0 |
-| `git diff --check` | Passed |
+## Actual counts
 
-Web search/open tools inspected the primary sources linked in the dataset audit.
-No dataset download, data-quality computation, model training or external account
-agreement was performed. No linter is configured. Existing tests check engineering
-infrastructure only; their success does not mean the dataset is ready.
+| Measure | Official train | Official test |
+| --- | ---: | ---: |
+| Rows | 86,759 | 1,725 |
+| Bytes | 53,744,450 | 2,258,878 |
+| Source adversarial=true | 40,956 | 810 |
+| Source adversarial=false | 45,803 | 915 |
+| Source harmful | 46,216 | 754 |
+| Source unharmful | 40,543 | 945 |
+| Missing source harmfulness | 0 | 26 |
+| Empty/invalid prompt rows | 14 | 0 |
 
-Commit subject for this checkpoint: `docs(task-a): audit candidates and identify label-policy gate`.
-The commit hash is reported in the task response and available in Git history.
+These are source labels, **not SafeLLM labels**. All adversarial values are boolean;
+prompt columns are strings with no nulls. Fourteen training strings are empty.
+Train has 48,825 null responses, whereas refusal/harm labels have 48,783 nulls;
+response fields are irrelevant to Task A inputs and remain untouched. Missing
+harmfulness is not an automatic reason to reject a prompt's manipulation label.
+All original text and metadata remain in the unchanged source artifacts.
 
-## Current gate update — account approval confirmed by user
+No rows have yet been deleted or assigned final SafeLLM labels. Twenty sampled
+training rows are pending human review, not twenty confirmed ambiguous examples.
+The full corpus's ambiguity/quarantine count is not known.
 
-This update supersedes the initial label-policy gate above. The user approved the
-Task A policy and confirmed WildGuardMix access acceptance. Role-play, debater,
-simulation, persona and hypothetical formulations must remain candidates; their
-form alone never warrants exclusion. Ambiguous records must be retained for human
-review, with original text/source labels intact.
+## Duplicate, template and source findings
 
-Local authentication check: HF_TOKEN and HUGGING_FACE_HUB_TOKEN absent; neither the
-standard cached token nor an explicitly configured token file exists. Credential
-values were not read or printed. The only connected browser is the Codex in-app
-browser; the actual dataset page shows it is signed out. Opened the site's login
-link and left the tab available for user sign-in. Account approval in another
-browser does not authenticate this browser or the Python downloader.
+Among 88,470 nonempty rows, there are 49,576 distinct exact prompt strings and
+38,894 duplicate excess rows in 18,914 repeated groups. The separate raw-file
+inspection counts 38,907 training duplicate excess rows including repeated empty
+strings; these definitions explain the difference. No exact-string cross-official-
+split overlap and no exact/normalized groups with conflicting adversarial flags
+were found. Other label disagreements are not evaluated by this conflict check.
 
-Selected corpus: none accepted; WildGuardMix remains preferred pending sample
-inspection. Alternatives retain the decisions in phase1_access_gate_report.md;
-role-play candidates are deferred/quarantined, not discarded by formulation.
-Actual full WildGuardMix download: none. Prior Deepset preview: 100 rows (85 source
-label-0, 15 source label-1), with no SafeLLM assignments. Quarantine/exclusion and
-full duplicate/leakage counts remain uncomputed. No train/validation/test splits.
-Hard-negative workflow exists; no accepted human-reviewed data. Unseen-formulation
-and attack-category validity remain unestablished. Gate 1 is not passed.
+NFC + casefold + whitespace comparison (never model-text preprocessing) leaves
+49,527 keys. One key spans train/test: training row indices 3193, 3194 and 3367
+match test index 675 up to capitalization (United Nations headquarters query).
+Retain test membership and exclude these training copies before any modeling.
+No changes to membership have been made at this gate.
 
-Files modified at this checkpoint: this report only. Checks: `git status --short
---branch` (initially clean), credential-presence checks using inline Python
-(all false), browser dataset/login state inspection, and `git diff --check`.
-No code changed; the prior 10 passing tests remain the latest code validation.
+The bounded adjacent-sorted comparison using 5-word shingles at Jaccard >= 0.85
+found 133 near-duplicate candidate pairs. None of those representative pairs spans
+train/test, but this is a low-recall diagnostic, NOT an exhaustive clearance.
+Multiple group members can have different official memberships; representative
+pair flags alone cannot certify group-level isolation. Broader template/family
+checks remain required before final splits. Threshold is an audit parameter, not
+an approved split/grouping rule. Pair IDs are saved in interim data.
 
-Exact remaining action: user signs into the opened Codex in-app Hugging Face tab
-with the approved account. No command-line work or token pasted into the task is
-required. Then attempt authenticated download and resume the actual sample audit.
-Commit subject: `docs(task-a): clarify authenticated access handoff and role-play policy`.
-Prior tooling commit: 6f849aa (`feat(task-a): add source audit tooling and record access gate`).
+Actual schema contains no source-corpus ID, parent prompt ID, template ID, or
+attack-method category. `subcategory` is a risk topic and must not become an attack
+category. Original component-source confounding cannot be measured directly from
+this release's schema. Source/style shortcuts and repeated synthetic structures
+remain risks; absence of metadata is not evidence of independence.
 
-## Latest update — browser access verified, local transfer unresolved
+## Semantic audit and human-review gate
 
-The signed-in dataset page now explicitly confirms access granted. Authentication
-in the browser is resolved; do not ask the user to sign in again. Its preview shows
-both harmful/adversarial-false and unharmful/adversarial-true rows. These observations
-support separate source-label preservation but are insufficient for accepting the
-mapping. Several long prompt previews are truncated; no full semantic audit claimed.
+Using seed 42, sampled five training rows from each source adversarial/harmfulness
+combination (20 total); full prompts were inspected by AI. Sampling is by source
+row, so repeated prompt variants may bias it. This small diagnostic is not an
+estimate of corpus-wide label error and is not independent human annotation.
 
-Clicked authenticated train and test download links and tried the supported link
-media-download action. No resulting Parquet files were located in Downloads,
-workspace, temporary directories or the checked Codex artifact locations. The
-in-app browser's content export explicitly reports unsupported. No browser cookies
-were extracted or repurposed. Local programmatic authentication remains absent.
+Concrete source-true examples that challenge direct mapping:
 
-Added `requirements-data.txt` (PyArrow 23.0.1),
-`scripts/inspect_wildguard_files.py`, and `tests/test_wildguard_inspection.py`.
-The inspector reports source schema, bytes/hash, row/null/duplicate counts and
-original label distributions without assigning SafeLLM labels or changing text.
-It rejects missing schema and refuses overwriting reports. Tests use synthetic
-engineering fixtures only, not research data. These are pre-adapter source checks;
-the adapter and actual label mapping remain deferred until full sample review.
+- train:23270 asks for restrained creative writing and explicitly maintains ethical
+  limits. No clear boundary override is present in the inspected text.
+- train:27364 requests lawful journalistic research and explicitly respects limits.
+- train:39554 requests a business-leadership persona exercise without a clear bypass.
+- train:48490 explicitly asserts OpenAI policies do not apply: the boundary claim,
+  not its fictional setting, is the relevant signal.
+- train:15397 explicitly asks to disregard safeguards: adversarial intent is clear.
+- train:51657 includes vague disregard for repercussions while requesting a public
+  tourism website; retain for contextual review rather than force a label.
 
-Validation commands executed:
-- `.venv/bin/python -m pip install pyarrow==23.0.1` — installed successfully.
-- `.venv/bin/python -m unittest discover -s tests -v` — 13 tests passed, none skipped.
-- `.venv/bin/python -m pip check` — no broken requirements.
-- `.venv/bin/python -m compileall -q src scripts tests` — passed.
-- `git diff --check` — passed.
-PyArrow emitted sandbox CPU-information warnings and pip a cache-permission warning;
-all checks completed successfully. No configured linter exists.
+These are diagnostic judgments, not applied labels. The source flag cannot be
+accepted wholesale under the user-approved definition. Do not fix this with a
+keyword filter or blanket exclusion of role-play or source-unharmful rows.
 
-Current research status: WildGuardMix remains conditional, no corpus accepted.
-Prior alternative decisions remain unchanged. Zero complete WildGuardMix source
-files available locally; reported upstream 86,759 train / 1,725 test rows are NOT
-verified local counts. Actual SafeLLM distributions, quarantine/exclusions, full
-exact/near-duplicate and leakage statistics are uncomputed. No splits generated.
-Hard-negative workflow exists, zero accepted examples. Neither unseen formulation
-nor unseen attack-category holdouts established. Gate 1 remains unsatisfied.
+**Recommended next decision:** authorize a human semantic-validation pilot before
+accepting a mapping: sample 200 unique training prompts (50 per source-flag /
+harmfulness stratum where available), have two team members independently apply
+the already-approved policy, preserve ambiguity, and adjudicate disagreements.
+Use findings to decide whether to curate/reannotate a manageable corpus or audit
+an alternative. This would define a new annotation procedure, so it needs review.
+The existing 20-row queue is a starting diagnostic, not this proposed pilot.
 
-Remaining action: download `wildguard_train.parquet` and `wildguard_test.parquet`
-from the official source in a regular authenticated browser into Downloads (or
-make local Hugging Face authentication available). This is a browser-to-filesystem
-transfer limitation, not a research policy question. The agent will perform the
-remaining local inspection/engineering; no routine user commands are requested.
+## Remaining deliverables
 
-Commit subject: `feat(task-a): prepare verified local Parquet inspection`.
-Previous checkpoint: 657c0fb, `docs(task-a): clarify authenticated access handoff and role-play policy`.
+Final normalized corpus and SafeLLM distribution: not available. Train/validation/
+test setup: not generated; official test remains untouched. Seed 42 is recorded.
+Adapter/label normalization and split code remain deferred until semantic mapping
+is defensible. Source inspection utilities do not constitute an accepted adapter.
+
+Hard negatives: workflow exists; no examples automatically accepted or falsely
+claimed human-reviewed. Some flagged benign-content candidates may eventually
+qualify after review. Unseen formulations: no verified families yet, so not ready.
+Unseen attack categories: not supported by the current risk-category metadata;
+no category holdout constructed. Gate 1 is not satisfied by code tests alone.
+
+## Files and validation
+
+Added config, source-leakage helpers, full audit/verification scripts, five tests,
+source/full JSON reports and locally ignored review/pair queues. Updated README,
+experiment log, this report and Git ignore rules.
+
+Exact routine commands executed:
+
+```bash
+.venv/bin/python scripts/inspect_wildguard_files.py --train data/raw/wildguard_train.parquet --test data/raw/wildguard_test.parquet --output results/data_audit/wildguard_source_inspection.json
+.venv/bin/python scripts/audit_wildguard.py --config configs/task_a_full_audit.json
+.venv/bin/python -m unittest discover -s tests -v
+.venv/bin/python -m pip check
+.venv/bin/safellm doctor
+.venv/bin/python -m compileall -q src scripts tests
+git diff --check
+.venv/bin/python /tmp/safellm_verify_audit.py
+```
+
+The full audit initially failed on an incorrect `st_size()` call, which was fixed;
+the same audit command was rerun successfully. **18 tests passed**, dependencies,
+imports and syntax checks passed. Benign sandbox CPU/cache warnings were emitted.
+A second full run in temporary paths reproduced statistics, sample queue and pairs
+exactly. The verification code is retained as `scripts/verify_wildguard_audit.py`.
+Inline Python also compared duplicate file hashes and printed sampled prompts and
+cross-split overlap members. No linter is configured. No ML metrics were generated.
+
+Commit subject: `feat(task-a): audit full source data and identify semantic review gate`.
+The commit hash is reported in the task response. Prior checkpoint: d3965a4.

@@ -1,0 +1,11 @@
+{
+  "seed": 42,
+  "sample_per_stratum": 5,
+  "train": "data/raw/wildguard_train.parquet",
+  "test": "data/raw/wildguard_test.parquet",
+  "report": "results/data_audit/wildguard_full_audit.json",
+  "review_queue": "data/annotations/wildguard_semantic_review.jsonl",
+  "near_duplicate_pairs": "data/interim/wildguard_near_duplicate_pairs.jsonl",
+  "shingle_words": 5,
+  "near_jaccard_threshold": 0.85
+}
