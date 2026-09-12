@@ -10,6 +10,17 @@
 - `configs/phase0.json` is an engineering check, not a research experiment.
 - Validation evidence is recorded in `docs/phase0_validation.md` after execution.
 
+## 2026-09-12 — Phase 1 preliminary audit (research gate)
+
+- Reviewed public primary-source cards/documentation for WildGuardMix,
+  Deepset prompt-injections, WildJailbreak, JailbreakBench and HarmBench.
+- Found a material label-policy distinction: non-adversarial is not synonymous
+  with harmless; context can determine injection status.
+- Recorded candidate limitations and proposed policy in `task_a_dataset_audit.md`.
+- No ingestion, split, hard-negative annotations, models or research results.
+- Stopped for label-policy review under the user's autonomous-engineering /
+  human-research-gates workflow. Phase 1 remains incomplete.
+
 ## Future experiment entry template
 
 - Unique identifier and date:

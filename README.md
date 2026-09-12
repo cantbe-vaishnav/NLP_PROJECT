@@ -11,6 +11,10 @@ jailbreak detection or detect all hallucinations.
 **Current status: Phase 0 infrastructure only. No datasets, trained models,
 research predictions, or measured research results exist.**
 
+Phase 1 has begun with a [preliminary dataset audit](docs/task_a_dataset_audit.md).
+It is paused at the label-policy research gate; no dataset has been selected or
+split and Phase 1 is not complete.
+
 ## Installation and checks
 
 Python 3.11+ is required for this infrastructure. Phase 0 is tested locally with
