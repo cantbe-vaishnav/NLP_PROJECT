@@ -49,3 +49,10 @@
 
 Do not report initialized or failed runs as completed experiments. Keep benchmark
 and custom runs separately identifiable and retain failures/negative results.
+
+## Authenticated browser checkpoint
+
+Browser access is confirmed, but dataset downloads did not become available to
+local tools. Added pinned Parquet inspection dependency, offline source inspector,
+and three engineering tests; all 13 tests pass. No dataset mapping or splits.
+See the latest section of phase1_gate_report.md for checks and exact blocker.

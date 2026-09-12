@@ -1,0 +1,3 @@
+# Phase 1: inspect the original Parquet artifacts without changing source labels.
+-r requirements.txt
+pyarrow==23.0.1

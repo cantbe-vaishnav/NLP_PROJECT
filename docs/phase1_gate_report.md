@@ -69,3 +69,51 @@ with the approved account. No command-line work or token pasted into the task is
 required. Then attempt authenticated download and resume the actual sample audit.
 Commit subject: `docs(task-a): clarify authenticated access handoff and role-play policy`.
 Prior tooling commit: 6f849aa (`feat(task-a): add source audit tooling and record access gate`).
+
+## Latest update — browser access verified, local transfer unresolved
+
+The signed-in dataset page now explicitly confirms access granted. Authentication
+in the browser is resolved; do not ask the user to sign in again. Its preview shows
+both harmful/adversarial-false and unharmful/adversarial-true rows. These observations
+support separate source-label preservation but are insufficient for accepting the
+mapping. Several long prompt previews are truncated; no full semantic audit claimed.
+
+Clicked authenticated train and test download links and tried the supported link
+media-download action. No resulting Parquet files were located in Downloads,
+workspace, temporary directories or the checked Codex artifact locations. The
+in-app browser's content export explicitly reports unsupported. No browser cookies
+were extracted or repurposed. Local programmatic authentication remains absent.
+
+Added `requirements-data.txt` (PyArrow 23.0.1),
+`scripts/inspect_wildguard_files.py`, and `tests/test_wildguard_inspection.py`.
+The inspector reports source schema, bytes/hash, row/null/duplicate counts and
+original label distributions without assigning SafeLLM labels or changing text.
+It rejects missing schema and refuses overwriting reports. Tests use synthetic
+engineering fixtures only, not research data. These are pre-adapter source checks;
+the adapter and actual label mapping remain deferred until full sample review.
+
+Validation commands executed:
+- `.venv/bin/python -m pip install pyarrow==23.0.1` — installed successfully.
+- `.venv/bin/python -m unittest discover -s tests -v` — 13 tests passed, none skipped.
+- `.venv/bin/python -m pip check` — no broken requirements.
+- `.venv/bin/python -m compileall -q src scripts tests` — passed.
+- `git diff --check` — passed.
+PyArrow emitted sandbox CPU-information warnings and pip a cache-permission warning;
+all checks completed successfully. No configured linter exists.
+
+Current research status: WildGuardMix remains conditional, no corpus accepted.
+Prior alternative decisions remain unchanged. Zero complete WildGuardMix source
+files available locally; reported upstream 86,759 train / 1,725 test rows are NOT
+verified local counts. Actual SafeLLM distributions, quarantine/exclusions, full
+exact/near-duplicate and leakage statistics are uncomputed. No splits generated.
+Hard-negative workflow exists, zero accepted examples. Neither unseen formulation
+nor unseen attack-category holdouts established. Gate 1 remains unsatisfied.
+
+Remaining action: download `wildguard_train.parquet` and `wildguard_test.parquet`
+from the official source in a regular authenticated browser into Downloads (or
+make local Hugging Face authentication available). This is a browser-to-filesystem
+transfer limitation, not a research policy question. The agent will perform the
+remaining local inspection/engineering; no routine user commands are requested.
+
+Commit subject: `feat(task-a): prepare verified local Parquet inspection`.
+Previous checkpoint: 657c0fb, `docs(task-a): clarify authenticated access handoff and role-play policy`.
