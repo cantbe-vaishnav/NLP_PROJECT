@@ -17,6 +17,9 @@ The label policy is approved and full source files are available. The
 gate: source flags do not always match the approved definition. No labeled corpus
 or splits have been accepted; Phase 1 remains incomplete.
 
+An approved 200-prompt pilot is generated locally for two independent team-member
+reviews. See the [pilot guidelines](docs/task_a_semantic_pilot_guidelines.md).
+
 ## Installation and checks
 
 Python 3.11+ is required for this infrastructure. Phase 0 is tested locally with

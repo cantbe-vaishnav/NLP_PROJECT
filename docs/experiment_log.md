@@ -66,3 +66,14 @@ unambiguously match SafeLLM's definition. No automatic relabeling. Saved pending
 human review queue. Eighteen tests and deterministic full-audit rerun passed.
 Current gate is semantic validation/annotation procedure, not authentication.
 See phase1_gate_report.md for counts, commands, limitations and proposed decision.
+
+## Approved 200-prompt semantic pilot
+
+- Generated 50 normalized-unique training prompts from each of four source
+  adversarial × harmfulness strata with seed 42; no stratum shortfall.
+- Preserved source labels only in a local master; created two blind independent
+  reviewer CSVs with no prefilled SafeLLM decisions.
+- Added strict annotation validation, agreement/kappa, source cross-tab,
+  per-stratum disagreement and adjudication-queue tooling.
+- No human annotations, pilot metrics or source-use recommendation yet.
+- Phase 1 remains at the human semantic-validation gate.

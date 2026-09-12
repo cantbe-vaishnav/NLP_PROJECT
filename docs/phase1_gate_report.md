@@ -97,13 +97,24 @@ These are diagnostic judgments, not applied labels. The source flag cannot be
 accepted wholesale under the user-approved definition. Do not fix this with a
 keyword filter or blanket exclusion of role-play or source-unharmful rows.
 
-**Recommended next decision:** authorize a human semantic-validation pilot before
-accepting a mapping: sample 200 unique training prompts (50 per source-flag /
-harmfulness stratum where available), have two team members independently apply
-the already-approved policy, preserve ambiguity, and adjudicate disagreements.
-Use findings to decide whether to curate/reannotate a manageable corpus or audit
-an alternative. This would define a new annotation procedure, so it needs review.
-The existing 20-row queue is a starting diagnostic, not this proposed pilot.
+The user approved the semantic-validation pilot. It has now been generated with
+50 comparison-normalized unique training prompts from each source adversarial ×
+harmfulness stratum (200 total); all strata had sufficient eligible prompts, so
+no redistribution occurred. Eligible unique counts were 13,377 false/harmful,
+11,545 false/unharmful, 11,388 true/harmful and 11,508 true/unharmful. Seed 42 and
+stratum-qualified deterministic RNGs make selection reproducible.
+
+The master retains full prompt text, source row ID, official split, source
+adversarial/harmfulness labels and risk category. Two separate reviewer CSVs omit
+all source labels to reduce anchoring. Both contain blank label, reviewer ID and
+rationale columns. No human labels have been entered, and no AI labels substitute
+for them. Review instructions are in `task_a_semantic_pilot_guidelines.md`.
+
+**Current gate:** two actual team members must independently complete the two CSVs.
+Only then can the checked analysis tool calculate agreement, three-class Cohen's
+kappa, source-label cross-tabs, per-stratum disagreement, systematic mismatch
+examples and an unresolved adjudication queue. The project cannot truthfully
+recommend direct use, curated/reannotated use, or rejection before those results.
 
 ## Remaining deliverables
 
@@ -147,3 +158,31 @@ cross-split overlap members. No linter is configured. No ML metrics were generat
 
 Commit subject: `feat(task-a): audit full source data and identify semantic review gate`.
 The commit hash is reported in the task response. Prior checkpoint: d3965a4.
+
+## Approved 200-prompt pilot implementation
+
+Added `configs/task_a_semantic_pilot.json`, deterministic normalized-unique
+stratified sampling, blind worksheet generation, strict completed-review
+validation, three-class agreement/kappa and source cross-tab analysis, and
+adjudication queue generation. The analysis refuses identical reviewer IDs and
+refuses to overwrite previous results. Reviewer outputs and master prompts remain
+locally ignored by Git.
+
+Commands executed:
+
+```bash
+.venv/bin/python scripts/create_task_a_semantic_pilot.py --config configs/task_a_semantic_pilot.json
+.venv/bin/python -m unittest discover -s tests -v
+.venv/bin/python -m pip check
+.venv/bin/python -m compileall -q src scripts tests
+git diff --check
+```
+
+The generator reported exactly 200 records, 50 per stratum, with zero shortfall.
+CSV-aware validation confirmed 200 records in each worksheet, blank decision
+fields, identical ID coverage, 200 normalized-unique prompts and the intended
+50/50/50/50 allocation. All **23 tests passed**; dependency, import, compilation
+and Git whitespace checks passed. Sampling determinism is covered by an automated
+test. No analysis was run against blank worksheets, so agreement, kappa, mismatch
+rates, examples and adjudication counts are correctly unavailable.
+Commit subject: `feat(task-a): add independent semantic-validation pilot`.
