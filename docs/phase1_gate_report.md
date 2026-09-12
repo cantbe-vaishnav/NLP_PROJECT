@@ -34,3 +34,38 @@ infrastructure only; their success does not mean the dataset is ready.
 
 Commit subject for this checkpoint: `docs(task-a): audit candidates and identify label-policy gate`.
 The commit hash is reported in the task response and available in Git history.
+
+## Current gate update — account approval confirmed by user
+
+This update supersedes the initial label-policy gate above. The user approved the
+Task A policy and confirmed WildGuardMix access acceptance. Role-play, debater,
+simulation, persona and hypothetical formulations must remain candidates; their
+form alone never warrants exclusion. Ambiguous records must be retained for human
+review, with original text/source labels intact.
+
+Local authentication check: HF_TOKEN and HUGGING_FACE_HUB_TOKEN absent; neither the
+standard cached token nor an explicitly configured token file exists. Credential
+values were not read or printed. The only connected browser is the Codex in-app
+browser; the actual dataset page shows it is signed out. Opened the site's login
+link and left the tab available for user sign-in. Account approval in another
+browser does not authenticate this browser or the Python downloader.
+
+Selected corpus: none accepted; WildGuardMix remains preferred pending sample
+inspection. Alternatives retain the decisions in phase1_access_gate_report.md;
+role-play candidates are deferred/quarantined, not discarded by formulation.
+Actual full WildGuardMix download: none. Prior Deepset preview: 100 rows (85 source
+label-0, 15 source label-1), with no SafeLLM assignments. Quarantine/exclusion and
+full duplicate/leakage counts remain uncomputed. No train/validation/test splits.
+Hard-negative workflow exists; no accepted human-reviewed data. Unseen-formulation
+and attack-category validity remain unestablished. Gate 1 is not passed.
+
+Files modified at this checkpoint: this report only. Checks: `git status --short
+--branch` (initially clean), credential-presence checks using inline Python
+(all false), browser dataset/login state inspection, and `git diff --check`.
+No code changed; the prior 10 passing tests remain the latest code validation.
+
+Exact remaining action: user signs into the opened Codex in-app Hugging Face tab
+with the approved account. No command-line work or token pasted into the task is
+required. Then attempt authenticated download and resume the actual sample audit.
+Commit subject: `docs(task-a): clarify authenticated access handoff and role-play policy`.
+Prior tooling commit: 6f849aa (`feat(task-a): add source audit tooling and record access gate`).
