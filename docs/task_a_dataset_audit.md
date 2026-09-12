@@ -1,16 +1,17 @@
 # Task A preliminary dataset audit — 2026-09-12
 
-Status: Phase 1 started; label-policy research gate reached. Phase 1 is NOT
-complete. No dataset has been downloaded, accepted, normalized or split.
+Status: label policy APPROVED by the user. Phase 1 remains incomplete at an
+authenticated-access/source-selection gate. See `phase1_access_gate_report.md`
+for actual API observations and the limited downloaded preview.
 All sizes below are upstream descriptions, not measured SafeLLM statistics.
 
-## Decision requiring review
+## Approved label policy
 
 Harmfulness and adversarial manipulation are different targets. A direct harmful
 request may contain no jailbreak; an instruction override may seek harmless
 content. Mapping safety labels directly would silently change the research task.
 
-Proposed policy, pending user review:
+User-approved policy:
 
 - ADVERSARIAL: an attempt to bypass safeguards or redirect an established
   instruction/trust boundary. Harmful subject matter alone is insufficient.
@@ -20,8 +21,7 @@ Proposed policy, pending user review:
   Role-play, topic changes and quoted attacks are not automatically attacks.
 - Audit source adversarial flags against this policy before accepting a mapping.
 
-This choice affects dataset labels and conclusions, so the user's workflow update
-requires review before implementation commits to a dataset or mapping.
+The user approved this policy; no further approval of these definitions is needed.
 
 ## Candidate inventory
 
@@ -126,6 +126,5 @@ Selected datasets: none finalized. Normalized size, class distribution, duplicat
 counts and split sizes: unavailable. Hard-negative and category-held-out sets:
 absent. Gate 1 (data ready): NOT passed. No model work authorized.
 
-Recommended next step: approve or revise the proposed label policy, then continue
-the source/sample audit within Phase 1. WildGuardMix is preferred conditionally;
-access and semantic review must precede its acceptance.
+Next step: obtain authorized access to WildGuardMix for actual sample inspection.
+See the access gate report; no fallback corpus is silently substituted.

@@ -1,0 +1,12 @@
+{
+  "output": "data/interim/task_a_source_probe.json",
+  "summary": "results/data_audit/source_probe_summary.json",
+  "timeout_seconds": 30,
+  "sources": {
+    "wildguard_metadata": {"url": "https://huggingface.co/api/datasets/allenai/wildguardmix", "method": "GET", "kind": "metadata"},
+    "wildguard_access": {"url": "https://huggingface.co/datasets/allenai/wildguardmix/resolve/d29c47f41c8b51348b5c8e8c81c039b3132b66d1/train/wildguard_train.parquet", "method": "HEAD", "kind": "access"},
+    "wildjailbreak_metadata": {"url": "https://huggingface.co/api/datasets/allenai/wildjailbreak", "method": "GET", "kind": "metadata"},
+    "deepset_metadata": {"url": "https://huggingface.co/api/datasets/deepset/prompt-injections", "method": "GET", "kind": "metadata"},
+    "deepset_samples": {"url": "https://datasets-server.huggingface.co/first-rows?dataset=deepset%2Fprompt-injections&config=default&split=train", "method": "GET", "kind": "samples"}
+  }
+}

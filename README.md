@@ -12,8 +12,9 @@ jailbreak detection or detect all hallucinations.
 research predictions, or measured research results exist.**
 
 Phase 1 has begun with a [preliminary dataset audit](docs/task_a_dataset_audit.md).
-It is paused at the label-policy research gate; no dataset has been selected or
-split and Phase 1 is not complete.
+The label policy is approved. Work is paused at an
+[access/source-selection gate](docs/phase1_access_gate_report.md); no dataset has
+been accepted or split and Phase 1 is not complete.
 
 ## Installation and checks
 

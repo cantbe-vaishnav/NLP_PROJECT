@@ -1,0 +1,114 @@
+{
+  "retrieved_at_utc": "2026-09-12T10:59:26.833203+00:00",
+  "config": {
+    "output": "data/interim/task_a_source_probe.json",
+    "summary": "results/data_audit/source_probe_summary.json",
+    "timeout_seconds": 30,
+    "sources": {
+      "wildguard_metadata": {
+        "url": "https://huggingface.co/api/datasets/allenai/wildguardmix",
+        "method": "GET",
+        "kind": "metadata"
+      },
+      "wildguard_access": {
+        "url": "https://huggingface.co/datasets/allenai/wildguardmix/resolve/d29c47f41c8b51348b5c8e8c81c039b3132b66d1/train/wildguard_train.parquet",
+        "method": "HEAD",
+        "kind": "access"
+      },
+      "wildjailbreak_metadata": {
+        "url": "https://huggingface.co/api/datasets/allenai/wildjailbreak",
+        "method": "GET",
+        "kind": "metadata"
+      },
+      "deepset_metadata": {
+        "url": "https://huggingface.co/api/datasets/deepset/prompt-injections",
+        "method": "GET",
+        "kind": "metadata"
+      },
+      "deepset_samples": {
+        "url": "https://datasets-server.huggingface.co/first-rows?dataset=deepset%2Fprompt-injections&config=default&split=train",
+        "method": "GET",
+        "kind": "samples"
+      }
+    }
+  },
+  "sources": {
+    "wildguard_metadata": {
+      "url": "https://huggingface.co/api/datasets/allenai/wildguardmix",
+      "method": "GET",
+      "status": 200,
+      "bytes_received": 2764,
+      "sha256": "107697067b0f74055505c0fee8dafd8ba87852e59cede69f216502cee2244394",
+      "id": "allenai/wildguardmix",
+      "sha": "d29c47f41c8b51348b5c8e8c81c039b3132b66d1",
+      "gated": "auto"
+    },
+    "wildguard_access": {
+      "url": "https://huggingface.co/datasets/allenai/wildguardmix/resolve/d29c47f41c8b51348b5c8e8c81c039b3132b66d1/train/wildguard_train.parquet",
+      "method": "HEAD",
+      "status": 401,
+      "error": "HTTP access failure"
+    },
+    "wildjailbreak_metadata": {
+      "url": "https://huggingface.co/api/datasets/allenai/wildjailbreak",
+      "method": "GET",
+      "status": 200,
+      "bytes_received": 2822,
+      "sha256": "3eded32cc67d2e2edcb8955afd1b51948cc2954e4c4e4a92eb7c0c89a606b4d8",
+      "id": "allenai/wildjailbreak",
+      "sha": "5ddc12a7894f842b0619b8e1c7ee496b198af009",
+      "gated": "auto"
+    },
+    "deepset_metadata": {
+      "url": "https://huggingface.co/api/datasets/deepset/prompt-injections",
+      "method": "GET",
+      "status": 200,
+      "bytes_received": 1168,
+      "sha256": "232d00177f3684a3289f622c4f362c3daa7f371f4ef7190cd7d1e7265dfcc887",
+      "id": "deepset/prompt-injections",
+      "sha": "4f61ecb038e9c3fb77e21034b22511b523772cdd",
+      "gated": false
+    },
+    "deepset_samples": {
+      "url": "https://datasets-server.huggingface.co/first-rows?dataset=deepset%2Fprompt-injections&config=default&split=train",
+      "method": "GET",
+      "status": 200,
+      "bytes_received": 14511,
+      "sha256": "45ea02206fa0e9c558d16fe55dc0f117a8e3764aa400d478a72b9d0e6ed954e1",
+      "features": [
+        {
+          "feature_idx": 0,
+          "name": "text",
+          "type": {
+            "dtype": "string",
+            "_type": "Value"
+          }
+        },
+        {
+          "feature_idx": 1,
+          "name": "label",
+          "type": {
+            "dtype": "int64",
+            "_type": "Value"
+          }
+        }
+      ],
+      "summary": {
+        "scope": "fetched preview only; not a representative population estimate",
+        "rows_fetched": 100,
+        "malformed_text_rows": 0,
+        "empty_text_rows": 0,
+        "source_label_distribution": {
+          "0": 85,
+          "1": 15
+        },
+        "exact_duplicate_excess": 0,
+        "min_characters": 14,
+        "max_characters": 448,
+        "rows_sha256": "572a7da2e93512c2e23afccf7a932d6fc5536781fcaf0c85e22d5c99a88f5b3a",
+        "safellm_labels_assigned": false
+      },
+      "revision_binding": "preview API is not revision-pinned"
+    }
+  }
+}

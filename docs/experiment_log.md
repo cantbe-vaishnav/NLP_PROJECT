@@ -23,6 +23,19 @@
 
 ## Future experiment entry template
 
+## 2026-09-12 — Approved policy; source access audit
+
+- User approved non-adversarial BENIGN, boundary-manipulation ADVERSARIAL,
+  separate harmfulness metadata and quarantine for ambiguity.
+- Verified public source metadata and downloaded only a 100-row Deepset preview.
+- Pinned WildGuardMix access probe returned HTTP 401; local HF credentials absent.
+- Added configurable audit probe, descriptive statistics, five new tests and
+  hard-negative review workflow. All 10 tests pass; no corpus accepted or split.
+- See `phase1_access_gate_report.md` and generated `results/data_audit/source_probe_summary.json`.
+- Phase 1 remains incomplete. No research metrics or model results produced.
+
+### Future experiment fields
+
 - Unique identifier and date:
 - Research question and hypothesis:
 - Dataset source/version, license, split and benchmark/custom designation:
