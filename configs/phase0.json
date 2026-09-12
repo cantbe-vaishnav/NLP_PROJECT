@@ -1,0 +1,10 @@
+{
+  "experiment_id": "phase0_smoke",
+  "research_question": "engineering: reproducible experiment records",
+  "hypothesis": "Configuration and environment can be recorded without running a model.",
+  "seed": 42,
+  "dataset": {"name": "none", "version": "not-applicable", "kind": "engineering"},
+  "model": {"name": "none", "checkpoint": "not-applicable"},
+  "parameters": {},
+  "notes": "Engineering smoke check only; not a research experiment or result."
+}

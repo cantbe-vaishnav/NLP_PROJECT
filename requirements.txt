@@ -1,0 +1,3 @@
+# Phase 0: install the local package; tests use Python's unittest.
+# ML dependencies will be selected and locked when their phases begin.
+-e .
