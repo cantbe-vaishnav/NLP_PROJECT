@@ -69,6 +69,8 @@ See phase1_gate_report.md for counts, commands, limitations and proposed decisio
 
 ## Approved 200-prompt semantic pilot
 
+*Historical; superseded by the four-label entry below.*
+
 - Generated 50 normalized-unique training prompts from each of four source
   adversarial × harmfulness strata with seed 42; no stratum shortfall.
 - Preserved source labels only in a local master; created two blind independent
@@ -77,3 +79,14 @@ See phase1_gate_report.md for counts, commands, limitations and proposed decisio
   per-stratum disagreement and adjudication-queue tooling.
 - No human annotations, pilot metrics or source-use recommendation yet.
 - Phase 1 remains at the human semantic-validation gate.
+
+## Four-label Task A schema made canonical
+
+- Decision: Task A uses BENIGN, HARMFUL, ADVERSARIAL, QUARANTINE as its sole schema;
+  the three-label schema above is superseded. Task B labels unchanged.
+- Pilot tooling now supports three reviewers (CSV or XLSX), pairwise Cohen's kappa,
+  Fleiss' kappa, confusion matrices, agreement patterns and per-item disagreement
+  tables. Adjudication-queue generation and the binary source-mismatch rate were
+  removed; source comparison is a separate, descriptive cross-tab.
+- Reviewer independence is unverified; see the guidelines.
+- No annotation files were modified. No models, splits or Task B work.

@@ -11,17 +11,20 @@ Harmfulness and adversarial manipulation are different targets. A direct harmful
 request may contain no jailbreak; an instruction override may seek harmless
 content. Mapping safety labels directly would silently change the research task.
 
-User-approved policy:
+Canonical four-label Task A schema (supersedes the earlier three-label policy,
+which had no HARMFUL label; definitions are in
+[task_a_semantic_pilot_guidelines.md](task_a_semantic_pilot_guidelines.md)):
 
-- ADVERSARIAL: an attempt to bypass safeguards or redirect an established
-  instruction/trust boundary. Harmful subject matter alone is insufficient.
-- BENIGN: non-adversarial for Task A, not a general content-safety judgment.
-  Preserve source harmfulness separately. ALLOW must not imply harmlessness.
-- Quarantine ambiguous or context-dependent rows rather than force labels.
-  Role-play, topic changes and quoted attacks are not automatically attacks.
-- Audit source adversarial flags against this policy before accepting a mapping.
-
-The user approved this policy; no further approval of these definitions is needed.
+- BENIGN: non-adversarial; does not necessarily mean harmless.
+- HARMFUL: harmful or problematic content without sufficiently evidenced attempts
+  to manipulate or circumvent a higher-priority instruction or safety boundary.
+- ADVERSARIAL: an attempt to manipulate, override or circumvent higher-priority
+  instructions or safety boundaries, regardless of whether the requested content
+  is harmful. Harmful subject matter alone is insufficient.
+- QUARANTINE: insufficient context or genuine ambiguity prevents a reliable
+  decision. Role-play, topic changes and quoted attacks are not automatically attacks.
+- Audit source adversarial flags against this scheme before accepting a mapping;
+  see [task_a_source_label_comparison.md](task_a_source_label_comparison.md).
 
 ## Candidate inventory
 
