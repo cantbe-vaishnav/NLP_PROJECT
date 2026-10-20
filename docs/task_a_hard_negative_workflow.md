@@ -27,10 +27,10 @@ Use one JSON object per candidate with these fields:
 This is a format example, not a data row. Record actual text and provenance when
 collecting candidates; synthetic authorship must be explicitly identified.
 Each review records actual reviewer ID, human/AI reviewer type, date, proposed
-label (BENIGN/ADVERSARIAL/null), context adequacy, and reasoning about what the
-prompt asks the model to do. Unknown context or unresolved intent stays
-quarantined with a null label. QUARANTINE is a workflow state, not a third class
-for the binary classifier.
+label (BENIGN/HARMFUL/ADVERSARIAL/QUARANTINE), context adequacy, and reasoning about what the
+prompt asks the model to do. Unknown context or unresolved intent is labeled
+QUARANTINE, one of the four canonical Task A labels (see
+task_a_semantic_pilot_guidelines.md).
 
 Do not mark AI review as human review. Keep original reviews and any adjudication
 separately. Before accepting this evaluation set, the team must approve its

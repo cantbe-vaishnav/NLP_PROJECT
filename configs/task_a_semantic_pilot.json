@@ -2,10 +2,18 @@
   "seed": 42,
   "source_train": "data/raw/wildguard_train.parquet",
   "sample_per_stratum": 50,
+  "expected_items": 200,
   "master_output": "data/annotations/task_a_pilot_master.jsonl",
-  "reviewer_1_output": "data/annotations/task_a_pilot_reviewer_1.csv",
-  "reviewer_2_output": "data/annotations/task_a_pilot_reviewer_2.csv",
-  "results_output": "results/data_audit/task_a_pilot_results.json",
-  "adjudication_output": "data/annotations/task_a_pilot_adjudication.csv",
-  "allowed_labels": ["ADVERSARIAL", "BENIGN", "QUARANTINE"]
+  "reviewer_worksheets": {
+    "1": "data/annotations/task_a_pilot_reviewer_1.csv",
+    "2": "data/annotations/task_a_pilot_reviewer_2.csv",
+    "3": "data/annotations/task_a_pilot_reviewer_3.csv"
+  },
+  "analysis_reviewers": {
+    "1": "data/annotations/task_a_pilot_reviewer_1_FINAL.csv",
+    "2": "data/annotations/reviewer2_corrected.xlsx",
+    "3": "data/annotations/reviewer3_corrected.xlsx"
+  },
+  "analysis_output_dir": "outputs/annotation_agreement_pilot/recomputed",
+  "allowed_labels": ["BENIGN", "HARMFUL", "ADVERSARIAL", "QUARANTINE"]
 }

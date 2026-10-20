@@ -1,5 +1,9 @@
 # Annotation guidelines — pending Phase 6
 
+Task A annotation guidelines (four labels: BENIGN, HARMFUL, ADVERSARIAL, QUARANTINE)
+are in [task_a_semantic_pilot_guidelines.md](task_a_semantic_pilot_guidelines.md).
+The Task B section below is separate and unchanged.
+
 This is a status placeholder, not an annotation protocol ready for use.
 No claims have been annotated and no agreement score exists.
 

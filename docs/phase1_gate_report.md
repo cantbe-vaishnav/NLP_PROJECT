@@ -110,7 +110,11 @@ all source labels to reduce anchoring. Both contain blank label, reviewer ID and
 rationale columns. No human labels have been entered, and no AI labels substitute
 for them. Review instructions are in `task_a_semantic_pilot_guidelines.md`.
 
-**Current gate:** two actual team members must independently complete the two CSVs.
+**Superseded note:** this section describes the original two-reviewer, three-label
+pilot. Task A now uses the four-label schema with three reviewers; see
+`task_a_semantic_pilot_guidelines.md`. The original text follows for history.
+
+**Current gate (original):** two actual team members must independently complete the two CSVs.
 Only then can the checked analysis tool calculate agreement, three-class Cohen's
 kappa, source-label cross-tabs, per-stratum disagreement, systematic mismatch
 examples and an unresolved adjudication queue. The project cannot truthfully
@@ -160,6 +164,10 @@ Commit subject: `feat(task-a): audit full source data and identify semantic revi
 The commit hash is reported in the task response. Prior checkpoint: d3965a4.
 
 ## Approved 200-prompt pilot implementation
+
+*Historical; superseded.* The two-reviewer, three-class tooling described here was
+replaced by the three-reviewer, four-label pipeline (see
+`task_a_semantic_pilot_guidelines.md`).
 
 Added `configs/task_a_semantic_pilot.json`, deterministic normalized-unique
 stratified sampling, blind worksheet generation, strict completed-review

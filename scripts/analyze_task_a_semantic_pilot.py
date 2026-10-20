@@ -1,36 +1,69 @@
-"""Validate completed independent reviews and create analysis/adjudication files."""
+"""Three-reviewer, four-label agreement analysis for the Task A pilot.
+
+Reads completed reviewer files (read-only), validates them, and writes a JSON result,
+a Markdown report and a per-item disagreement table. Nothing is adjudicated.
+"""
 import argparse
+import hashlib
 import json
 from pathlib import Path
 
-from task_a.semantic_pilot import analyze, jsonl_read, read_annotations, write_csv
+from task_a.semantic_pilot import (
+    LABELS, analyze_agreement, expected_pilot_ids, jsonl_read, load_reviews, render_report,
+    source_label_crosstab, stratum_disagreement, write_csv)
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--config", default="configs/task_a_semantic_pilot.json")
-    parser.add_argument("--reviewer-1-id", required=True)
-    parser.add_argument("--reviewer-2-id", required=True)
+    parser.add_argument("--reviewer-file", action="append", default=[], metavar="ID=PATH",
+                        help="override a configured reviewer file (repeatable)")
+    parser.add_argument("--output-dir", help="override analysis_output_dir")
+    parser.add_argument("--include-prompts", action="store_true",
+                        help="include licensed prompt text in the disagreement table")
+    parser.add_argument("--source-crosstab", action="store_true",
+                        help="also write a descriptive source-flag x label table "
+                             "(requires the local master; see docs/task_a_source_label_comparison.md)")
     args = parser.parse_args()
-    if args.reviewer_1_id == args.reviewer_2_id:
-        raise ValueError("Reviewers must have distinct IDs")
+
     config = json.loads(Path(args.config).read_text())
-    master = jsonl_read(config["master_output"])
-    expected_ids = [row["pilot_id"] for row in master]
-    review_a = read_annotations(config["reviewer_1_output"], expected_ids, args.reviewer_1_id)
-    review_b = read_annotations(config["reviewer_2_output"], expected_ids, args.reviewer_2_id)
-    results, queue = analyze(master, review_a, review_b)
-    result_path, queue_path = Path(config["results_output"]), Path(config["adjudication_output"])
-    if result_path.exists() or queue_path.exists():
+    if tuple(config["allowed_labels"]) != LABELS:
+        raise ValueError("Config allowed_labels must equal the canonical four-label schema")
+    files = dict(config["analysis_reviewers"])
+    for item in args.reviewer_file:
+        reviewer, _, path = item.partition("=")
+        if reviewer not in files or not path:
+            raise ValueError(f"--reviewer-file must be ID=PATH with a configured ID: {item}")
+        files[reviewer] = path
+
+    reviews = load_reviews(files, expected_pilot_ids(config["expected_items"]))
+    results, disagreements = analyze_agreement(reviews, args.include_prompts)
+    results["inputs"] = {
+        "location": "external to the repository (annotation files are Git-ignored licensed data)",
+        "reproducible_from_repository_alone": False,
+        "files": {reviewer: {"name": Path(path).name,
+                             "sha256": hashlib.sha256(Path(path).read_bytes()).hexdigest()}
+                  for reviewer, path in files.items()},
+    }
+    if args.source_crosstab:
+        master = jsonl_read(config["master_output"])  # fails loudly if absent; never rebuilt
+        results["disagreement_by_stratum"] = stratum_disagreement(master, reviews)
+        results["source_adversarial_flag_vs_label_descriptive"] = source_label_crosstab(
+            master, reviews)
+
+    out = Path(args.output_dir or config["analysis_output_dir"])
+    names = ["agreement_results.json", "agreement_report.md", "disagreement_table.csv"]
+    if any((out / name).exists() for name in names):
         raise FileExistsError("Analysis outputs exist; refusing to overwrite")
-    result_path.parent.mkdir(parents=True, exist_ok=True)
-    queue_path.parent.mkdir(parents=True, exist_ok=True)
-    result_path.write_text(json.dumps(results, indent=2, allow_nan=False) + "\n")
-    fields = ["pilot_id", "prompt", "reviewer_1_label", "reviewer_1_rationale",
-              "reviewer_2_label", "reviewer_2_rationale", "adjudicated_label",
-              "adjudicator_id", "adjudication_rationale"]
-    write_csv(queue_path, fields, queue)
-    print(json.dumps(results, indent=2))
+    out.mkdir(parents=True, exist_ok=True)
+    (out / names[0]).write_text(json.dumps(results, indent=2, allow_nan=False) + "\n",
+                                encoding="utf-8")
+    (out / names[1]).write_text(render_report(results), encoding="utf-8")
+    ids = results["reviewers"]
+    fields = (["pilot_id", "pattern", "category"] +(["prompt"] if args.include_prompts else [])
+              + [f"reviewer_{r}_label" for r in ids] + [f"reviewer_{r}_rationale" for r in ids])
+    write_csv(out / names[2], fields, disagreements)
+    print(render_report(results))
 
 
 if __name__ == "__main__":
