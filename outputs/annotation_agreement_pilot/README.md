@@ -50,11 +50,12 @@ usage. Regenerate with `scripts/analyze_task_a_semantic_pilot.py`.
   across 200 rows), and file timestamps alone do not establish independence. Results
   are observed agreement among the submitted annotations.
 - No disagreement has been adjudicated; no annotations were generated or edited.
-- The source-label comparison has **not** been run; this analysis was produced without
-  the master. The master JSONL has since been recovered locally at
-  `data/annotations/task_a_pilot_master.jsonl` (untracked, Git-ignored, excluded from
-  commits). Source labels are not ground truth
-  (`docs/task_a_source_label_comparison.md`).
+- The source-label comparison and per-stratum disagreement table were run locally on
+  2026-10-20 as descriptive counts only. They are not committed to this repository, and
+  source labels are not ground truth (`docs/task_a_source_label_comparison.md`). The
+  agreement figures in this folder were produced without the master, which is recovered
+  locally at `data/annotations/task_a_pilot_master.jsonl` (untracked, Git-ignored,
+  excluded from commits).
 - 200 prompts stratified by source label; rates do not estimate corpus rates.
 - File-version provenance of Reviewers 2/3 is unresolved (see the guidelines).
 

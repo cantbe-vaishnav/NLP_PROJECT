@@ -99,9 +99,10 @@ and no reviewer is treated as correct.
   rationale requirement. Existing rationales are preserved unchanged.
 - `task_a_pilot_master.jsonl` has been recovered locally at
   `data/annotations/task_a_pilot_master.jsonl`. It is untracked, Git-ignored (it holds
-  raw licensed prompts) and excluded from commits. The source-label comparison and the
-  per-stratum disagreement table have **not** been run; no source-based result exists
-  yet. They can be produced locally with `--source-crosstab` once approved.
+  raw licensed prompts) and excluded from commits. The source-label comparison and
+  per-stratum disagreement table were run locally on 2026-10-20 as descriptive counts
+  only. They are not committed to this repository, and source labels are not ground
+  truth.
 - File-version uncertainty: a Downloads file named `task_a_pilot_reviewer_2_completed
   (1).xlsx` has the same label sequence as `reviewer3_corrected.xlsx`, while
   `reviewer2_corrected.xlsx` and `reviewer3_corrected.xlsx` differ on 70 of 200 items
