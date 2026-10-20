@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SafeLLM Task B B0 records",
+  "oneOf": [
+    { "$ref": "#/$defs/claimEvidence" },
+    { "$ref": "#/$defs/annotation" }
+  ],
+  "$defs": {
+    "nonBlank": { "type": "string", "pattern": "\\S" },
+    "evidenceSentence": {
+      "type": "object",
+      "required": ["evidence_id", "text"],
+      "properties": {
+        "evidence_id": { "$ref": "#/$defs/nonBlank" },
+        "text": { "$ref": "#/$defs/nonBlank" },
+        "source_document_id": { "$ref": "#/$defs/nonBlank" }
+      },
+      "additionalProperties": false
+    },
+    "claimEvidence": {
+      "type": "object",
+      "required": ["claim_id", "claim", "evidence"],
+      "properties": {
+        "claim_id": { "$ref": "#/$defs/nonBlank" },
+        "claim": { "$ref": "#/$defs/nonBlank" },
+        "evidence": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/evidenceSentence" }
+        },
+        "answer_id": { "$ref": "#/$defs/nonBlank" },
+        "claim_span": {
+          "type": "array",
+          "items": { "type": "integer", "minimum": 0 },
+          "minItems": 2,
+          "maxItems": 2
+        }
+      },
+      "additionalProperties": false
+    },
+    "annotation": {
+      "type": "object",
+      "required": ["claim_id", "reviewer_id", "annotator_kind", "label", "rationale"],
+      "properties": {
+        "claim_id": { "$ref": "#/$defs/nonBlank" },
+        "reviewer_id": { "$ref": "#/$defs/nonBlank" },
+        "annotator_kind": { "enum": ["human", "AI"] },
+        "label": { "enum": ["SUPPORTED", "CONTRADICTED", "UNSUPPORTED"] },
+        "rationale": { "$ref": "#/$defs/nonBlank" },
+        "flags": {
+          "type": "array",
+          "items": { "enum": ["BAD_CLAIM", "NON_CLAIM"] },
+          "uniqueItems": true
+        },
+        "evidence_ids": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/nonBlank" },
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}
