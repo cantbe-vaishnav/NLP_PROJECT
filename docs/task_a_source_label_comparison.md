@@ -1,7 +1,10 @@
 # Task A source-label comparison: mapping and limitations
 
-Status: documented before use. Not reported in any result yet; the local master
-JSONL needed to run it was not available when this was written.
+Status: run locally on 2026-10-20 against the recovered master JSONL
+(`data/annotations/task_a_pilot_master.jsonl`, untracked and Git-ignored). The results
+are descriptive counts only, with no mismatch rate, accuracy or ground-truth claim, and
+are not committed to this repository. This document defines the method and limitations
+and does not report the results.
 
 ## Source labels
 
