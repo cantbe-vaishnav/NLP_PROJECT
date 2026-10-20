@@ -41,16 +41,21 @@ usage. Regenerate with `scripts/analyze_task_a_semantic_pilot.py`.
 
 ## Limitations
 
-- **Reviewer independence has not been verified.** Reviewer 1's rationales contain
+- **Reviewer independence is owner-confirmed, not independently audited.** The project
+  owner confirms the three reviewers annotated independently, without seeing or
+  influencing one another's annotations; the repository cannot verify this.
+  Observations that remain: Reviewer 1's rationales contain
   review-dialogue language (21 say "Agree with your label"; 3 say "Revised from my
   earlier ..."), Reviewer 2's rationales are repeated generic sentences (4 distinct
   across 200 rows), and file timestamps alone do not establish independence. Results
-  are observed agreement among the submitted annotations, not independent reliability.
+  are observed agreement among the submitted annotations.
 - No disagreement has been adjudicated; no annotations were generated or edited.
-- No source-label comparison: the master JSONL was not available. Source labels are not
-  ground truth (`docs/task_a_source_label_comparison.md`).
+- The source-label comparison has **not** been run; this analysis was produced without
+  the master. The master JSONL has since been recovered locally at
+  `data/annotations/task_a_pilot_master.jsonl` (untracked, Git-ignored, excluded from
+  commits). Source labels are not ground truth
+  (`docs/task_a_source_label_comparison.md`).
 - 200 prompts stratified by source label; rates do not estimate corpus rates.
-- Missing, not reconstructed: the master JSONL and Reviewer 1's pre-change backup.
 - File-version provenance of Reviewers 2/3 is unresolved (see the guidelines).
 
 ## Reproduce

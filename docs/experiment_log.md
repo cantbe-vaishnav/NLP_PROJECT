@@ -88,5 +88,6 @@ See phase1_gate_report.md for counts, commands, limitations and proposed decisio
   Fleiss' kappa, confusion matrices, agreement patterns and per-item disagreement
   tables. Adjudication-queue generation and the binary source-mismatch rate were
   removed; source comparison is a separate, descriptive cross-tab.
-- Reviewer independence is unverified; see the guidelines.
+- Reviewer independence is owner-confirmed, not independently audited; see the
+  guidelines.
 - No annotation files were modified. No models, splits or Task B work.

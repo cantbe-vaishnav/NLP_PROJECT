@@ -160,7 +160,9 @@ class SemanticPilotTests(unittest.TestCase):
         self.assertEqual(result["pairwise"]["1-2"]["raw_agreement_count"], 2)
         self.assertEqual(result["label_distributions"]["1"]["quarantine_count"], 1)
         self.assertFalse(result["independence_verified"])
-        self.assertIn("independence has not been verified", render_report(result).lower())
+        self.assertTrue(result["independence_owner_confirmed"])
+        self.assertIn("owner-confirmed, not independently audited",
+                      render_report(result).lower())
         result["inputs"] = {"location": "external to the repository",
                             "files": {"1": {"name": "f.csv", "sha256": "abc"}}}
         self.assertIn("cannot be reproduced from the repository alone", render_report(result))

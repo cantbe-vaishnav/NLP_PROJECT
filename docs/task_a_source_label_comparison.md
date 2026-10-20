@@ -27,7 +27,8 @@ mismatch rate, no accuracy, and no "agreement with source".
 - The pilot is 50 prompts per source adversarial × harmfulness stratum, so its
   marginal rates do not estimate corpus-wide rates.
 - A reviewer disagreeing with the source flag is not evidence the flag is wrong.
-- Reviewer independence is unverified, so cross-tab counts inherit that limitation.
+- Reviewer independence is owner-confirmed, not independently audited, so cross-tab
+  counts inherit that limitation.
 - Any later binary comparison needs an explicitly documented, approved mapping for
   `HARMFUL` and `QUARANTINE` (including reporting results under each alternative)
   before it is implemented or reported.

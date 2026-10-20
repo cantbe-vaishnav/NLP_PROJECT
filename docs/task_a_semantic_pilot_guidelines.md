@@ -78,26 +78,30 @@ label and rationale). Prompt text is omitted from the table unless
 `--include-prompts` is given, because the prompts are licensed. It never overwrites
 existing outputs and never adjudicates.
 
-## Independence limitation
+## Independence status
 
-Reviewer independence has **not** been verified. Reviewer 1's rationales contain
-review-dialogue language, Reviewer 2's rationales are repeated generic sentences,
-and file timestamps alone do not establish independence. Reported statistics are
-observed agreement among the submitted annotations, not independent inter-annotator
-reliability. Rationales must not be rewritten to conceal this. Nothing here is
-adjudicated, and no reviewer is treated as correct.
+Reviewer independence is **owner-confirmed, not independently audited**. The project
+owner confirms the three reviewers annotated independently, without seeing or
+influencing one another's annotations. The repository cannot verify this. Reviewer 1's
+rationales contain review-dialogue language, Reviewer 2's rationales are repeated
+generic sentences, and file timestamps alone do not establish independence; these
+observations are retained. Reported statistics are observed agreement among the
+submitted annotations. Rationales must not be rewritten. Nothing here is adjudicated,
+and no reviewer is treated as correct.
 
 ## Known limitations and provenance (recorded 2026-10-18)
 
 - Reviewer 1's final file has 21 rationales containing "Agree with your label" and 3
-  containing "Revised from my earlier ..."; it should not be described as independently
-  produced. Reviewer 2's rationales are four fixed sentences (one per label), so they
+  containing "Revised from my earlier ...". The owner confirms the file was produced
+  independently; that confirmation is not audited, and the rationale language is
+  preserved as recorded. Reviewer 2's rationales are four fixed sentences (one per label), so they
   hold no prompt-specific evidence; a fixed sentence per label does not satisfy the
   rationale requirement. Existing rationales are preserved unchanged.
-- The Reviewer 1 pre-change backup and `task_a_pilot_master.jsonl` were not found. They
-  are recorded as missing, not as unrecoverable, and have not been reconstructed.
-  Source-based tables (per-stratum disagreement, source cross-tab) cannot be produced
-  until the master is located.
+- `task_a_pilot_master.jsonl` has been recovered locally at
+  `data/annotations/task_a_pilot_master.jsonl`. It is untracked, Git-ignored (it holds
+  raw licensed prompts) and excluded from commits. The source-label comparison and the
+  per-stratum disagreement table have **not** been run; no source-based result exists
+  yet. They can be produced locally with `--source-crosstab` once approved.
 - File-version uncertainty: a Downloads file named `task_a_pilot_reviewer_2_completed
   (1).xlsx` has the same label sequence as `reviewer3_corrected.xlsx`, while
   `reviewer2_corrected.xlsx` and `reviewer3_corrected.xlsx` differ on 70 of 200 items

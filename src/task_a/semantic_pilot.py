@@ -226,8 +226,9 @@ def stratum_disagreement(master, reviews):
 def analyze_agreement(reviews, include_prompts=False):
     """Observed agreement among three submitted annotation sets, four labels kept separate.
 
-    Measures agreement among the submitted annotations only. It does not establish
-    reviewer independence, correctness, or agreement with any source-dataset label.
+    Measures agreement among the submitted annotations only. Reviewer independence is
+    owner-confirmed, not established or audited here; this also does not establish
+    correctness or agreement with any source-dataset label.
     """
     ids = list(reviews)
     if len(ids) != REVIEWER_COUNT:
@@ -285,6 +286,7 @@ def analyze_agreement(reviews, include_prompts=False):
             for k, v in patterns.items()},
         "disagreement_rows": len(disagreements),
         "independence_verified": False,
+        "independence_owner_confirmed": True,
     }, disagreements
 
 
@@ -320,12 +322,14 @@ def render_report(results):
         "# Task A pilot: observed agreement among submitted annotations", "",
         f"Label schema (canonical, four labels kept separate): {', '.join(schema)}.",
         f"Items: {results['items']}. Reviewers: {', '.join(ids)}.", "",
-        "**Limitation.** Reviewer independence has not been verified. Reviewer 1's "
-        "rationales contain review-dialogue language, Reviewer 2's rationales are "
-        "repeated generic sentences, and file timestamps alone do not establish "
-        "independence. These figures describe observed agreement among the submitted "
-        "annotations, not independent inter-annotator reliability, and not agreement "
-        "with any source-dataset label.", ""]
+        "**Limitation.** Reviewer independence is owner-confirmed, not independently "
+        "audited: the project owner confirms the three reviewers annotated "
+        "independently without seeing or influencing one another's annotations, and "
+        "the repository cannot verify this. Reviewer 1's rationales contain "
+        "review-dialogue language, Reviewer 2's rationales are repeated generic "
+        "sentences, and file timestamps alone do not establish independence. These "
+        "figures describe observed agreement among the submitted annotations and are "
+        "not agreement with any source-dataset label.", ""]
     inputs = results.get("inputs")
     if inputs:
         lines += [

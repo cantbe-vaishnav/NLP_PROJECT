@@ -21,8 +21,9 @@ Task A uses a single four-label schema (BENIGN, HARMFUL, ADVERSARIAL, QUARANTINE
 defined in the [annotation guidelines](docs/task_a_semantic_pilot_guidelines.md); the
 earlier three-label guidelines are superseded. A 200-prompt pilot has been annotated by
 three reviewers; agreement among the submitted annotations is analysed with
-`scripts/analyze_task_a_semantic_pilot.py`. Reviewer independence has not been
-verified, so results are observed agreement, not independent reliability.
+`scripts/analyze_task_a_semantic_pilot.py`. Reviewer independence is owner-confirmed
+(the owner states the reviewers annotated without seeing or influencing one another)
+but has not been independently audited.
 Source-label comparison is documented separately in
 [task_a_source_label_comparison.md](docs/task_a_source_label_comparison.md).
 

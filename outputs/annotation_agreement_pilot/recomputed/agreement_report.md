@@ -3,7 +3,7 @@
 Label schema (canonical, four labels kept separate): BENIGN, HARMFUL, ADVERSARIAL, QUARANTINE.
 Items: 200. Reviewers: 1, 2, 3.
 
-**Limitation.** Reviewer independence has not been verified. Reviewer 1's rationales contain review-dialogue language, Reviewer 2's rationales are repeated generic sentences, and file timestamps alone do not establish independence. These figures describe observed agreement among the submitted annotations, not independent inter-annotator reliability, and not agreement with any source-dataset label.
+**Limitation.** Reviewer independence is owner-confirmed, not independently audited: the project owner confirms the three reviewers annotated independently without seeing or influencing one another's annotations, and the repository cannot verify this. Reviewer 1's rationales contain review-dialogue language, Reviewer 2's rationales are repeated generic sentences, and file timestamps alone do not establish independence. These figures describe observed agreement among the submitted annotations and are not agreement with any source-dataset label.
 
 **Inputs.** The reviewer annotation files are external to the repository (annotation files are Git-ignored licensed data). These results cannot be reproduced from the repository alone; the files analysed are identified by SHA-256:
 

@@ -373,6 +373,7 @@
   },
   "disagreement_rows": 85,
   "independence_verified": false,
+  "independence_owner_confirmed": true,
   "inputs": {
     "location": "external to the repository (annotation files are Git-ignored licensed data)",
     "reproducible_from_repository_alone": false,
