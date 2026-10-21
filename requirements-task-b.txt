@@ -1,0 +1,7 @@
+# Optional Task B notebook dependencies; install in the selected VS Code kernel.
+# Installing may download packages. Model weights and FEVER data are separate.
+-e .
+pandas
+sentence-transformers
+transformers
+torch
