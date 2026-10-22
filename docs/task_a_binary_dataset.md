@@ -108,7 +108,11 @@ Both scripts refuse to overwrite existing outputs. Two runs produced byte-identi
 correction manifest (`data/processed/binary_jailbreak/review/label_corrections_v1.csv`,
 Git-ignored, SHA-256 checked by the build). The manifest comes from a
 **full-text review** of 184 high-cue JailbreakHub `regular` prompts and a
-40-row seed-42 sample of `jailbreak` prompts. It is not human-verified.
+40-row seed-42 sample of `jailbreak` prompts. The project owner personally verified the 174
+applied corrections (stated 2026-10-22). The stored `reviewer_type` values, the v2 config
+`version` string and the generated audits (`binary_jailbreak_v2_audit`, `label_review_report`)
+predate that verification and still describe the review as not human-verified; they were left
+unchanged so the build and its outputs stay reproducible.
 
 - Corrections are applied after deduplication, by stable ID only. Each ID must be a
   retained JailbreakHub record whose text equals the raw source and whose binary label

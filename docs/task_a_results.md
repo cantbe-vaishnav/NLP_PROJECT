@@ -15,8 +15,8 @@ length (256 vs 512 tokens). Both test sets were scored once after selection.
 | test_jailbreakhub | 5 / 0 | 1,301 / 141 |
 
 Near-duplicate families never cross splits, and no test prompt appears in train or validation
-(checked in every notebook). JailbreakHub labels include 174 reviewed corrections that are
-not human-verified; the remaining JailbreakHub labels are source labels.
+(checked in every notebook). JailbreakHub labels include 174 reviewed corrections, each verified by
+the project owner; the remaining JailbreakHub labels are source labels.
 
 ## Main results (test sets scored once)
 

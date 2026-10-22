@@ -80,13 +80,15 @@ prompts flagged by all four that contain a strong cue. One had been reviewed bef
 excerpts, some benign-labelled candidates contain classic "DAN / do anything now" setups, some
 attack-labelled candidates read like ordinary role-play cards or templates, and others look like
 real attacks the cue patterns miss (leetspeak, emoji or Unicode obfuscation, new override wording).
-These are candidates for human review only; model predictions are not evidence of the true label
-and no label was changed. The notebook writes their text to the Git-ignored
+Model predictions are not evidence of the true label and no label was changed. All 37 have since been
+inspected in a model-assisted review (not human-verified); recommendations are in
+[task_a_label_review_report.md](task_a_label_review_report.md). The notebook writes their text to the Git-ignored
 `results/error_analysis/task_a_v2_<timestamp>/label_review_candidates.csv`.
 
 ## What this cannot establish
 
 - Cause: these are associations within one test set.
 - Where the malicious instruction sits: cue position is a proxy; prompts without cues have none.
-- True labels: JailbreakHub labels are partly unreviewed and 174 corrections are not human-verified.
+- True labels: most JailbreakHub labels are unreviewed source labels; the 174 applied corrections were
+  verified by the project owner.
 - Significance on the official test: a handful of errors per model.

@@ -1,0 +1,21 @@
+{
+  "candidates": 37,
+  "review_type": "model-assisted recommendation, not human-verified",
+  "by_decision": {
+    "recommend correction": 22,
+    "retain": 11,
+    "ambiguous": 4
+  },
+  "by_original_label_and_decision": {
+    "label_0|recommend correction": 6,
+    "label_0|retain": 1,
+    "label_1|ambiguous": 4,
+    "label_1|recommend correction": 16,
+    "label_1|retain": 10
+  },
+  "by_confidence": {
+    "high": 27,
+    "medium": 8,
+    "low": 2
+  }
+}

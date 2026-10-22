@@ -38,4 +38,6 @@ results/task_a_binary_*/**/model/
 results/task_a_smoke_baseline/predictions.csv
 # Error-analysis tables carry gold labels; review-candidate CSVs also carry prompt text.
 results/error_analysis/task_a_v2_*/
+# Proposed label-review tables carry gold labels and model scores per example.
+results/label_review/*/proposed_review.csv
 results/task_b_*/**/predictions.csv

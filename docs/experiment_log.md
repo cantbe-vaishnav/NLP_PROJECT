@@ -104,7 +104,7 @@ See phase1_gate_report.md for counts, commands, limitations and proposed decisio
 
 ## Binary dataset v2 (reviewed JailbreakHub corrections)
 
-- Applied the full-text review corrections (not human-verified): 169 labels 0→1, 5 labels 1→0,
+- Applied the full-text review corrections (174, later verified by the project owner): 169 labels 0→1, 5 labels 1→0,
   13 ambiguous rows excluded and held out. Built `data/processed/binary_jailbreak_v2/`
   with recomputed families and splits; all leakage checks passed; official test unchanged.
 - Audit: `results/data_audit/binary_jailbreak_v2_audit.md`. v1 retained unchanged. No model trained.

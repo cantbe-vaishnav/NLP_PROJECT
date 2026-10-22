@@ -1,0 +1,85 @@
+{
+  "note": "sensitivity only; biased upward because only rows every model got wrong were reviewed",
+  "models": {
+    "LogReg": {
+      "current_labels": {
+        "adversarial": 141,
+        "benign": 1306,
+        "precision": 0.5949,
+        "recall": 0.6667,
+        "f1": 0.6288,
+        "fpr": 0.049,
+        "macro_f1": 0.793
+      },
+      "proposed_labels_ambiguous_dropped": {
+        "adversarial": 127,
+        "benign": 1316,
+        "precision": 0.6329,
+        "recall": 0.7874,
+        "f1": 0.7018,
+        "fpr": 0.0441,
+        "macro_f1": 0.8345
+      }
+    },
+    "SVM": {
+      "current_labels": {
+        "adversarial": 141,
+        "benign": 1306,
+        "precision": 0.6577,
+        "recall": 0.695,
+        "f1": 0.6759,
+        "fpr": 0.0391,
+        "macro_f1": 0.8199
+      },
+      "proposed_labels_ambiguous_dropped": {
+        "adversarial": 127,
+        "benign": 1316,
+        "precision": 0.698,
+        "recall": 0.8189,
+        "f1": 0.7536,
+        "fpr": 0.0342,
+        "macro_f1": 0.8638
+      }
+    },
+    "DistilBERT": {
+      "current_labels": {
+        "adversarial": 141,
+        "benign": 1306,
+        "precision": 0.8261,
+        "recall": 0.539,
+        "f1": 0.6524,
+        "fpr": 0.0123,
+        "macro_f1": 0.811
+      },
+      "proposed_labels_ambiguous_dropped": {
+        "adversarial": 127,
+        "benign": 1316,
+        "precision": 0.8913,
+        "recall": 0.6457,
+        "f1": 0.7489,
+        "fpr": 0.0076,
+        "macro_f1": 0.8641
+      }
+    },
+    "DistilBERT-512": {
+      "current_labels": {
+        "adversarial": 141,
+        "benign": 1306,
+        "precision": 0.735,
+        "recall": 0.6099,
+        "f1": 0.6667,
+        "fpr": 0.0237,
+        "macro_f1": 0.817
+      },
+      "proposed_labels_ambiguous_dropped": {
+        "adversarial": 127,
+        "benign": 1316,
+        "precision": 0.7863,
+        "recall": 0.7244,
+        "f1": 0.7541,
+        "fpr": 0.019,
+        "macro_f1": 0.8657
+      }
+    }
+  }
+}
