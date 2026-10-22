@@ -55,6 +55,20 @@ Differences that small are not evidence that one model is better.
 
 Error analysis, hard-negative and unseen-formulation slices: [task_a_error_analysis.md](task_a_error_analysis.md).
 
+## Figures
+
+Drawn from the saved runs above (no retraining), with an interpretation under each chart. Shared colors and
+model names: `src/task_a/plotting.py`.
+
+| Figure | Notebook |
+|---|---|
+| Class balance per split and source | `task_a_error_analysis_v2` |
+| Test performance per model (macro-F1, adversarial precision/recall/F1, FPR), one row per test set | `task_a_error_analysis_v2` |
+| Cross-dataset macro-F1 gap (official WildGuardMix vs JailbreakHub) | `task_a_error_analysis_v2` |
+| Confusion matrices, 4 models × 2 test sets (counts and % of true class, FN/FP marked) | `task_a_error_analysis_v2` |
+| Missed vs caught JailbreakHub attacks; RQ2 hard-negative FPR; RQ3 recall by similarity bin | `task_a_error_analysis_v2` |
+| RQ7 recall and FPR at the validation-chosen thresholds (validation vs both test sets) | `task_a_threshold_analysis_v2` |
+
 ## Status of Task A research questions
 
 | RQ | Status |

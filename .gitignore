@@ -27,6 +27,7 @@ experiments/*/*/
 # and, with --include-prompts, licensed prompt text.
 outputs/annotation_agreement_pilot/prior_analysis/
 outputs/annotation_agreement_pilot/recomputed/disagreement_table.csv
+outputs/annotation_agreement_pilot/source_crosstab/disagreement_table.csv
 # Prediction dumps carry gold labels; keep them out of Git unless explicitly approved.
 results/task_a_binary_*/predictions.csv
 results/task_a_binary_*/**/predictions.csv
