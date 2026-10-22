@@ -14,3 +14,6 @@
   8 categories, pilot then scale-up, not independently validated) and NotInject (339, MIT). Frozen before scoring
   (`d91b7f4`); inference reproduced saved predictions exactly. Benign FPR 4–6% (1–3% without cues, 17–33% for quoted
   attacks); matched-attack recall 25–49%. Report: [task_a_rq2_report.md](task_a_rq2_report.md).
+- Phase 4 plan saved, stopped for approval. Metadata supports an unseen *harm-topic* split (WildGuardMix subcategory)
+  and an unseen *source* split, not an unseen attack-technique split. Proposed: hold out `cyberattack` with keyword
+  closure (533 held-out rows) plus a WildGuardMix-only companion run. Plan: [task_a_rq3_plan.md](task_a_rq3_plan.md).
