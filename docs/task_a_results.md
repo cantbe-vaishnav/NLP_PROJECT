@@ -74,7 +74,7 @@ model names: `src/task_a/plotting.py`.
 | RQ | Status |
 |---|---|
 | RQ1 TF-IDF vs DistilBERT | Done (table above). |
-| RQ2 hard negatives | Partial: a proxy slice of benign test prompts containing jailbreak vocabulary (66 JailbreakHub prompts). A curated hard-negative set (benign text discussing attacks) does not exist yet. |
+| RQ2 hard negatives | Measured on a frozen hard-negative benchmark ([task_a_rq2_report.md](task_a_rq2_report.md)): 240 synthetic LLM-authored benign prompts plus 80 matched attacks (labels not independently validated), and NotInject (339, external). Benign-discussion FPR is 4–6% overall but 17–33% when a full attack is quoted for classification; recall on the matched synthetic attacks is only 25–49%. The 66-prompt proxy slice is kept for comparison. |
 | RQ3 unseen formulations / categories | Partial: recall by similarity to the closest training prompt (fixed bins). An unseen-category split needs retraining with a held-out category (WildGuardMix has category metadata); not run, requires approval. |
 | RQ7 threshold trade-off | Done for validation-chosen operating points. |
 | Human annotation pilot | 200 prompts, 3 reviewers, Fleiss' kappa 0.541 (`outputs/annotation_agreement_pilot/recomputed/`). Uses the four-label scheme; no adjudicated gold set; reviewer independence owner-confirmed, not audited. Not used by the binary experiments. |

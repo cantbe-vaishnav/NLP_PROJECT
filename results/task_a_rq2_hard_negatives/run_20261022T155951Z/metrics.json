@@ -1,0 +1,1375 @@
+{
+  "dataset_sha256": "82509d62d56a9ccf3de9d963d424d737086fc77774bd49d10d5f1b4b0543ed59",
+  "reproduction_check": {
+    "LogReg": {
+      "pred_agreement": 1.0,
+      "max_abs_score_diff": 4.998463544540733e-07
+    },
+    "SVM": {
+      "pred_agreement": 1.0,
+      "max_abs_score_diff": 4.986148061103535e-07
+    },
+    "DistilBERT": {
+      "pred_agreement": 1.0,
+      "max_abs_score_diff": 0.0004944435691833504
+    },
+    "DistilBERT-512": {
+      "pred_agreement": 1.0,
+      "max_abs_score_diff": 4.996939897521091e-07
+    }
+  },
+  "models": {
+    "LogReg": {
+      "synthetic_v1_all": {
+        "n": 320,
+        "confusion_matrix": {
+          "tn": 230,
+          "fp": 10,
+          "fn": 45,
+          "tp": 35
+        },
+        "per_class": {
+          "ADVERSARIAL": {
+            "precision": 0.7777777777777778,
+            "recall": 0.4375,
+            "f1": 0.56,
+            "support": 80
+          },
+          "BENIGN": {
+            "precision": 0.8363636363636363,
+            "recall": 0.9583333333333334,
+            "f1": 0.8932038834951457,
+            "support": 240
+          }
+        },
+        "macro_f1": 0.7266019417475729,
+        "accuracy": 0.828125,
+        "fpr": 0.041666666666666664,
+        "fnr": 0.5625
+      },
+      "synthetic_v1_benign_fpr": {
+        "n": 240,
+        "flagged": 10,
+        "rate": 0.0417,
+        "ci95": [
+          0.0228,
+          0.075
+        ]
+      },
+      "synthetic_v1_adversarial_recall": {
+        "n": 80,
+        "flagged": 35,
+        "rate": 0.4375,
+        "ci95": [
+          0.3341,
+          0.5466
+        ]
+      },
+      "synthetic_v1_benign_fpr_by_category": {
+        "CLS": {
+          "n": 30,
+          "flagged": 5,
+          "rate": 0.1667,
+          "ci95": [
+            0.0734,
+            0.3356
+          ]
+        },
+        "DOC": {
+          "n": 30,
+          "flagged": 1,
+          "rate": 0.0333,
+          "ci95": [
+            0.0059,
+            0.1667
+          ]
+        },
+        "EDU": {
+          "n": 30,
+          "flagged": 0,
+          "rate": 0.0,
+          "ci95": [
+            -0.0,
+            0.1135
+          ]
+        },
+        "META": {
+          "n": 30,
+          "flagged": 0,
+          "rate": 0.0,
+          "ci95": [
+            -0.0,
+            0.1135
+          ]
+        },
+        "MIT": {
+          "n": 30,
+          "flagged": 0,
+          "rate": 0.0,
+          "ci95": [
+            -0.0,
+            0.1135
+          ]
+        },
+        "POL": {
+          "n": 30,
+          "flagged": 2,
+          "rate": 0.0667,
+          "ci95": [
+            0.0185,
+            0.2132
+          ]
+        },
+        "ROL": {
+          "n": 30,
+          "flagged": 1,
+          "rate": 0.0333,
+          "ci95": [
+            0.0059,
+            0.1667
+          ]
+        },
+        "SEC": {
+          "n": 30,
+          "flagged": 1,
+          "rate": 0.0333,
+          "ci95": [
+            0.0059,
+            0.1667
+          ]
+        }
+      },
+      "synthetic_v1_adversarial_recall_by_category": {
+        "CLS": {
+          "n": 10,
+          "flagged": 2,
+          "rate": 0.2,
+          "ci95": [
+            0.0567,
+            0.5098
+          ]
+        },
+        "DOC": {
+          "n": 10,
+          "flagged": 4,
+          "rate": 0.4,
+          "ci95": [
+            0.1682,
+            0.6873
+          ]
+        },
+        "EDU": {
+          "n": 10,
+          "flagged": 3,
+          "rate": 0.3,
+          "ci95": [
+            0.1078,
+            0.6032
+          ]
+        },
+        "META": {
+          "n": 10,
+          "flagged": 6,
+          "rate": 0.6,
+          "ci95": [
+            0.3127,
+            0.8318
+          ]
+        },
+        "MIT": {
+          "n": 10,
+          "flagged": 2,
+          "rate": 0.2,
+          "ci95": [
+            0.0567,
+            0.5098
+          ]
+        },
+        "POL": {
+          "n": 10,
+          "flagged": 5,
+          "rate": 0.5,
+          "ci95": [
+            0.2366,
+            0.7634
+          ]
+        },
+        "ROL": {
+          "n": 10,
+          "flagged": 9,
+          "rate": 0.9,
+          "ci95": [
+            0.5958,
+            0.9821
+          ]
+        },
+        "SEC": {
+          "n": 10,
+          "flagged": 4,
+          "rate": 0.4,
+          "ci95": [
+            0.1682,
+            0.6873
+          ]
+        }
+      },
+      "synthetic_v1_benign_fpr_by_strong_cue": {
+        "False": {
+          "n": 140,
+          "flagged": 2,
+          "rate": 0.0143,
+          "ci95": [
+            0.0039,
+            0.0506
+          ]
+        },
+        "True": {
+          "n": 100,
+          "flagged": 8,
+          "rate": 0.08,
+          "ci95": [
+            0.0411,
+            0.15
+          ]
+        }
+      },
+      "notinject_fpr": {
+        "n": 339,
+        "flagged": 21,
+        "rate": 0.0619,
+        "ci95": [
+          0.0409,
+          0.0928
+        ]
+      },
+      "notinject_fpr_english": {
+        "n": 255,
+        "flagged": 21,
+        "rate": 0.0824,
+        "ci95": [
+          0.0545,
+          0.1226
+        ]
+      },
+      "notinject_fpr_by_category": {
+        "NotInject Common Queries": {
+          "n": 126,
+          "flagged": 3,
+          "rate": 0.0238,
+          "ci95": [
+            0.0081,
+            0.0677
+          ]
+        },
+        "NotInject Multilingual": {
+          "n": 84,
+          "flagged": 0,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.0437
+          ]
+        },
+        "NotInject Technique Queries": {
+          "n": 87,
+          "flagged": 13,
+          "rate": 0.1494,
+          "ci95": [
+            0.0895,
+            0.239
+          ]
+        },
+        "NotInject Virtual Creation": {
+          "n": 42,
+          "flagged": 5,
+          "rate": 0.119,
+          "ci95": [
+            0.0519,
+            0.25
+          ]
+        }
+      },
+      "notinject_fpr_by_trigger_count": {
+        "trigger_words_one": {
+          "n": 113,
+          "flagged": 3,
+          "rate": 0.0265,
+          "ci95": [
+            0.0091,
+            0.0752
+          ]
+        },
+        "trigger_words_three": {
+          "n": 113,
+          "flagged": 10,
+          "rate": 0.0885,
+          "ci95": [
+            0.0488,
+            0.1553
+          ]
+        },
+        "trigger_words_two": {
+          "n": 113,
+          "flagged": 8,
+          "rate": 0.0708,
+          "ci95": [
+            0.0363,
+            0.1335
+          ]
+        }
+      },
+      "synthetic_v1_pairs_both_correct": {
+        "n": 80,
+        "flagged": 34,
+        "rate": 0.425,
+        "ci95": [
+          0.3226,
+          0.5343
+        ]
+      }
+    },
+    "SVM": {
+      "synthetic_v1_all": {
+        "n": 320,
+        "confusion_matrix": {
+          "tn": 226,
+          "fp": 14,
+          "fn": 41,
+          "tp": 39
+        },
+        "per_class": {
+          "ADVERSARIAL": {
+            "precision": 0.7358490566037735,
+            "recall": 0.4875,
+            "f1": 0.5864661654135339,
+            "support": 80
+          },
+          "BENIGN": {
+            "precision": 0.846441947565543,
+            "recall": 0.9416666666666667,
+            "f1": 0.8915187376725837,
+            "support": 240
+          }
+        },
+        "macro_f1": 0.7389924515430588,
+        "accuracy": 0.828125,
+        "fpr": 0.058333333333333334,
+        "fnr": 0.5125
+      },
+      "synthetic_v1_benign_fpr": {
+        "n": 240,
+        "flagged": 14,
+        "rate": 0.0583,
+        "ci95": [
+          0.0351,
+          0.0955
+        ]
+      },
+      "synthetic_v1_adversarial_recall": {
+        "n": 80,
+        "flagged": 39,
+        "rate": 0.4875,
+        "ci95": [
+          0.3811,
+          0.5951
+        ]
+      },
+      "synthetic_v1_benign_fpr_by_category": {
+        "CLS": {
+          "n": 30,
+          "flagged": 6,
+          "rate": 0.2,
+          "ci95": [
+            0.095,
+            0.3731
+          ]
+        },
+        "DOC": {
+          "n": 30,
+          "flagged": 1,
+          "rate": 0.0333,
+          "ci95": [
+            0.0059,
+            0.1667
+          ]
+        },
+        "EDU": {
+          "n": 30,
+          "flagged": 1,
+          "rate": 0.0333,
+          "ci95": [
+            0.0059,
+            0.1667
+          ]
+        },
+        "META": {
+          "n": 30,
+          "flagged": 0,
+          "rate": 0.0,
+          "ci95": [
+            -0.0,
+            0.1135
+          ]
+        },
+        "MIT": {
+          "n": 30,
+          "flagged": 1,
+          "rate": 0.0333,
+          "ci95": [
+            0.0059,
+            0.1667
+          ]
+        },
+        "POL": {
+          "n": 30,
+          "flagged": 3,
+          "rate": 0.1,
+          "ci95": [
+            0.0346,
+            0.2562
+          ]
+        },
+        "ROL": {
+          "n": 30,
+          "flagged": 1,
+          "rate": 0.0333,
+          "ci95": [
+            0.0059,
+            0.1667
+          ]
+        },
+        "SEC": {
+          "n": 30,
+          "flagged": 1,
+          "rate": 0.0333,
+          "ci95": [
+            0.0059,
+            0.1667
+          ]
+        }
+      },
+      "synthetic_v1_adversarial_recall_by_category": {
+        "CLS": {
+          "n": 10,
+          "flagged": 3,
+          "rate": 0.3,
+          "ci95": [
+            0.1078,
+            0.6032
+          ]
+        },
+        "DOC": {
+          "n": 10,
+          "flagged": 5,
+          "rate": 0.5,
+          "ci95": [
+            0.2366,
+            0.7634
+          ]
+        },
+        "EDU": {
+          "n": 10,
+          "flagged": 3,
+          "rate": 0.3,
+          "ci95": [
+            0.1078,
+            0.6032
+          ]
+        },
+        "META": {
+          "n": 10,
+          "flagged": 7,
+          "rate": 0.7,
+          "ci95": [
+            0.3968,
+            0.8922
+          ]
+        },
+        "MIT": {
+          "n": 10,
+          "flagged": 2,
+          "rate": 0.2,
+          "ci95": [
+            0.0567,
+            0.5098
+          ]
+        },
+        "POL": {
+          "n": 10,
+          "flagged": 6,
+          "rate": 0.6,
+          "ci95": [
+            0.3127,
+            0.8318
+          ]
+        },
+        "ROL": {
+          "n": 10,
+          "flagged": 9,
+          "rate": 0.9,
+          "ci95": [
+            0.5958,
+            0.9821
+          ]
+        },
+        "SEC": {
+          "n": 10,
+          "flagged": 4,
+          "rate": 0.4,
+          "ci95": [
+            0.1682,
+            0.6873
+          ]
+        }
+      },
+      "synthetic_v1_benign_fpr_by_strong_cue": {
+        "False": {
+          "n": 140,
+          "flagged": 2,
+          "rate": 0.0143,
+          "ci95": [
+            0.0039,
+            0.0506
+          ]
+        },
+        "True": {
+          "n": 100,
+          "flagged": 12,
+          "rate": 0.12,
+          "ci95": [
+            0.07,
+            0.1981
+          ]
+        }
+      },
+      "notinject_fpr": {
+        "n": 339,
+        "flagged": 23,
+        "rate": 0.0678,
+        "ci95": [
+          0.0456,
+          0.0997
+        ]
+      },
+      "notinject_fpr_english": {
+        "n": 255,
+        "flagged": 23,
+        "rate": 0.0902,
+        "ci95": [
+          0.0609,
+          0.1317
+        ]
+      },
+      "notinject_fpr_by_category": {
+        "NotInject Common Queries": {
+          "n": 126,
+          "flagged": 5,
+          "rate": 0.0397,
+          "ci95": [
+            0.0171,
+            0.0895
+          ]
+        },
+        "NotInject Multilingual": {
+          "n": 84,
+          "flagged": 0,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.0437
+          ]
+        },
+        "NotInject Technique Queries": {
+          "n": 87,
+          "flagged": 14,
+          "rate": 0.1609,
+          "ci95": [
+            0.0983,
+            0.2522
+          ]
+        },
+        "NotInject Virtual Creation": {
+          "n": 42,
+          "flagged": 4,
+          "rate": 0.0952,
+          "ci95": [
+            0.0377,
+            0.2207
+          ]
+        }
+      },
+      "notinject_fpr_by_trigger_count": {
+        "trigger_words_one": {
+          "n": 113,
+          "flagged": 3,
+          "rate": 0.0265,
+          "ci95": [
+            0.0091,
+            0.0752
+          ]
+        },
+        "trigger_words_three": {
+          "n": 113,
+          "flagged": 11,
+          "rate": 0.0973,
+          "ci95": [
+            0.0552,
+            0.1659
+          ]
+        },
+        "trigger_words_two": {
+          "n": 113,
+          "flagged": 9,
+          "rate": 0.0796,
+          "ci95": [
+            0.0425,
+            0.1445
+          ]
+        }
+      },
+      "synthetic_v1_pairs_both_correct": {
+        "n": 80,
+        "flagged": 38,
+        "rate": 0.475,
+        "ci95": [
+          0.3692,
+          0.583
+        ]
+      }
+    },
+    "DistilBERT": {
+      "synthetic_v1_all": {
+        "n": 320,
+        "confusion_matrix": {
+          "tn": 227,
+          "fp": 13,
+          "fn": 60,
+          "tp": 20
+        },
+        "per_class": {
+          "ADVERSARIAL": {
+            "precision": 0.6060606060606061,
+            "recall": 0.25,
+            "f1": 0.35398230088495575,
+            "support": 80
+          },
+          "BENIGN": {
+            "precision": 0.7909407665505227,
+            "recall": 0.9458333333333333,
+            "f1": 0.8614800759013282,
+            "support": 240
+          }
+        },
+        "macro_f1": 0.607731188393142,
+        "accuracy": 0.771875,
+        "fpr": 0.05416666666666667,
+        "fnr": 0.75
+      },
+      "synthetic_v1_benign_fpr": {
+        "n": 240,
+        "flagged": 13,
+        "rate": 0.0542,
+        "ci95": [
+          0.0319,
+          0.0905
+        ]
+      },
+      "synthetic_v1_adversarial_recall": {
+        "n": 80,
+        "flagged": 20,
+        "rate": 0.25,
+        "ci95": [
+          0.1681,
+          0.3548
+        ]
+      },
+      "synthetic_v1_benign_fpr_by_category": {
+        "CLS": {
+          "n": 30,
+          "flagged": 10,
+          "rate": 0.3333,
+          "ci95": [
+            0.1923,
+            0.5122
+          ]
+        },
+        "DOC": {
+          "n": 30,
+          "flagged": 0,
+          "rate": 0.0,
+          "ci95": [
+            -0.0,
+            0.1135
+          ]
+        },
+        "EDU": {
+          "n": 30,
+          "flagged": 2,
+          "rate": 0.0667,
+          "ci95": [
+            0.0185,
+            0.2132
+          ]
+        },
+        "META": {
+          "n": 30,
+          "flagged": 0,
+          "rate": 0.0,
+          "ci95": [
+            -0.0,
+            0.1135
+          ]
+        },
+        "MIT": {
+          "n": 30,
+          "flagged": 0,
+          "rate": 0.0,
+          "ci95": [
+            -0.0,
+            0.1135
+          ]
+        },
+        "POL": {
+          "n": 30,
+          "flagged": 0,
+          "rate": 0.0,
+          "ci95": [
+            -0.0,
+            0.1135
+          ]
+        },
+        "ROL": {
+          "n": 30,
+          "flagged": 0,
+          "rate": 0.0,
+          "ci95": [
+            -0.0,
+            0.1135
+          ]
+        },
+        "SEC": {
+          "n": 30,
+          "flagged": 1,
+          "rate": 0.0333,
+          "ci95": [
+            0.0059,
+            0.1667
+          ]
+        }
+      },
+      "synthetic_v1_adversarial_recall_by_category": {
+        "CLS": {
+          "n": 10,
+          "flagged": 2,
+          "rate": 0.2,
+          "ci95": [
+            0.0567,
+            0.5098
+          ]
+        },
+        "DOC": {
+          "n": 10,
+          "flagged": 3,
+          "rate": 0.3,
+          "ci95": [
+            0.1078,
+            0.6032
+          ]
+        },
+        "EDU": {
+          "n": 10,
+          "flagged": 2,
+          "rate": 0.2,
+          "ci95": [
+            0.0567,
+            0.5098
+          ]
+        },
+        "META": {
+          "n": 10,
+          "flagged": 2,
+          "rate": 0.2,
+          "ci95": [
+            0.0567,
+            0.5098
+          ]
+        },
+        "MIT": {
+          "n": 10,
+          "flagged": 1,
+          "rate": 0.1,
+          "ci95": [
+            0.0179,
+            0.4042
+          ]
+        },
+        "POL": {
+          "n": 10,
+          "flagged": 3,
+          "rate": 0.3,
+          "ci95": [
+            0.1078,
+            0.6032
+          ]
+        },
+        "ROL": {
+          "n": 10,
+          "flagged": 4,
+          "rate": 0.4,
+          "ci95": [
+            0.1682,
+            0.6873
+          ]
+        },
+        "SEC": {
+          "n": 10,
+          "flagged": 3,
+          "rate": 0.3,
+          "ci95": [
+            0.1078,
+            0.6032
+          ]
+        }
+      },
+      "synthetic_v1_benign_fpr_by_strong_cue": {
+        "False": {
+          "n": 140,
+          "flagged": 4,
+          "rate": 0.0286,
+          "ci95": [
+            0.0112,
+            0.0712
+          ]
+        },
+        "True": {
+          "n": 100,
+          "flagged": 9,
+          "rate": 0.09,
+          "ci95": [
+            0.0481,
+            0.1623
+          ]
+        }
+      },
+      "notinject_fpr": {
+        "n": 339,
+        "flagged": 4,
+        "rate": 0.0118,
+        "ci95": [
+          0.0046,
+          0.0299
+        ]
+      },
+      "notinject_fpr_english": {
+        "n": 255,
+        "flagged": 4,
+        "rate": 0.0157,
+        "ci95": [
+          0.0061,
+          0.0396
+        ]
+      },
+      "notinject_fpr_by_category": {
+        "NotInject Common Queries": {
+          "n": 126,
+          "flagged": 2,
+          "rate": 0.0159,
+          "ci95": [
+            0.0044,
+            0.056
+          ]
+        },
+        "NotInject Multilingual": {
+          "n": 84,
+          "flagged": 0,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.0437
+          ]
+        },
+        "NotInject Technique Queries": {
+          "n": 87,
+          "flagged": 0,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.0423
+          ]
+        },
+        "NotInject Virtual Creation": {
+          "n": 42,
+          "flagged": 2,
+          "rate": 0.0476,
+          "ci95": [
+            0.0132,
+            0.1579
+          ]
+        }
+      },
+      "notinject_fpr_by_trigger_count": {
+        "trigger_words_one": {
+          "n": 113,
+          "flagged": 1,
+          "rate": 0.0088,
+          "ci95": [
+            0.0016,
+            0.0484
+          ]
+        },
+        "trigger_words_three": {
+          "n": 113,
+          "flagged": 3,
+          "rate": 0.0265,
+          "ci95": [
+            0.0091,
+            0.0752
+          ]
+        },
+        "trigger_words_two": {
+          "n": 113,
+          "flagged": 0,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.0329
+          ]
+        }
+      },
+      "synthetic_v1_pairs_both_correct": {
+        "n": 80,
+        "flagged": 19,
+        "rate": 0.2375,
+        "ci95": [
+          0.1576,
+          0.3414
+        ]
+      }
+    },
+    "DistilBERT-512": {
+      "synthetic_v1_all": {
+        "n": 320,
+        "confusion_matrix": {
+          "tn": 229,
+          "fp": 11,
+          "fn": 56,
+          "tp": 24
+        },
+        "per_class": {
+          "ADVERSARIAL": {
+            "precision": 0.6857142857142857,
+            "recall": 0.3,
+            "f1": 0.41739130434782606,
+            "support": 80
+          },
+          "BENIGN": {
+            "precision": 0.8035087719298246,
+            "recall": 0.9541666666666667,
+            "f1": 0.8723809523809524,
+            "support": 240
+          }
+        },
+        "macro_f1": 0.6448861283643892,
+        "accuracy": 0.790625,
+        "fpr": 0.04583333333333333,
+        "fnr": 0.7
+      },
+      "synthetic_v1_benign_fpr": {
+        "n": 240,
+        "flagged": 11,
+        "rate": 0.0458,
+        "ci95": [
+          0.0258,
+          0.0802
+        ]
+      },
+      "synthetic_v1_adversarial_recall": {
+        "n": 80,
+        "flagged": 24,
+        "rate": 0.3,
+        "ci95": [
+          0.2106,
+          0.4077
+        ]
+      },
+      "synthetic_v1_benign_fpr_by_category": {
+        "CLS": {
+          "n": 30,
+          "flagged": 8,
+          "rate": 0.2667,
+          "ci95": [
+            0.1418,
+            0.4445
+          ]
+        },
+        "DOC": {
+          "n": 30,
+          "flagged": 0,
+          "rate": 0.0,
+          "ci95": [
+            -0.0,
+            0.1135
+          ]
+        },
+        "EDU": {
+          "n": 30,
+          "flagged": 2,
+          "rate": 0.0667,
+          "ci95": [
+            0.0185,
+            0.2132
+          ]
+        },
+        "META": {
+          "n": 30,
+          "flagged": 0,
+          "rate": 0.0,
+          "ci95": [
+            -0.0,
+            0.1135
+          ]
+        },
+        "MIT": {
+          "n": 30,
+          "flagged": 0,
+          "rate": 0.0,
+          "ci95": [
+            -0.0,
+            0.1135
+          ]
+        },
+        "POL": {
+          "n": 30,
+          "flagged": 0,
+          "rate": 0.0,
+          "ci95": [
+            -0.0,
+            0.1135
+          ]
+        },
+        "ROL": {
+          "n": 30,
+          "flagged": 0,
+          "rate": 0.0,
+          "ci95": [
+            -0.0,
+            0.1135
+          ]
+        },
+        "SEC": {
+          "n": 30,
+          "flagged": 1,
+          "rate": 0.0333,
+          "ci95": [
+            0.0059,
+            0.1667
+          ]
+        }
+      },
+      "synthetic_v1_adversarial_recall_by_category": {
+        "CLS": {
+          "n": 10,
+          "flagged": 2,
+          "rate": 0.2,
+          "ci95": [
+            0.0567,
+            0.5098
+          ]
+        },
+        "DOC": {
+          "n": 10,
+          "flagged": 4,
+          "rate": 0.4,
+          "ci95": [
+            0.1682,
+            0.6873
+          ]
+        },
+        "EDU": {
+          "n": 10,
+          "flagged": 3,
+          "rate": 0.3,
+          "ci95": [
+            0.1078,
+            0.6032
+          ]
+        },
+        "META": {
+          "n": 10,
+          "flagged": 2,
+          "rate": 0.2,
+          "ci95": [
+            0.0567,
+            0.5098
+          ]
+        },
+        "MIT": {
+          "n": 10,
+          "flagged": 2,
+          "rate": 0.2,
+          "ci95": [
+            0.0567,
+            0.5098
+          ]
+        },
+        "POL": {
+          "n": 10,
+          "flagged": 3,
+          "rate": 0.3,
+          "ci95": [
+            0.1078,
+            0.6032
+          ]
+        },
+        "ROL": {
+          "n": 10,
+          "flagged": 6,
+          "rate": 0.6,
+          "ci95": [
+            0.3127,
+            0.8318
+          ]
+        },
+        "SEC": {
+          "n": 10,
+          "flagged": 2,
+          "rate": 0.2,
+          "ci95": [
+            0.0567,
+            0.5098
+          ]
+        }
+      },
+      "synthetic_v1_benign_fpr_by_strong_cue": {
+        "False": {
+          "n": 140,
+          "flagged": 3,
+          "rate": 0.0214,
+          "ci95": [
+            0.0073,
+            0.0611
+          ]
+        },
+        "True": {
+          "n": 100,
+          "flagged": 8,
+          "rate": 0.08,
+          "ci95": [
+            0.0411,
+            0.15
+          ]
+        }
+      },
+      "notinject_fpr": {
+        "n": 339,
+        "flagged": 6,
+        "rate": 0.0177,
+        "ci95": [
+          0.0081,
+          0.0381
+        ]
+      },
+      "notinject_fpr_english": {
+        "n": 255,
+        "flagged": 6,
+        "rate": 0.0235,
+        "ci95": [
+          0.0108,
+          0.0504
+        ]
+      },
+      "notinject_fpr_by_category": {
+        "NotInject Common Queries": {
+          "n": 126,
+          "flagged": 1,
+          "rate": 0.0079,
+          "ci95": [
+            0.0014,
+            0.0436
+          ]
+        },
+        "NotInject Multilingual": {
+          "n": 84,
+          "flagged": 0,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.0437
+          ]
+        },
+        "NotInject Technique Queries": {
+          "n": 87,
+          "flagged": 1,
+          "rate": 0.0115,
+          "ci95": [
+            0.002,
+            0.0623
+          ]
+        },
+        "NotInject Virtual Creation": {
+          "n": 42,
+          "flagged": 4,
+          "rate": 0.0952,
+          "ci95": [
+            0.0377,
+            0.2207
+          ]
+        }
+      },
+      "notinject_fpr_by_trigger_count": {
+        "trigger_words_one": {
+          "n": 113,
+          "flagged": 0,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.0329
+          ]
+        },
+        "trigger_words_three": {
+          "n": 113,
+          "flagged": 6,
+          "rate": 0.0531,
+          "ci95": [
+            0.0246,
+            0.111
+          ]
+        },
+        "trigger_words_two": {
+          "n": 113,
+          "flagged": 0,
+          "rate": 0.0,
+          "ci95": [
+            0.0,
+            0.0329
+          ]
+        }
+      },
+      "synthetic_v1_pairs_both_correct": {
+        "n": 80,
+        "flagged": 24,
+        "rate": 0.3,
+        "ci95": [
+          0.2106,
+          0.4077
+        ]
+      }
+    }
+  },
+  "reference_saved_test_benign": {
+    "test_jailbreakhub|no_cue": {
+      "LogReg": {
+        "n": 1240,
+        "flagged": 44,
+        "rate": 0.0355,
+        "ci95": [
+          0.0265,
+          0.0473
+        ]
+      },
+      "SVM": {
+        "n": 1240,
+        "flagged": 32,
+        "rate": 0.0258,
+        "ci95": [
+          0.0183,
+          0.0362
+        ]
+      },
+      "DistilBERT": {
+        "n": 1240,
+        "flagged": 6,
+        "rate": 0.0048,
+        "ci95": [
+          0.0022,
+          0.0105
+        ]
+      },
+      "DistilBERT-512": {
+        "n": 1240,
+        "flagged": 11,
+        "rate": 0.0089,
+        "ci95": [
+          0.005,
+          0.0158
+        ]
+      }
+    },
+    "test_jailbreakhub|with_cue": {
+      "LogReg": {
+        "n": 66,
+        "flagged": 20,
+        "rate": 0.303,
+        "ci95": [
+          0.2055,
+          0.4222
+        ]
+      },
+      "SVM": {
+        "n": 66,
+        "flagged": 19,
+        "rate": 0.2879,
+        "ci95": [
+          0.1927,
+          0.4064
+        ]
+      },
+      "DistilBERT": {
+        "n": 66,
+        "flagged": 10,
+        "rate": 0.1515,
+        "ci95": [
+          0.0844,
+          0.2569
+        ]
+      },
+      "DistilBERT-512": {
+        "n": 66,
+        "flagged": 20,
+        "rate": 0.303,
+        "ci95": [
+          0.2055,
+          0.4222
+        ]
+      }
+    },
+    "test_official|no_cue": {
+      "LogReg": {
+        "n": 915,
+        "flagged": 8,
+        "rate": 0.0087,
+        "ci95": [
+          0.0044,
+          0.0172
+        ]
+      },
+      "SVM": {
+        "n": 915,
+        "flagged": 6,
+        "rate": 0.0066,
+        "ci95": [
+          0.003,
+          0.0142
+        ]
+      },
+      "DistilBERT": {
+        "n": 915,
+        "flagged": 1,
+        "rate": 0.0011,
+        "ci95": [
+          0.0002,
+          0.0062
+        ]
+      },
+      "DistilBERT-512": {
+        "n": 915,
+        "flagged": 1,
+        "rate": 0.0011,
+        "ci95": [
+          0.0002,
+          0.0062
+        ]
+      }
+    }
+  }
+}

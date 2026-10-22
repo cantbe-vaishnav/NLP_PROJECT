@@ -1,0 +1,28 @@
+{
+  "synthetic_v1_auroc": {
+    "LogReg": 0.8341,
+    "SVM": 0.8167,
+    "DistilBERT": 0.8046,
+    "DistilBERT-512": 0.8591
+  },
+  "benign_flagged_by_k_models": {
+    "notinject": {
+      "0": 309,
+      "1": 9,
+      "2": 19,
+      "3": 1,
+      "4": 1
+    },
+    "synthetic_v1": {
+      "0": 220,
+      "1": 4,
+      "2": 10,
+      "4": 6
+    }
+  },
+  "adversarial_missed_by_all": 33,
+  "synthetic_median_chars_by_label": {
+    "0": 187.5,
+    "1": 184.5
+  }
+}

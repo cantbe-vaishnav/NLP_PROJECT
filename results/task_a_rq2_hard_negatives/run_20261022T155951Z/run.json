@@ -1,0 +1,20 @@
+{
+  "created_utc": "2026-10-22T15:59:51.145061+00:00",
+  "script": "scripts/evaluate_hard_negatives.py",
+  "runs": {
+    "LogReg": "results/task_a_binary_tfidf_v2/run_20261021T022858Z",
+    "SVM": "results/task_a_binary_tfidf_linear_svm_v2/run_20261021T022904Z",
+    "DistilBERT": "results/task_a_binary_distilbert_v2/run_20261021T024649Z",
+    "DistilBERT-512": "results/task_a_binary_distilbert_512_v2/run_20261021T231957Z"
+  },
+  "thresholds": {
+    "LogReg": 0.5,
+    "SVM": 0.0,
+    "DistilBERT": 0.5,
+    "DistilBERT-512": 0.5
+  },
+  "device": "cuda",
+  "versions": {
+    "torch": "2.6.0+cu124"
+  }
+}

@@ -10,3 +10,7 @@
   candidates were reviewed (model-assisted, not human-verified): 11 retain, 22 recommend correction (16 attack→benign,
   mostly FlowGPT character cards; 6 benign→attack, DAN/NRAF-style templates), 4 ambiguous. Nothing applied.
   Report: [task_a_label_review_report.md](task_a_label_review_report.md).
+- Phase 3 complete. Built a hard-negative benchmark: 240 synthetic benign + 80 matched synthetic attacks (LLM-authored,
+  8 categories, pilot then scale-up, not independently validated) and NotInject (339, MIT). Frozen before scoring
+  (`d91b7f4`); inference reproduced saved predictions exactly. Benign FPR 4–6% (1–3% without cues, 17–33% for quoted
+  attacks); matched-attack recall 25–49%. Report: [task_a_rq2_report.md](task_a_rq2_report.md).
