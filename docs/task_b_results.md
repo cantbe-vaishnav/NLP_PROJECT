@@ -104,4 +104,4 @@ no matching page are excluded and counted; empty evidence is never used.
 3. `notebooks/task_b_fever_three_class.ipynb` (three-class; ~4–5 min, two extra Wikipedia scans)
 4. `notebooks/task_b_atomic_vs_sentence.ipynb` only once reviewed paired data exists.
 
-`notebooks/task_b_fever_baselines_vscode.ipynb` is an outdated copy; do not use it.
+`archive/task_b_outdated_notebooks/task_b_fever_baselines_vscode.ipynb` is an archived outdated copy; do not use it.
