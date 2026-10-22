@@ -1,10 +1,10 @@
-# Task A error analysis (dataset v2, three models)
+# Task A error analysis (dataset v2, four models)
 
-Descriptive analysis of the saved test predictions of the latest runs:
-TF-IDF + Logistic Regression `run_20261021T022858Z`, TF-IDF + Linear SVM `run_20261021T022904Z`,
-DistilBERT (256 tokens) `run_20261021T024649Z`. Numbers below come from running the code of
-`notebooks/task_a_error_analysis_v2.ipynb` on those files; no model was trained or tuned and no
-threshold was chosen. Rerun the notebook to regenerate them.
+Descriptive analysis of the saved test predictions of the latest runs: TF-IDF + Logistic Regression
+`run_20261021T022858Z`, TF-IDF + Linear SVM `run_20261021T022904Z`, DistilBERT-256
+`run_20261021T024649Z`, DistilBERT-512 `run_20261021T231957Z`. Produced by
+`notebooks/task_a_error_analysis_v2.ipynb` (executed, outputs saved). No model was trained or
+tuned and no threshold was chosen here.
 
 ## Errors
 
@@ -12,13 +12,15 @@ threshold was chosen. Rerun the notebook to regenerate them.
 |---|---|---|---|
 | Official WildGuardMix (810 attacks / 915 benign) | LogReg | 3 | 8 |
 | | SVM | 2 | 6 |
-| | DistilBERT | 3 | 1 |
+| | DistilBERT-256 | 3 | 1 |
+| | DistilBERT-512 | 2 | 1 |
 | JailbreakHub (141 / 1,306) | LogReg | 47 | 64 |
 | | SVM | 43 | 51 |
-| | DistilBERT | 65 | 16 |
+| | DistilBERT-256 | 65 | 16 |
+| | DistilBERT-512 | 55 | 31 |
 
-37 of 141 JailbreakHub attacks are missed by all three models; 10 JailbreakHub benign prompts are
-flagged by all three. On the official test no prompt is wrong for all three models except one benign prompt.
+36 of 141 JailbreakHub attacks are missed by all four models (83% of them contain no strong
+jailbreak cue); 9 JailbreakHub benign prompts are flagged by all four.
 
 ## Missed JailbreakHub attacks: missed vs caught
 
@@ -26,51 +28,65 @@ flagged by all three. On the official test no prompt is wrong for all three mode
 |---|---|---|---|---|---|
 | LogReg | 210 vs 504 | 47% vs 80% | 74% vs 17% | 4% vs 10% | 0.22 vs 0.38 |
 | SVM | 192 vs 454 | 47% vs 79% | 74% vs 19% | 5% vs 9% | 0.24 vs 0.38 |
-| DistilBERT | 300 vs 540 | 58% vs 78% | 68% vs 9% | 8% vs 8% | 0.24 vs 0.41 |
+| DistilBERT-256 | 300 vs 540 | 58% vs 78% | 68% vs 9% | 8% vs 8% | 0.24 vs 0.41 |
+| DistilBERT-512 | 294 vs 412 | 53% vs 79% | 73% vs 13% | 11% vs 6% | 0.24 vs 0.39 |
 
-"Strong cue" uses the existing `task_a/cue_audit.py` patterns; similarity is TF-IDF cosine to the
+"Strong cue" uses the patterns in `task_a/cue_audit.py`; similarity is TF-IDF cosine to the
 closest training prompt.
 
-- Missed attacks are **shorter**, not longer, than caught attacks for all three models.
-- For DistilBERT, a cue appearing only after the 256-token cut is equally rare among missed and
-  caught attacks (8% each). Truncation therefore does not explain most DistilBERT misses in this
-  test set; whether 512 tokens helps still has to be measured.
-- Missed attacks mostly lack the familiar jailbreak wording (68–74% have no strong cue) and are
-  less similar to anything in training. This points to unfamiliar formulations.
+- Missed attacks are shorter, not longer, than caught attacks for every model.
+- For DistilBERT-256, a cue appearing only after the 256-token cut is equally rare among missed and
+  caught attacks (8% each), so truncation does not explain most misses. The 512-token model
+  misses fewer attacks (55 vs 65) but flags more benign prompts (31 vs 16).
+- Missed attacks mostly lack familiar jailbreak wording (68–74% have no strong cue) and are less
+  similar to training prompts. This is consistent with unfamiliar formulations, not proof of cause.
 
-## Benign prompts flagged
+## RQ2 proxy: benign prompts with jailbreak vocabulary
 
-Flagged benign prompts are longer (median 337–384 tokens vs about 190) and far more often contain a
-strong jailbreak cue (31–63% vs about 4%) than benign prompts the models pass.
+| Test set | Benign prompts | LogReg FPR | SVM FPR | DistilBERT-256 FPR | DistilBERT-512 FPR |
+|---|---|---|---|---|---|
+| JailbreakHub, no strong cue | 1,240 | 0.035 | 0.026 | 0.005 | 0.009 |
+| JailbreakHub, with strong cue | 66 | 0.303 | 0.288 | 0.152 | 0.303 |
+| Official, no strong cue | 915 | 0.009 | 0.007 | 0.001 | 0.001 |
+
+Benign prompts that use jailbreak vocabulary are flagged 4–30 times more often. The slice is small
+(66 prompts), has noisy labels, and is not a curated hard-negative set; the official test has no
+benign prompts with strong cues.
+
+## RQ3 proxy: recall by similarity to training (fixed bins)
+
+| Test set | Similarity | Attacks | LogReg | SVM | DistilBERT-256 | DistilBERT-512 |
+|---|---|---|---|---|---|---|
+| JailbreakHub | low (< 0.2) | 51 | 0.569 | 0.627 | 0.431 | 0.529 |
+| | medium (0.2–0.4) | 33 | 0.636 | 0.606 | 0.485 | 0.545 |
+| | high (≥ 0.4) | 57 | 0.772 | 0.807 | 0.667 | 0.719 |
+| Official WildGuardMix | low (< 0.2) | 708 | 0.997 | 0.997 | 0.997 | 0.999 |
+| | medium (0.2–0.4) | 99 | 1.000 | 1.000 | 1.000 | 1.000 |
+
+On JailbreakHub, recall drops for attacks worded unlike any training prompt. On WildGuardMix,
+low lexical similarity does not hurt, which suggests the models learned WildGuardMix's own attack
+style rather than lexical overlap. Bins with 3 or fewer prompts are omitted here.
 
 ## Differences between the test sources
 
-Official WildGuardMix benign prompts are short (median 19 tokens) and contain no strong cues;
+Official WildGuardMix benign prompts are short (median 19 tokens) and never contain strong cues;
 JailbreakHub benign prompts are long role-play or template prompts (median 196 tokens). Official
-attacks rarely contain cue words (95% none) yet are recognized, so the models learned WildGuardMix's
-own style rather than general jailbreak wording.
+attacks rarely contain cue words (95% none) yet are recognized.
 
 ## Label-review candidates
 
-38 JailbreakHub prompts (31 attacks missed by all three with no strong cue; 7 benign prompts flagged
-by all three that contain a strong cue). Only one had been reviewed before. Reading short excerpts:
-
-- Several benign-labelled candidates contain a classic "DAN / do anything now" setup or an amoral,
-  rule-free persona, which matches the jailbreak definition.
-- Several attack-labelled candidates read like ordinary role-play character cards, marketing
-  templates, a text adventure or a résumé assistant.
-- Other attack-labelled candidates look like genuine attacks the cue patterns miss: leetspeak,
-  emoji or Unicode small-caps obfuscation, and override wording such as "ignore all instructions
-  you've received before".
-
-These are candidates for human review only. The models' predictions are not evidence of the true
-label, and no label was changed. Text is in the Git-ignored
-`results/error_analysis/task_a_v2_<timestamp>/label_review_candidates.csv` written by the notebook.
+37 JailbreakHub prompts: 30 attacks missed by all four models with no strong cue, and 7 benign
+prompts flagged by all four that contain a strong cue. One had been reviewed before. Reading short
+excerpts, some benign-labelled candidates contain classic "DAN / do anything now" setups, some
+attack-labelled candidates read like ordinary role-play cards or templates, and others look like
+real attacks the cue patterns miss (leetspeak, emoji or Unicode obfuscation, new override wording).
+These are candidates for human review only; model predictions are not evidence of the true label
+and no label was changed. The notebook writes their text to the Git-ignored
+`results/error_analysis/task_a_v2_<timestamp>/label_review_candidates.csv`.
 
 ## What this cannot establish
 
 - Cause: these are associations within one test set.
-- Where the malicious instruction sits: cue position is a proxy; prompts without cues have no position.
-- True labels: JailbreakHub labels are source-defined; 174 corrections are reviewed but not
-  human-verified, and the rest are unreviewed.
-- Statistical significance: official-test differences are a handful of errors (11, 8 and 4).
+- Where the malicious instruction sits: cue position is a proxy; prompts without cues have none.
+- True labels: JailbreakHub labels are partly unreviewed and 174 corrections are not human-verified.
+- Significance on the official test: a handful of errors per model.

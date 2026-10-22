@@ -10,7 +10,8 @@ the notebooks import them instead of copying logic.
 | `task_a_binary_tfidf_linear_svm_v2.ipynb` | RQ1 comparison: TF-IDF + Linear SVM, same features and splits |
 | `task_a_binary_distilbert_v2.ipynb` | RQ1 comparison: fine-tuned DistilBERT; also writes a three-model test comparison |
 | `task_a_binary_distilbert_512_v2.ipynb` | Truncation experiment: DistilBERT with 512-token inputs vs the 256-token run (length chosen on validation) |
-| `task_a_error_analysis_v2.ipynb` | Descriptive error analysis of the saved test predictions of all three models (no training) |
+| `task_a_error_analysis_v2.ipynb` | Descriptive error analysis of the saved test predictions of all four models, with RQ2/RQ3 proxy slices (no training) |
+| `task_a_threshold_analysis_v2.ipynb` | RQ7: recall vs false-positive rate at validation-chosen thresholds (no training) |
 | `task_b_fever_baselines.ipynb` | Task B first baselines (majority, claim-only, embedding similarity); needs the data in `docs/task_b_plan.md` |
 | `templates/task_a_experiment_template.ipynb` | Section skeleton for new experiments (e.g. a transformer classifier) |
 
