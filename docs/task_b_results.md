@@ -97,7 +97,7 @@ no matching page are excluded and counted; empty evidence is never used.
 | RQ4 atomic claims vs sentences | Workflow, loader, validation and notebook ready; needs an independently reviewed paired dataset (`data/annotations/task_b_reviewed_pairs.jsonl`). No results exist. |
 | RQ6 difficult subsets | Not started; needs the custom annotated set. |
 
-## Reproduce (open the `NLP_PROJECT_task_b` folder in VS Code)
+## Reproduce (open the `NLP_PROJECT` repository folder in VS Code)
 
 1. `notebooks/task_b_fever_baselines.ipynb` (prepares gold test and validation records; ~1–2 min)
 2. `notebooks/task_b_embedding_nli.ipynb` (two-class embedding; NLI if the model is present)
