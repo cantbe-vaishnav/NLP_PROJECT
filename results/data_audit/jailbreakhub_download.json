@@ -1,0 +1,41 @@
+{
+  "repo": "TrustAIRLab/in-the-wild-jailbreak-prompts",
+  "revision": "a10aab8eff1c73165a442d4464dce192bd28b9c5",
+  "license": "mit",
+  "gated": false,
+  "downloaded_at_utc": "2026-10-20T21:45:49.870693+00:00",
+  "method": "huggingface_hub.hf_hub_download of the config data_files (same files datasets.load_dataset reads)",
+  "configs": {
+    "jailbreak_2023_12_25": {
+      "file": "data/raw/jailbreakhub/jailbreak_2023_12_25/train-00000-of-00001.parquet",
+      "sha256": "55bbc5e2be771ee16ed67aed4edb5ecef5f44ac69cea317a67e5405c5c6057a4",
+      "bytes": 1871641,
+      "rows": 1405,
+      "columns": [
+        "platform",
+        "source",
+        "prompt",
+        "jailbreak",
+        "created_at",
+        "date",
+        "community",
+        "community_id",
+        "previous_community_id"
+      ]
+    },
+    "regular_2023_12_25": {
+      "file": "data/raw/jailbreakhub/regular_2023_12_25/train-00000-of-00001.parquet",
+      "sha256": "23e90010ccbc85574bf46678528cddce5b02abc86d9a047209218af65cb37c68",
+      "bytes": 12560543,
+      "rows": 13735,
+      "columns": [
+        "platform",
+        "source",
+        "prompt",
+        "jailbreak",
+        "created_at",
+        "date"
+      ]
+    }
+  }
+}

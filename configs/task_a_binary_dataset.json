@@ -1,0 +1,22 @@
+{
+  "task": "binary jailbreak (source-adversarial) detection: 1 = ADVERSARIAL, 0 = BENIGN (non-jailbreak; not necessarily harmless)",
+  "seed": 42,
+  "sources": {
+    "wildguard_train": {"path": "data/raw/wildguard_train.parquet", "sha256": "02ecea8a724a9146a1e473a95a7cdf262adfe9c7d5408953ca86d2fcfbdc8953"},
+    "wildguard_test": {"path": "data/raw/wildguard_test.parquet", "sha256": "6ccc2909c1ae6d41424fac69f1fc32535b1de39cb8f80407d81e8bc64a0bebca"},
+    "jailbreak_2023_12_25": {"path": "data/raw/jailbreakhub/jailbreak_2023_12_25/train-00000-of-00001.parquet", "sha256": "55bbc5e2be771ee16ed67aed4edb5ecef5f44ac69cea317a67e5405c5c6057a4"},
+    "regular_2023_12_25": {"path": "data/raw/jailbreakhub/regular_2023_12_25/train-00000-of-00001.parquet", "sha256": "23e90010ccbc85574bf46678528cddce5b02abc86d9a047209218af65cb37c68"}
+  },
+  "provenance": {
+    "wildguardmix": {"repo": "allenai/wildguardmix", "revision": "d29c47f41c8b51348b5c8e8c81c039b3132b66d1", "license": "odc-by", "access": "gated (auto); AI2 Responsible Use Guidelines accepted by the owner"},
+    "jailbreakhub": {"repo": "TrustAIRLab/in-the-wild-jailbreak-prompts", "revision": "a10aab8eff1c73165a442d4464dce192bd28b9c5", "license": "mit", "download_record": "results/data_audit/jailbreakhub_download.json"}
+  },
+  "near_duplicate": {"cosine_threshold": 0.8, "jaccard_threshold": 0.85, "shingle_words": 5, "candidate_threshold": 0.5},
+  "split_targets": {
+    "wildguardmix": {"validation": 0.10},
+    "jailbreakhub": {"validation": 0.10, "test_jailbreakhub": 0.10}
+  },
+  "output_dir": "data/processed/binary_jailbreak",
+  "audit_json": "results/data_audit/binary_jailbreak_audit.json",
+  "audit_markdown": "results/data_audit/binary_jailbreak_audit.md"
+}

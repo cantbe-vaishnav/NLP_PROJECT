@@ -1,0 +1,21 @@
+{
+  "experiment": "Task A binary jailbreak detection, TF-IDF + Logistic Regression baseline (RQ1) on dataset v2 (reviewed JailbreakHub label corrections)",
+  "dataset": "data/processed/binary_jailbreak_v2/combined.parquet",
+  "seed": 42,
+  "c_grid": [
+    0.1,
+    1.0,
+    10.0
+  ],
+  "threshold": 0.5,
+  "model": {
+    "ngram_range": [
+      1,
+      2
+    ],
+    "min_df": 2,
+    "class_weight": "balanced",
+    "max_iter": 1000
+  },
+  "output_dir": "results/task_a_binary_tfidf_v2"
+}

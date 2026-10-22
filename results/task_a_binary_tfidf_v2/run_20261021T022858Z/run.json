@@ -1,0 +1,134 @@
+{
+  "created_utc": "2026-10-21T02:28:58.905647+00:00",
+  "interface": "notebooks/task_a_binary_tfidf_baseline_v2.ipynb",
+  "config": {
+    "experiment": "Task A binary jailbreak detection, TF-IDF + Logistic Regression baseline (RQ1) on dataset v2 (reviewed JailbreakHub label corrections)",
+    "dataset": "data/processed/binary_jailbreak_v2/combined.parquet",
+    "seed": 42,
+    "c_grid": [
+      0.1,
+      1.0,
+      10.0
+    ],
+    "threshold": 0.5,
+    "model": {
+      "ngram_range": [
+        1,
+        2
+      ],
+      "min_df": 2,
+      "class_weight": "balanced",
+      "max_iter": 1000
+    },
+    "output_dir": "results/task_a_binary_tfidf_v2"
+  },
+  "seed": 42,
+  "dataset_sha256": "f4852e888871b09477149852ecf500c3344171cf5fcd5bf65b9828dfe7ec24f2",
+  "selected_C": 10.0,
+  "selected_validation_macro_f1": 0.9792043250266051,
+  "c_search": [
+    {
+      "C": 0.1,
+      "train_macro_f1": 0.9651032719579047,
+      "validation_macro_f1": 0.9584723203970296
+    },
+    {
+      "C": 1.0,
+      "train_macro_f1": 0.9828582056718798,
+      "validation_macro_f1": 0.9723029971121133
+    },
+    {
+      "C": 10.0,
+      "train_macro_f1": 0.998163553831058,
+      "validation_macro_f1": 0.9792043250266051
+    }
+  ],
+  "train_metrics": {
+    "all": {
+      "n": 54457,
+      "confusion_matrix": {
+        "tn": 32631,
+        "fp": 37,
+        "fn": 59,
+        "tp": 21730
+      },
+      "per_class": {
+        "ADVERSARIAL": {
+          "precision": 0.9983001791703037,
+          "recall": 0.9972922116664372,
+          "f1": 0.9977959408577463,
+          "support": 21789
+        },
+        "BENIGN": {
+          "precision": 0.9981951667176506,
+          "recall": 0.9988673931676258,
+          "f1": 0.9985311668043697,
+          "support": 32668
+        }
+      },
+      "macro_f1": 0.998163553831058,
+      "accuracy": 0.9982371412306957,
+      "fpr": 0.0011326068323741889,
+      "fnr": 0.0027077883335628068
+    },
+    "jailbreakhub": {
+      "n": 11454,
+      "confusion_matrix": {
+        "tn": 10244,
+        "fp": 27,
+        "fn": 59,
+        "tp": 1124
+      },
+      "per_class": {
+        "ADVERSARIAL": {
+          "precision": 0.9765421372719374,
+          "recall": 0.9501267962806424,
+          "f1": 0.963153384747215,
+          "support": 1183
+        },
+        "BENIGN": {
+          "precision": 0.9942735125691546,
+          "recall": 0.9973712394119365,
+          "f1": 0.9958199669485759,
+          "support": 10271
+        }
+      },
+      "macro_f1": 0.9794866758478955,
+      "accuracy": 0.9924917059542517,
+      "fpr": 0.00262876058806348,
+      "fnr": 0.049873203719357564
+    },
+    "wildguardmix": {
+      "n": 43003,
+      "confusion_matrix": {
+        "tn": 22387,
+        "fp": 10,
+        "fn": 0,
+        "tp": 20606
+      },
+      "per_class": {
+        "ADVERSARIAL": {
+          "precision": 0.9995149398525417,
+          "recall": 1.0,
+          "f1": 0.999757411091165,
+          "support": 20606
+        },
+        "BENIGN": {
+          "precision": 1.0,
+          "recall": 0.999553511631022,
+          "f1": 0.9997767059664165,
+          "support": 22397
+        }
+      },
+      "macro_f1": 0.9997670585287908,
+      "accuracy": 0.9997674580843197,
+      "fpr": 0.0004464883689779881,
+      "fnr": 0.0
+    }
+  },
+  "label_provenance": "WildGuardMix adversarial flag; JailbreakHub labels with 174 reviewed (not human-verified) corrections and 13 ambiguous rows excluded; other JailbreakHub labels unreviewed.",
+  "versions": {
+    "python": "3.11.9",
+    "scikit_learn": "1.8.0"
+  }
+}

@@ -1,0 +1,228 @@
+{
+  "banner": "SMOKE TEST ONLY: pipeline validation on a tiny, unadjudicated pilot subset. Not a research result; no held-out test set; no claim of generalization.",
+  "eligible_items": 112,
+  "label_counts": {
+    "BENIGN": 76,
+    "HARMFUL": 20,
+    "ADVERSARIAL": 16,
+    "QUARANTINE": 0
+  },
+  "absent_classes": [
+    "QUARANTINE"
+  ],
+  "duplicate_groups": 111,
+  "grouped_items": 1,
+  "folds": [
+    {
+      "fold": 0,
+      "train_items": 89,
+      "eval_items": 23,
+      "train_label_counts": {
+        "BENIGN": 61,
+        "HARMFUL": 16,
+        "ADVERSARIAL": 12
+      }
+    },
+    {
+      "fold": 1,
+      "train_items": 89,
+      "eval_items": 23,
+      "train_label_counts": {
+        "BENIGN": 60,
+        "HARMFUL": 16,
+        "ADVERSARIAL": 13
+      }
+    },
+    {
+      "fold": 2,
+      "train_items": 90,
+      "eval_items": 22,
+      "train_label_counts": {
+        "BENIGN": 61,
+        "HARMFUL": 16,
+        "ADVERSARIAL": 13
+      }
+    },
+    {
+      "fold": 3,
+      "train_items": 90,
+      "eval_items": 22,
+      "train_label_counts": {
+        "BENIGN": 61,
+        "HARMFUL": 16,
+        "ADVERSARIAL": 13
+      }
+    },
+    {
+      "fold": 4,
+      "train_items": 90,
+      "eval_items": 22,
+      "train_label_counts": {
+        "BENIGN": 61,
+        "HARMFUL": 16,
+        "ADVERSARIAL": 13
+      }
+    }
+  ],
+  "tfidf_logreg_out_of_fold": {
+    "per_class": {
+      "BENIGN": {
+        "support": 76,
+        "predicted": 80,
+        "precision": 0.8,
+        "recall": 0.8421052631578947,
+        "f1": 0.8205128205128205,
+        "absent_from_gold": false
+      },
+      "HARMFUL": {
+        "support": 20,
+        "predicted": 8,
+        "precision": 0.875,
+        "recall": 0.35,
+        "f1": 0.4999999999999999,
+        "absent_from_gold": false
+      },
+      "ADVERSARIAL": {
+        "support": 16,
+        "predicted": 24,
+        "precision": 0.5416666666666666,
+        "recall": 0.8125,
+        "f1": 0.65,
+        "absent_from_gold": false
+      },
+      "QUARANTINE": {
+        "support": 0,
+        "predicted": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null,
+        "absent_from_gold": true
+      }
+    },
+    "macro_f1": 0.6568376068376067,
+    "macro_f1_classes": [
+      "BENIGN",
+      "HARMFUL",
+      "ADVERSARIAL"
+    ],
+    "absent_classes": [
+      "QUARANTINE"
+    ],
+    "accuracy": 0.75,
+    "confusion_matrix": {
+      "rows_gold_cols_pred": [
+        "BENIGN",
+        "HARMFUL",
+        "ADVERSARIAL",
+        "QUARANTINE"
+      ],
+      "counts": {
+        "BENIGN": {
+          "BENIGN": 64,
+          "HARMFUL": 1,
+          "ADVERSARIAL": 11,
+          "QUARANTINE": 0
+        },
+        "HARMFUL": {
+          "BENIGN": 13,
+          "HARMFUL": 7,
+          "ADVERSARIAL": 0,
+          "QUARANTINE": 0
+        },
+        "ADVERSARIAL": {
+          "BENIGN": 3,
+          "HARMFUL": 0,
+          "ADVERSARIAL": 13,
+          "QUARANTINE": 0
+        },
+        "QUARANTINE": {
+          "BENIGN": 0,
+          "HARMFUL": 0,
+          "ADVERSARIAL": 0,
+          "QUARANTINE": 0
+        }
+      }
+    }
+  },
+  "majority_class_reference": {
+    "label": "BENIGN",
+    "per_class": {
+      "BENIGN": {
+        "support": 76,
+        "predicted": 112,
+        "precision": 0.6785714285714286,
+        "recall": 1.0,
+        "f1": 0.8085106382978724,
+        "absent_from_gold": false
+      },
+      "HARMFUL": {
+        "support": 20,
+        "predicted": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "absent_from_gold": false
+      },
+      "ADVERSARIAL": {
+        "support": 16,
+        "predicted": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "absent_from_gold": false
+      },
+      "QUARANTINE": {
+        "support": 0,
+        "predicted": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null,
+        "absent_from_gold": true
+      }
+    },
+    "macro_f1": 0.2695035460992908,
+    "macro_f1_classes": [
+      "BENIGN",
+      "HARMFUL",
+      "ADVERSARIAL"
+    ],
+    "absent_classes": [
+      "QUARANTINE"
+    ],
+    "accuracy": 0.6785714285714286,
+    "confusion_matrix": {
+      "rows_gold_cols_pred": [
+        "BENIGN",
+        "HARMFUL",
+        "ADVERSARIAL",
+        "QUARANTINE"
+      ],
+      "counts": {
+        "BENIGN": {
+          "BENIGN": 76,
+          "HARMFUL": 0,
+          "ADVERSARIAL": 0,
+          "QUARANTINE": 0
+        },
+        "HARMFUL": {
+          "BENIGN": 20,
+          "HARMFUL": 0,
+          "ADVERSARIAL": 0,
+          "QUARANTINE": 0
+        },
+        "ADVERSARIAL": {
+          "BENIGN": 16,
+          "HARMFUL": 0,
+          "ADVERSARIAL": 0,
+          "QUARANTINE": 0
+        },
+        "QUARANTINE": {
+          "BENIGN": 0,
+          "HARMFUL": 0,
+          "ADVERSARIAL": 0,
+          "QUARANTINE": 0
+        }
+      }
+    }
+  }
+}

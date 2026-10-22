@@ -1,0 +1,17 @@
+{
+  "experiment": "Task A binary jailbreak detection, fine-tuned DistilBERT (RQ1 comparison) on dataset v2",
+  "base_config": "configs/task_a_binary_tfidf_v2.json",
+  "note": "Dataset and seed come from base_config. Sized for an 8 GB GPU; runs on CPU but far slower.",
+  "model_name": "distilbert-base-uncased",
+  "max_length": 256,
+  "train_batch_size": 16,
+  "eval_batch_size": 64,
+  "learning_rate": 2e-5,
+  "weight_decay": 0.01,
+  "warmup_ratio": 0.1,
+  "max_epochs": 3,
+  "early_stopping_patience": 1,
+  "class_weight": "balanced",
+  "threshold": 0.5,
+  "output_dir": "results/task_a_binary_distilbert_v2"
+}

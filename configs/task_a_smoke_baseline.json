@@ -1,0 +1,16 @@
+{
+  "purpose": "SMOKE TEST ONLY: pipeline validation, not a research result",
+  "seed": 42,
+  "master": "data/annotations/task_a_pilot_master.jsonl",
+  "label_rule": "unanimous three-reviewer label; 2-vs-1 and three-way items are excluded, never voted",
+  "exclude_ids": ["pilot-059", "pilot-061", "pilot-092"],
+  "exclude_reason": "prompt-encoding corruption in reviewer files (docs/task_a_encoding_audit.md)",
+  "expected_eligible_items": 112,
+  "expected_label_counts": {"BENIGN": 76, "HARMFUL": 20, "ADVERSARIAL": 16},
+  "folds": 5,
+  "near_duplicate_threshold": 0.5,
+  "shingle_words": 3,
+  "model": {"type": "tfidf_logreg", "ngram_range": [1, 2], "min_df": 1, "max_iter": 1000, "class_weight": "balanced"},
+  "output_dir": "results/task_a_smoke_baseline",
+  "allowed_labels": ["BENIGN", "HARMFUL", "ADVERSARIAL", "QUARANTINE"]
+}

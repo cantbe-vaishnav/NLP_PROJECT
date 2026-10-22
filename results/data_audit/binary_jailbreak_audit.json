@@ -1,0 +1,460 @@
+{
+  "created_utc": "2026-10-20T21:59:13.584565+00:00",
+  "config": {
+    "task": "binary jailbreak (source-adversarial) detection: 1 = ADVERSARIAL, 0 = BENIGN (non-jailbreak; not necessarily harmless)",
+    "seed": 42,
+    "sources": {
+      "wildguard_train": {
+        "path": "data/raw/wildguard_train.parquet",
+        "sha256": "02ecea8a724a9146a1e473a95a7cdf262adfe9c7d5408953ca86d2fcfbdc8953"
+      },
+      "wildguard_test": {
+        "path": "data/raw/wildguard_test.parquet",
+        "sha256": "6ccc2909c1ae6d41424fac69f1fc32535b1de39cb8f80407d81e8bc64a0bebca"
+      },
+      "jailbreak_2023_12_25": {
+        "path": "data/raw/jailbreakhub/jailbreak_2023_12_25/train-00000-of-00001.parquet",
+        "sha256": "55bbc5e2be771ee16ed67aed4edb5ecef5f44ac69cea317a67e5405c5c6057a4"
+      },
+      "regular_2023_12_25": {
+        "path": "data/raw/jailbreakhub/regular_2023_12_25/train-00000-of-00001.parquet",
+        "sha256": "23e90010ccbc85574bf46678528cddce5b02abc86d9a047209218af65cb37c68"
+      }
+    },
+    "provenance": {
+      "wildguardmix": {
+        "repo": "allenai/wildguardmix",
+        "revision": "d29c47f41c8b51348b5c8e8c81c039b3132b66d1",
+        "license": "odc-by",
+        "access": "gated (auto); AI2 Responsible Use Guidelines accepted by the owner"
+      },
+      "jailbreakhub": {
+        "repo": "TrustAIRLab/in-the-wild-jailbreak-prompts",
+        "revision": "a10aab8eff1c73165a442d4464dce192bd28b9c5",
+        "license": "mit",
+        "download_record": "results/data_audit/jailbreakhub_download.json"
+      }
+    },
+    "near_duplicate": {
+      "cosine_threshold": 0.8,
+      "jaccard_threshold": 0.85,
+      "shingle_words": 5,
+      "candidate_threshold": 0.5
+    },
+    "split_targets": {
+      "wildguardmix": {
+        "validation": 0.1
+      },
+      "jailbreakhub": {
+        "validation": 0.1,
+        "test_jailbreakhub": 0.1
+      }
+    },
+    "output_dir": "data/processed/binary_jailbreak",
+    "audit_json": "results/data_audit/binary_jailbreak_audit.json",
+    "audit_markdown": "results/data_audit/binary_jailbreak_audit.md"
+  },
+  "versions": {
+    "python": "3.11.9",
+    "pyarrow": "26.0.0",
+    "numpy": "2.4.2",
+    "scikit_learn": "1.8.0"
+  },
+  "input_sha256": {
+    "wildguard_train": "02ecea8a724a9146a1e473a95a7cdf262adfe9c7d5408953ca86d2fcfbdc8953",
+    "wildguard_test": "6ccc2909c1ae6d41424fac69f1fc32535b1de39cb8f80407d81e8bc64a0bebca",
+    "jailbreak_2023_12_25": "55bbc5e2be771ee16ed67aed4edb5ecef5f44ac69cea317a67e5405c5c6057a4",
+    "regular_2023_12_25": "23e90010ccbc85574bf46678528cddce5b02abc86d9a047209218af65cb37c68"
+  },
+  "original_counts": {
+    "jailbreakhub/jailbreak_2023_12_25": {
+      "BENIGN": 0,
+      "ADVERSARIAL": 1405,
+      "total": 1405
+    },
+    "jailbreakhub/regular_2023_12_25": {
+      "BENIGN": 13735,
+      "ADVERSARIAL": 0,
+      "total": 13735
+    },
+    "wildguardmix/wildguardtest": {
+      "BENIGN": 915,
+      "ADVERSARIAL": 810,
+      "total": 1725
+    },
+    "wildguardmix/wildguardtrain": {
+      "BENIGN": 45803,
+      "ADVERSARIAL": 40956,
+      "total": 86759
+    }
+  },
+  "jailbreakhub_clean": {
+    "invalid": 8,
+    "excluded_by_reason": {
+      "label_conflict_duplicate": 112,
+      "exact_duplicate": 525,
+      "normalized_duplicate": 61
+    },
+    "retained": {
+      "jailbreakhub/jailbreak_2023_12_25": {
+        "BENIGN": 0,
+        "ADVERSARIAL": 1314,
+        "total": 1314
+      },
+      "jailbreakhub/regular_2023_12_25": {
+        "BENIGN": 13120,
+        "ADVERSARIAL": 0,
+        "total": 13120
+      }
+    }
+  },
+  "combined_exclusions_by_reason": {
+    "exact_duplicate": {
+      "wildguard:train": 38859,
+      "jailbreakhub:regular_2023_12_25": 568,
+      "jailbreakhub:jailbreak_2023_12_25": 32
+    },
+    "invalid_or_empty_prompt": {
+      "wildguard:train": 14,
+      "jailbreakhub:jailbreak_2023_12_25": 1,
+      "jailbreakhub:regular_2023_12_25": 7
+    },
+    "label_conflict_duplicate": {
+      "wildguard:train": 13,
+      "jailbreakhub:jailbreak_2023_12_25": 61,
+      "jailbreakhub:regular_2023_12_25": 61
+    },
+    "normalized_duplicate": {
+      "wildguard:train": 81,
+      "jailbreakhub:regular_2023_12_25": 54,
+      "jailbreakhub:jailbreak_2023_12_25": 7
+    },
+    "test_overlap_near_duplicate": {
+      "wildguard:train": 9
+    },
+    "test_overlap_normalized": {
+      "wildguard:train": 3
+    }
+  },
+  "harm_label_conflict_groups_retained": 15,
+  "jailbreakhub_overlap_with_wildguardmix": {
+    "jailbreak_2023_12_25": {
+      "exact_in_wildguard_train": 15,
+      "normalized_in_wildguard_train": 15,
+      "exact_in_wildguard_test": 0,
+      "normalized_in_wildguard_test": 0,
+      "near_duplicate_family_with_wildguard_train": 52,
+      "near_duplicate_family_with_wildguard_test": 0
+    },
+    "regular_2023_12_25": {
+      "exact_in_wildguard_train": 110,
+      "normalized_in_wildguard_train": 110,
+      "exact_in_wildguard_test": 0,
+      "normalized_in_wildguard_test": 0,
+      "near_duplicate_family_with_wildguard_train": 78,
+      "near_duplicate_family_with_wildguard_test": 0
+    }
+  },
+  "near_duplicates": {
+    "edges": 6315,
+    "families_retained": 60296,
+    "multi_member_families": 960,
+    "rows_in_multi_member_families": 2793,
+    "mixed_label_families": 75,
+    "largest_families": [
+      {
+        "family_id": "fam049166",
+        "size": 52,
+        "split": "validation",
+        "sources": {
+          "regular_2023_12_25": 52
+        },
+        "labels": {
+          "0": 52
+        }
+      },
+      {
+        "family_id": "fam001013",
+        "size": 42,
+        "split": "validation",
+        "sources": {
+          "wildguardtrain": 42
+        },
+        "labels": {
+          "0": 42
+        }
+      },
+      {
+        "family_id": "fam047391",
+        "size": 38,
+        "split": "train",
+        "sources": {
+          "jailbreak_2023_12_25": 25,
+          "regular_2023_12_25": 13
+        },
+        "labels": {
+          "1": 25,
+          "0": 13
+        }
+      },
+      {
+        "family_id": "fam028352",
+        "size": 33,
+        "split": "train",
+        "sources": {
+          "wildguardtrain": 28,
+          "jailbreak_2023_12_25": 1,
+          "regular_2023_12_25": 4
+        },
+        "labels": {
+          "0": 32,
+          "1": 1
+        }
+      },
+      {
+        "family_id": "fam049142",
+        "size": 32,
+        "split": "train",
+        "sources": {
+          "regular_2023_12_25": 32
+        },
+        "labels": {
+          "0": 32
+        }
+      },
+      {
+        "family_id": "fam049242",
+        "size": 32,
+        "split": "train",
+        "sources": {
+          "regular_2023_12_25": 32
+        },
+        "labels": {
+          "0": 32
+        }
+      },
+      {
+        "family_id": "fam027932",
+        "size": 26,
+        "split": "train",
+        "sources": {
+          "wildguardtrain": 26
+        },
+        "labels": {
+          "0": 26
+        }
+      },
+      {
+        "family_id": "fam048144",
+        "size": 25,
+        "split": "train",
+        "sources": {
+          "jailbreak_2023_12_25": 1,
+          "regular_2023_12_25": 24
+        },
+        "labels": {
+          "1": 1,
+          "0": 24
+        }
+      },
+      {
+        "family_id": "fam028423",
+        "size": 24,
+        "split": "train",
+        "sources": {
+          "wildguardtrain": 19,
+          "jailbreak_2023_12_25": 4,
+          "regular_2023_12_25": 1
+        },
+        "labels": {
+          "0": 20,
+          "1": 4
+        }
+      },
+      {
+        "family_id": "fam054071",
+        "size": 21,
+        "split": "train",
+        "sources": {
+          "regular_2023_12_25": 21
+        },
+        "labels": {
+          "0": 21
+        }
+      }
+    ]
+  },
+  "suspicious_flags": {
+    "adversarial_label_short_prompt": {
+      "count": 14,
+      "example_ids": [
+        "jailbreakhub:jailbreak_2023_12_25:53",
+        "jailbreakhub:jailbreak_2023_12_25:245",
+        "jailbreakhub:jailbreak_2023_12_25:322",
+        "jailbreakhub:jailbreak_2023_12_25:502",
+        "jailbreakhub:jailbreak_2023_12_25:569",
+        "jailbreakhub:jailbreak_2023_12_25:755",
+        "jailbreakhub:jailbreak_2023_12_25:1095",
+        "jailbreakhub:jailbreak_2023_12_25:1136",
+        "jailbreakhub:jailbreak_2023_12_25:1155",
+        "jailbreakhub:jailbreak_2023_12_25:1183",
+        "jailbreakhub:jailbreak_2023_12_25:1189",
+        "jailbreakhub:jailbreak_2023_12_25:1229",
+        "jailbreakhub:jailbreak_2023_12_25:1246",
+        "jailbreakhub:jailbreak_2023_12_25:1278"
+      ]
+    },
+    "benign_label_with_jailbreak_cue": {
+      "count": 1132,
+      "example_ids": [
+        "jailbreakhub:regular_2023_12_25:4",
+        "jailbreakhub:regular_2023_12_25:9",
+        "jailbreakhub:regular_2023_12_25:31",
+        "jailbreakhub:regular_2023_12_25:33",
+        "jailbreakhub:regular_2023_12_25:81",
+        "jailbreakhub:regular_2023_12_25:83",
+        "jailbreakhub:regular_2023_12_25:87",
+        "jailbreakhub:regular_2023_12_25:95",
+        "jailbreakhub:regular_2023_12_25:96",
+        "jailbreakhub:regular_2023_12_25:108",
+        "jailbreakhub:regular_2023_12_25:113",
+        "jailbreakhub:regular_2023_12_25:124",
+        "jailbreakhub:regular_2023_12_25:129",
+        "jailbreakhub:regular_2023_12_25:130",
+        "jailbreakhub:regular_2023_12_25:159",
+        "jailbreakhub:regular_2023_12_25:207",
+        "jailbreakhub:regular_2023_12_25:214",
+        "jailbreakhub:regular_2023_12_25:226",
+        "jailbreakhub:regular_2023_12_25:231",
+        "jailbreakhub:regular_2023_12_25:248"
+      ]
+    },
+    "mixed_label_near_duplicate_family": {
+      "count": 422,
+      "example_ids": [
+        "wildguard:train:37417",
+        "wildguard:train:37563",
+        "wildguard:train:37852",
+        "wildguard:train:38224",
+        "wildguard:train:38359",
+        "wildguard:train:38372",
+        "wildguard:train:38385",
+        "wildguard:train:38402",
+        "wildguard:train:38416",
+        "wildguard:train:38426",
+        "wildguard:train:38427",
+        "wildguard:train:38429",
+        "wildguard:train:38437",
+        "wildguard:train:38438",
+        "wildguard:train:38458",
+        "wildguard:train:38470",
+        "wildguard:train:38485",
+        "wildguard:train:38500",
+        "wildguard:train:38508",
+        "wildguard:train:38514"
+      ]
+    },
+    "very_short_prompt": {
+      "count": 174,
+      "example_ids": [
+        "wildguard:train:3559",
+        "wildguard:train:3588",
+        "wildguard:train:3765",
+        "wildguard:train:3785",
+        "wildguard:train:3800",
+        "wildguard:train:3804",
+        "wildguard:train:3808",
+        "wildguard:train:3812",
+        "wildguard:train:3928",
+        "wildguard:train:3999",
+        "wildguard:train:4031",
+        "wildguard:train:4078",
+        "wildguard:train:4161",
+        "wildguard:train:4244",
+        "wildguard:train:4320",
+        "wildguard:train:4462",
+        "wildguard:train:4466",
+        "wildguard:train:4491",
+        "wildguard:train:4501",
+        "wildguard:train:4531"
+      ]
+    }
+  },
+  "final_counts": {
+    "test_jailbreakhub": {
+      "jailbreakhub": {
+        "BENIGN": 1314,
+        "ADVERSARIAL": 125,
+        "total": 1439
+      },
+      "wildguardmix": {
+        "BENIGN": 10,
+        "ADVERSARIAL": 0,
+        "total": 10
+      }
+    },
+    "test_official": {
+      "wildguardmix": {
+        "BENIGN": 915,
+        "ADVERSARIAL": 810,
+        "total": 1725
+      }
+    },
+    "train": {
+      "jailbreakhub": {
+        "BENIGN": 10413,
+        "ADVERSARIAL": 1050,
+        "total": 11463
+      },
+      "wildguardmix": {
+        "BENIGN": 22397,
+        "ADVERSARIAL": 20606,
+        "total": 43003
+      }
+    },
+    "validation": {
+      "jailbreakhub": {
+        "BENIGN": 1318,
+        "ADVERSARIAL": 129,
+        "total": 1447
+      },
+      "wildguardmix": {
+        "BENIGN": 2477,
+        "ADVERSARIAL": 2290,
+        "total": 4767
+      }
+    }
+  },
+  "leakage_checks": {
+    "official_test_unchanged": true,
+    "families_spanning_splits": 0,
+    "normalized_overlap_official_test_vs_train_validation": 0,
+    "residual_similarity_to_train": {
+      "validation": {
+        "rows": 6214,
+        "max_cosine_to_train": 0.7993441411408737,
+        "rows_cosine_ge_0.9": 0,
+        "rows_cosine_ge_0.8": 0,
+        "rows_cosine_ge_0.7": 174,
+        "rows_cosine_ge_0.5": 561
+      },
+      "test_jailbreakhub": {
+        "rows": 1449,
+        "max_cosine_to_train": 0.799242210621701,
+        "rows_cosine_ge_0.9": 0,
+        "rows_cosine_ge_0.8": 0,
+        "rows_cosine_ge_0.7": 57,
+        "rows_cosine_ge_0.5": 218
+      },
+      "test_official": {
+        "rows": 1725,
+        "max_cosine_to_train": 0.7868385792967152,
+        "rows_cosine_ge_0.9": 0,
+        "rows_cosine_ge_0.8": 0,
+        "rows_cosine_ge_0.7": 12,
+        "rows_cosine_ge_0.5": 81
+      }
+    },
+    "limitations": "Lexical checks only (TF-IDF word 1-2-gram cosine and 5-word-shingle Jaccard); paraphrases, translations and shared parent prompts are not detectable."
+  }
+}

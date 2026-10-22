@@ -1,0 +1,9 @@
+{
+  "experiment": "Task A binary jailbreak detection, TF-IDF + Linear SVM (RQ1 comparison) on dataset v2",
+  "base_config": "configs/task_a_binary_tfidf_v2.json",
+  "note": "Dataset, seed and TF-IDF settings come from base_config so features match the Logistic Regression baseline.",
+  "c_grid": [0.01, 0.1, 1.0, 10.0],
+  "threshold": 0.0,
+  "max_iter": 5000,
+  "output_dir": "results/task_a_binary_tfidf_linear_svm_v2"
+}

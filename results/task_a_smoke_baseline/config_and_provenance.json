@@ -1,0 +1,50 @@
+{
+  "config": {
+    "purpose": "SMOKE TEST ONLY: pipeline validation, not a research result",
+    "seed": 42,
+    "master": "data/annotations/task_a_pilot_master.jsonl",
+    "label_rule": "unanimous three-reviewer label; 2-vs-1 and three-way items are excluded, never voted",
+    "exclude_ids": [
+      "pilot-059",
+      "pilot-061",
+      "pilot-092"
+    ],
+    "exclude_reason": "prompt-encoding corruption in reviewer files (docs/task_a_encoding_audit.md)",
+    "expected_eligible_items": 112,
+    "expected_label_counts": {
+      "BENIGN": 76,
+      "HARMFUL": 20,
+      "ADVERSARIAL": 16
+    },
+    "folds": 5,
+    "near_duplicate_threshold": 0.5,
+    "shingle_words": 3,
+    "model": {
+      "type": "tfidf_logreg",
+      "ngram_range": [
+        1,
+        2
+      ],
+      "min_df": 1,
+      "max_iter": 1000,
+      "class_weight": "balanced"
+    },
+    "output_dir": "results/task_a_smoke_baseline",
+    "allowed_labels": [
+      "BENIGN",
+      "HARMFUL",
+      "ADVERSARIAL",
+      "QUARANTINE"
+    ]
+  },
+  "python": "3.11.9",
+  "input_sha256": {
+    "master": "0ea00e6e75fad6816dac583391663f8636fc2a7bddbbca506a904dc888781f01",
+    "reviewer_1": "be6ac33ee823fd7a6dbbea11854f15cf5d9039a0e650a4920dbac38e7fe3f35e",
+    "reviewer_2": "34b8fdac00becf607a41a1306ba34829c58c78dad1b245ec0a472eb73f72f6c3",
+    "reviewer_3": "18d26d52563e61db2b25b303f09655fb495a479ba8bd436d5b7ea7348515eef0"
+  },
+  "eligible_ids_sha256": "db1379d9833300142ef5ba2dd5bf9cc06588bbf578c7bf1a01e3c5743c1cfd8c",
+  "note": "reviewer files are external to the repository; results are not reproducible from the repository alone",
+  "scikit_learn": "1.8.0"
+}

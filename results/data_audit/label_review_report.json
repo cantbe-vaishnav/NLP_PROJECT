@@ -1,0 +1,325 @@
+{
+  "note": "Counts and IDs only. Reviews are full-text reviews, not human annotation. No row has been excluded or relabelled; exclusions below are proposals.",
+  "high_priority_benign_review": {
+    "rows": 184,
+    "status": {
+      "CONFIRMED_MISLABEL": 169,
+      "VALID_NON_JAILBREAK": 4,
+      "AMBIGUOUS": 11
+    },
+    "status_by_split": {
+      "test_jailbreakhub": {
+        "CONFIRMED_MISLABEL": 12,
+        "AMBIGUOUS": 1
+      },
+      "train": {
+        "CONFIRMED_MISLABEL": 141,
+        "VALID_NON_JAILBREAK": 4,
+        "AMBIGUOUS": 9
+      },
+      "validation": {
+        "CONFIRMED_MISLABEL": 16,
+        "AMBIGUOUS": 1
+      }
+    },
+    "confirmed_in_mixed_label_families": 43
+  },
+  "reverse_audit": {
+    "population": "retained JailbreakHub rows with label 1 in combined.parquet",
+    "population_rows": 1304,
+    "sampling": "sorted by example_id, Python random.seed(42), random.sample(n=40)",
+    "status": {
+      "VALID_JAILBREAK": 33,
+      "CONFIRMED_MISLABEL": 5,
+      "AMBIGUOUS": 2
+    },
+    "mislabel_rate": 0.125,
+    "mislabel_rate_wilson95": [
+      0.0546,
+      0.2611
+    ],
+    "status_by_cue_priority": {
+      "high": {
+        "VALID_JAILBREAK": 16
+      },
+      "medium": {
+        "VALID_JAILBREAK": 8,
+        "AMBIGUOUS": 1
+      },
+      "low": {
+        "VALID_JAILBREAK": 5,
+        "CONFIRMED_MISLABEL": 3
+      },
+      "none": {
+        "VALID_JAILBREAK": 4,
+        "CONFIRMED_MISLABEL": 2,
+        "AMBIGUOUS": 1
+      }
+    },
+    "remaining_scope": {
+      "definition": "label-1 JailbreakHub rows whose cue priority is none or low",
+      "rows": 549,
+      "already_reviewed": 15,
+      "by_split": {
+        "train": 440,
+        "test_jailbreakhub": 48,
+        "validation": 61
+      },
+      "total_characters": 1239958,
+      "sample_mislabel_rate_in_scope": 0.3333,
+      "sample_mislabel_rate_in_scope_wilson95": [
+        0.1518,
+        0.5829
+      ],
+      "estimated_mislabels_in_scope": [
+        83,
+        183,
+        320
+      ]
+    }
+  },
+  "proposed_exclusions": {
+    "count": 174,
+    "reason": "CONFIRMED_MISLABEL in review",
+    "example_ids": [
+      "jailbreakhub:jailbreak_2023_12_25:120",
+      "jailbreakhub:jailbreak_2023_12_25:152",
+      "jailbreakhub:jailbreak_2023_12_25:480",
+      "jailbreakhub:jailbreak_2023_12_25:565",
+      "jailbreakhub:jailbreak_2023_12_25:850",
+      "jailbreakhub:regular_2023_12_25:10008",
+      "jailbreakhub:regular_2023_12_25:10093",
+      "jailbreakhub:regular_2023_12_25:10109",
+      "jailbreakhub:regular_2023_12_25:10140",
+      "jailbreakhub:regular_2023_12_25:10147",
+      "jailbreakhub:regular_2023_12_25:10188",
+      "jailbreakhub:regular_2023_12_25:10327",
+      "jailbreakhub:regular_2023_12_25:10343",
+      "jailbreakhub:regular_2023_12_25:10557",
+      "jailbreakhub:regular_2023_12_25:10566",
+      "jailbreakhub:regular_2023_12_25:10608",
+      "jailbreakhub:regular_2023_12_25:10707",
+      "jailbreakhub:regular_2023_12_25:10724",
+      "jailbreakhub:regular_2023_12_25:10731",
+      "jailbreakhub:regular_2023_12_25:10750",
+      "jailbreakhub:regular_2023_12_25:10755",
+      "jailbreakhub:regular_2023_12_25:10801",
+      "jailbreakhub:regular_2023_12_25:10859",
+      "jailbreakhub:regular_2023_12_25:10875",
+      "jailbreakhub:regular_2023_12_25:10901",
+      "jailbreakhub:regular_2023_12_25:1091",
+      "jailbreakhub:regular_2023_12_25:10941",
+      "jailbreakhub:regular_2023_12_25:10979",
+      "jailbreakhub:regular_2023_12_25:11020",
+      "jailbreakhub:regular_2023_12_25:11316",
+      "jailbreakhub:regular_2023_12_25:11328",
+      "jailbreakhub:regular_2023_12_25:11368",
+      "jailbreakhub:regular_2023_12_25:11373",
+      "jailbreakhub:regular_2023_12_25:11387",
+      "jailbreakhub:regular_2023_12_25:11475",
+      "jailbreakhub:regular_2023_12_25:11580",
+      "jailbreakhub:regular_2023_12_25:11697",
+      "jailbreakhub:regular_2023_12_25:11797",
+      "jailbreakhub:regular_2023_12_25:11817",
+      "jailbreakhub:regular_2023_12_25:1185",
+      "jailbreakhub:regular_2023_12_25:11968",
+      "jailbreakhub:regular_2023_12_25:12092",
+      "jailbreakhub:regular_2023_12_25:12118",
+      "jailbreakhub:regular_2023_12_25:12180",
+      "jailbreakhub:regular_2023_12_25:12218",
+      "jailbreakhub:regular_2023_12_25:12285",
+      "jailbreakhub:regular_2023_12_25:12314",
+      "jailbreakhub:regular_2023_12_25:12330",
+      "jailbreakhub:regular_2023_12_25:12363",
+      "jailbreakhub:regular_2023_12_25:12431",
+      "jailbreakhub:regular_2023_12_25:12483",
+      "jailbreakhub:regular_2023_12_25:12524",
+      "jailbreakhub:regular_2023_12_25:12533",
+      "jailbreakhub:regular_2023_12_25:12536",
+      "jailbreakhub:regular_2023_12_25:12602",
+      "jailbreakhub:regular_2023_12_25:12604",
+      "jailbreakhub:regular_2023_12_25:12646",
+      "jailbreakhub:regular_2023_12_25:12759",
+      "jailbreakhub:regular_2023_12_25:12784",
+      "jailbreakhub:regular_2023_12_25:12785",
+      "jailbreakhub:regular_2023_12_25:12800",
+      "jailbreakhub:regular_2023_12_25:12865",
+      "jailbreakhub:regular_2023_12_25:12913",
+      "jailbreakhub:regular_2023_12_25:12920",
+      "jailbreakhub:regular_2023_12_25:13022",
+      "jailbreakhub:regular_2023_12_25:13074",
+      "jailbreakhub:regular_2023_12_25:13231",
+      "jailbreakhub:regular_2023_12_25:13263",
+      "jailbreakhub:regular_2023_12_25:13357",
+      "jailbreakhub:regular_2023_12_25:13412",
+      "jailbreakhub:regular_2023_12_25:13414",
+      "jailbreakhub:regular_2023_12_25:13422",
+      "jailbreakhub:regular_2023_12_25:13435",
+      "jailbreakhub:regular_2023_12_25:13537",
+      "jailbreakhub:regular_2023_12_25:13618",
+      "jailbreakhub:regular_2023_12_25:13626",
+      "jailbreakhub:regular_2023_12_25:13645",
+      "jailbreakhub:regular_2023_12_25:13690",
+      "jailbreakhub:regular_2023_12_25:13713",
+      "jailbreakhub:regular_2023_12_25:1564",
+      "jailbreakhub:regular_2023_12_25:2323",
+      "jailbreakhub:regular_2023_12_25:2637",
+      "jailbreakhub:regular_2023_12_25:2638",
+      "jailbreakhub:regular_2023_12_25:2681",
+      "jailbreakhub:regular_2023_12_25:2784",
+      "jailbreakhub:regular_2023_12_25:279",
+      "jailbreakhub:regular_2023_12_25:2850",
+      "jailbreakhub:regular_2023_12_25:343",
+      "jailbreakhub:regular_2023_12_25:344",
+      "jailbreakhub:regular_2023_12_25:360",
+      "jailbreakhub:regular_2023_12_25:363",
+      "jailbreakhub:regular_2023_12_25:366",
+      "jailbreakhub:regular_2023_12_25:376",
+      "jailbreakhub:regular_2023_12_25:389",
+      "jailbreakhub:regular_2023_12_25:396",
+      "jailbreakhub:regular_2023_12_25:4",
+      "jailbreakhub:regular_2023_12_25:4010",
+      "jailbreakhub:regular_2023_12_25:402",
+      "jailbreakhub:regular_2023_12_25:41",
+      "jailbreakhub:regular_2023_12_25:422",
+      "jailbreakhub:regular_2023_12_25:427",
+      "jailbreakhub:regular_2023_12_25:432",
+      "jailbreakhub:regular_2023_12_25:435",
+      "jailbreakhub:regular_2023_12_25:4354",
+      "jailbreakhub:regular_2023_12_25:4422",
+      "jailbreakhub:regular_2023_12_25:4444",
+      "jailbreakhub:regular_2023_12_25:446",
+      "jailbreakhub:regular_2023_12_25:4481",
+      "jailbreakhub:regular_2023_12_25:4565",
+      "jailbreakhub:regular_2023_12_25:4640",
+      "jailbreakhub:regular_2023_12_25:4874",
+      "jailbreakhub:regular_2023_12_25:5239",
+      "jailbreakhub:regular_2023_12_25:5305",
+      "jailbreakhub:regular_2023_12_25:5426",
+      "jailbreakhub:regular_2023_12_25:5444",
+      "jailbreakhub:regular_2023_12_25:5741",
+      "jailbreakhub:regular_2023_12_25:587",
+      "jailbreakhub:regular_2023_12_25:6010",
+      "jailbreakhub:regular_2023_12_25:6116",
+      "jailbreakhub:regular_2023_12_25:6480",
+      "jailbreakhub:regular_2023_12_25:6492",
+      "jailbreakhub:regular_2023_12_25:6546",
+      "jailbreakhub:regular_2023_12_25:6933",
+      "jailbreakhub:regular_2023_12_25:7581",
+      "jailbreakhub:regular_2023_12_25:7872",
+      "jailbreakhub:regular_2023_12_25:8085",
+      "jailbreakhub:regular_2023_12_25:8106",
+      "jailbreakhub:regular_2023_12_25:8136",
+      "jailbreakhub:regular_2023_12_25:8152",
+      "jailbreakhub:regular_2023_12_25:8153",
+      "jailbreakhub:regular_2023_12_25:8170",
+      "jailbreakhub:regular_2023_12_25:8204",
+      "jailbreakhub:regular_2023_12_25:8225",
+      "jailbreakhub:regular_2023_12_25:8251",
+      "jailbreakhub:regular_2023_12_25:8266",
+      "jailbreakhub:regular_2023_12_25:8274",
+      "jailbreakhub:regular_2023_12_25:8356",
+      "jailbreakhub:regular_2023_12_25:8357",
+      "jailbreakhub:regular_2023_12_25:8358",
+      "jailbreakhub:regular_2023_12_25:8407",
+      "jailbreakhub:regular_2023_12_25:8461",
+      "jailbreakhub:regular_2023_12_25:8597",
+      "jailbreakhub:regular_2023_12_25:8622",
+      "jailbreakhub:regular_2023_12_25:8665",
+      "jailbreakhub:regular_2023_12_25:8668",
+      "jailbreakhub:regular_2023_12_25:8672",
+      "jailbreakhub:regular_2023_12_25:8695",
+      "jailbreakhub:regular_2023_12_25:8717",
+      "jailbreakhub:regular_2023_12_25:8725",
+      "jailbreakhub:regular_2023_12_25:8727",
+      "jailbreakhub:regular_2023_12_25:8728",
+      "jailbreakhub:regular_2023_12_25:8729",
+      "jailbreakhub:regular_2023_12_25:8732",
+      "jailbreakhub:regular_2023_12_25:8735",
+      "jailbreakhub:regular_2023_12_25:8737",
+      "jailbreakhub:regular_2023_12_25:8799",
+      "jailbreakhub:regular_2023_12_25:8801",
+      "jailbreakhub:regular_2023_12_25:8804",
+      "jailbreakhub:regular_2023_12_25:9",
+      "jailbreakhub:regular_2023_12_25:9138",
+      "jailbreakhub:regular_2023_12_25:9153",
+      "jailbreakhub:regular_2023_12_25:9162",
+      "jailbreakhub:regular_2023_12_25:9248",
+      "jailbreakhub:regular_2023_12_25:9291",
+      "jailbreakhub:regular_2023_12_25:9308",
+      "jailbreakhub:regular_2023_12_25:9363",
+      "jailbreakhub:regular_2023_12_25:9376",
+      "jailbreakhub:regular_2023_12_25:9567",
+      "jailbreakhub:regular_2023_12_25:9598",
+      "jailbreakhub:regular_2023_12_25:9739",
+      "jailbreakhub:regular_2023_12_25:9753",
+      "jailbreakhub:regular_2023_12_25:9757",
+      "jailbreakhub:regular_2023_12_25:9810",
+      "jailbreakhub:regular_2023_12_25:9859"
+    ]
+  },
+  "ambiguous_kept_for_decision": {
+    "count": 13,
+    "example_ids": [
+      "jailbreakhub:jailbreak_2023_12_25:1170",
+      "jailbreakhub:jailbreak_2023_12_25:906",
+      "jailbreakhub:regular_2023_12_25:11004",
+      "jailbreakhub:regular_2023_12_25:11187",
+      "jailbreakhub:regular_2023_12_25:11947",
+      "jailbreakhub:regular_2023_12_25:2749",
+      "jailbreakhub:regular_2023_12_25:2849",
+      "jailbreakhub:regular_2023_12_25:419",
+      "jailbreakhub:regular_2023_12_25:6062",
+      "jailbreakhub:regular_2023_12_25:6860",
+      "jailbreakhub:regular_2023_12_25:8094",
+      "jailbreakhub:regular_2023_12_25:8740",
+      "jailbreakhub:regular_2023_12_25:9756"
+    ]
+  },
+  "split_counts_current": {
+    "test_jailbreakhub": {
+      "jailbreakhub/label=0": 1314,
+      "jailbreakhub/label=1": 125,
+      "wildguardmix/label=0": 10
+    },
+    "test_official": {
+      "wildguardmix/label=0": 915,
+      "wildguardmix/label=1": 810
+    },
+    "train": {
+      "jailbreakhub/label=0": 10413,
+      "jailbreakhub/label=1": 1050,
+      "wildguardmix/label=0": 22397,
+      "wildguardmix/label=1": 20606
+    },
+    "validation": {
+      "jailbreakhub/label=0": 1318,
+      "jailbreakhub/label=1": 129,
+      "wildguardmix/label=0": 2477,
+      "wildguardmix/label=1": 2290
+    }
+  },
+  "split_counts_after_proposed_exclusions": {
+    "test_jailbreakhub": {
+      "jailbreakhub/label=0": 1302,
+      "jailbreakhub/label=1": 125,
+      "wildguardmix/label=0": 10
+    },
+    "test_official": {
+      "wildguardmix/label=0": 915,
+      "wildguardmix/label=1": 810
+    },
+    "train": {
+      "jailbreakhub/label=0": 10272,
+      "jailbreakhub/label=1": 1045,
+      "wildguardmix/label=0": 22397,
+      "wildguardmix/label=1": 20606
+    },
+    "validation": {
+      "jailbreakhub/label=0": 1302,
+      "jailbreakhub/label=1": 129,
+      "wildguardmix/label=0": 2477,
+      "wildguardmix/label=1": 2290
+    }
+  }
+}

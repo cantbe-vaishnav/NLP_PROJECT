@@ -1,0 +1,17 @@
+{
+  "experiment": "Task A truncation experiment: fine-tuned DistilBERT with 512-token inputs on dataset v2 (compare with the 256-token run)",
+  "base_config": "configs/task_a_binary_tfidf_v2.json",
+  "note": "Identical to task_a_binary_distilbert_v2.json except max_length and output_dir. 512 is DistilBERT's position-embedding limit.",
+  "model_name": "distilbert-base-uncased",
+  "max_length": 512,
+  "train_batch_size": 16,
+  "eval_batch_size": 64,
+  "learning_rate": 2e-05,
+  "weight_decay": 0.01,
+  "warmup_ratio": 0.1,
+  "max_epochs": 3,
+  "early_stopping_patience": 1,
+  "class_weight": "balanced",
+  "threshold": 0.5,
+  "output_dir": "results/task_a_binary_distilbert_512_v2"
+}

@@ -91,3 +91,32 @@ See phase1_gate_report.md for counts, commands, limitations and proposed decisio
 - Reviewer independence is owner-confirmed, not independently audited; see the
   guidelines.
 - No annotation files were modified. No models, splits or Task B work.
+
+## Binary jailbreak dataset (WildGuardMix + JailbreakHub)
+
+- Downloaded JailbreakHub `jailbreak_2023_12_25` and `regular_2023_12_25` at revision
+  `a10aab8e…` (MIT); SHA-256 verified against the Hub. Raw files Git-ignored.
+- Built the merged binary dataset with `scripts/build_binary_dataset.py`: invalid,
+  duplicate, label-conflict and official-test-overlap exclusions; near-duplicate
+  families; seed-42 grouped splits; official WildGuardMix test unchanged.
+- Audit: `results/data_audit/binary_jailbreak_audit.md`; method: `task_a_binary_dataset.md`.
+- No model trained. Gate 1 status unchanged.
+
+## Binary dataset v2 (reviewed JailbreakHub corrections)
+
+- Applied the full-text review corrections (not human-verified): 169 labels 0→1, 5 labels 1→0,
+  13 ambiguous rows excluded and held out. Built `data/processed/binary_jailbreak_v2/`
+  with recomputed families and splits; all leakage checks passed; official test unchanged.
+- Audit: `results/data_audit/binary_jailbreak_v2_audit.md`. v1 retained unchanged. No model trained.
+
+## Task A models on dataset v2 (RQ1)
+
+- Notebooks: `task_a_binary_tfidf_baseline_v2`, `task_a_binary_tfidf_linear_svm_v2`, `task_a_binary_distilbert_v2`.
+  Selection on validation only; both test sets scored once. Latest runs: LogReg `run_20261021T022858Z`,
+  SVM `run_20261021T022904Z`, DistilBERT `run_20261021T024649Z` (see each `metrics.json`).
+- Test macro-F1, official / JailbreakHub: LogReg 0.994 / 0.793, SVM 0.995 / 0.820, DistilBERT 0.998 / 0.811.
+- Truncation measured on the full data (DistilBERT tokenizer): JailbreakHub test prompts over 256 tokens 44.0%,
+  over 512 tokens 24.7%; official test 7.0% and 0.2%. An earlier "55%" figure came from a small smoke-test
+  sample and is wrong.
+- Error analysis: `docs/task_a_error_analysis.md`. Prepared, not run: `task_a_binary_distilbert_512_v2`.
+- Task B: plan and first baseline scaffold in `docs/task_b_plan.md`; no Task B data or results yet.

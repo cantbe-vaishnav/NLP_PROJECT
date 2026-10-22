@@ -1,0 +1,52 @@
+{
+  "created_utc": "2026-10-21T00:47:47.498234+00:00",
+  "interface": "notebooks/task_a_binary_tfidf_baseline_v2.ipynb",
+  "config": {
+    "experiment": "Task A binary jailbreak detection, TF-IDF + Logistic Regression baseline (RQ1) on dataset v2 (reviewed JailbreakHub label corrections)",
+    "dataset": "data/processed/binary_jailbreak_v2/combined.parquet",
+    "seed": 42,
+    "c_grid": [
+      0.1,
+      1.0,
+      10.0
+    ],
+    "threshold": 0.5,
+    "model": {
+      "ngram_range": [
+        1,
+        2
+      ],
+      "min_df": 2,
+      "class_weight": "balanced",
+      "max_iter": 1000
+    },
+    "output_dir": "results/task_a_binary_tfidf_v2"
+  },
+  "dataset_sha256": "f4852e888871b09477149852ecf500c3344171cf5fcd5bf65b9828dfe7ec24f2",
+  "selected_C": 10.0,
+  "c_search": [
+    {
+      "C": 0.1,
+      "validation_macro_f1": 0.9584723203970296
+    },
+    {
+      "C": 1.0,
+      "validation_macro_f1": 0.9723029971121133
+    },
+    {
+      "C": 10.0,
+      "validation_macro_f1": 0.9792043250266051
+    }
+  ],
+  "evaluated_splits": [
+    "validation",
+    "test_official",
+    "test_jailbreakhub"
+  ],
+  "test_evaluated": true,
+  "label_provenance": "WildGuardMix adversarial flag; JailbreakHub labels with 174 reviewed (not human-verified) corrections and 13 ambiguous rows excluded; other JailbreakHub labels unreviewed.",
+  "versions": {
+    "python": "3.11.9",
+    "scikit_learn": "1.8.0"
+  }
+}

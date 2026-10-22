@@ -1,0 +1,117 @@
+{
+  "note": "Counts only. Cues are review aids, not labels; no row was changed.",
+  "categories": {
+    "dan_persona": "strong",
+    "developer_mode": "strong",
+    "jailbreak_term": "strong",
+    "restriction_removal": "strong",
+    "policy_evasion": "strong",
+    "refusal_suppression": "strong",
+    "instruction_override": "strong",
+    "persona_setup": "weak"
+  },
+  "rows_per_group": {
+    "wildguardtrain/label=1": 22896,
+    "wildguardtrain/label=0": 24884,
+    "jailbreak_2023_12_25/label=1": 1304,
+    "regular_2023_12_25/label=0": 13045,
+    "wildguardtest/label=0": 915,
+    "wildguardtest/label=1": 810
+  },
+  "cue_rate_per_group": {
+    "jailbreak_2023_12_25/label=1": {
+      "dan_persona": 0.1265,
+      "developer_mode": 0.0299,
+      "instruction_override": 0.0268,
+      "jailbreak_term": 0.0767,
+      "persona_setup": 0.4517,
+      "policy_evasion": 0.158,
+      "priority_high": 0.3129,
+      "priority_low": 0.1043,
+      "priority_medium": 0.2661,
+      "priority_none": 0.3167,
+      "refusal_suppression": 0.1902,
+      "restriction_removal": 0.4149
+    },
+    "regular_2023_12_25/label=0": {
+      "dan_persona": 0.0084,
+      "developer_mode": 0.0015,
+      "instruction_override": 0.0562,
+      "jailbreak_term": 0.003,
+      "persona_setup": 0.2586,
+      "policy_evasion": 0.0108,
+      "priority_high": 0.0141,
+      "priority_low": 0.2526,
+      "priority_medium": 0.039,
+      "priority_none": 0.6943,
+      "refusal_suppression": 0.012,
+      "restriction_removal": 0.0326
+    },
+    "wildguardtest/label=0": {
+      "priority_none": 1.0
+    },
+    "wildguardtest/label=1": {
+      "developer_mode": 0.0012,
+      "instruction_override": 0.0037,
+      "jailbreak_term": 0.0037,
+      "persona_setup": 0.0198,
+      "policy_evasion": 0.021,
+      "priority_high": 0.0012,
+      "priority_low": 0.0198,
+      "priority_medium": 0.0481,
+      "priority_none": 0.9309,
+      "restriction_removal": 0.021
+    },
+    "wildguardtrain/label=0": {
+      "dan_persona": 0.0012,
+      "developer_mode": 0.0002,
+      "instruction_override": 0.0014,
+      "jailbreak_term": 0.0003,
+      "persona_setup": 0.0052,
+      "policy_evasion": 0.0023,
+      "priority_high": 0.0026,
+      "priority_low": 0.0031,
+      "priority_medium": 0.0069,
+      "priority_none": 0.9875,
+      "refusal_suppression": 0.0014,
+      "restriction_removal": 0.0068
+    },
+    "wildguardtrain/label=1": {
+      "developer_mode": 0.0023,
+      "instruction_override": 0.0029,
+      "jailbreak_term": 0.0026,
+      "persona_setup": 0.0255,
+      "policy_evasion": 0.0383,
+      "priority_high": 0.0036,
+      "priority_low": 0.0217,
+      "priority_medium": 0.0829,
+      "priority_none": 0.8919,
+      "refusal_suppression": 0.0011,
+      "restriction_removal": 0.0429
+    }
+  },
+  "review_list": {
+    "rows": 3988,
+    "by_priority": {
+      "high": 184,
+      "medium": 509,
+      "low": 3295
+    },
+    "by_split": {
+      "train": 3213,
+      "validation": 398,
+      "test_jailbreakhub": 377
+    },
+    "aiprm_boilerplate": 659,
+    "by_source": {
+      "flowgpt": 2097,
+      "aiprm": 1300,
+      "ChatGPTPromptGenius": 223,
+      "awesome_chatgpt_prompts": 143,
+      "ChatGPT": 127,
+      "ChatGPT Prompt Engineering": 64,
+      "LLM Promptwriting": 31,
+      "AI Prompt Sharing": 2
+    }
+  }
+}

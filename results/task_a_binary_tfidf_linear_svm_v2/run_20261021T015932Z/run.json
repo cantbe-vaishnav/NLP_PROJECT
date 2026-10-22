@@ -1,0 +1,67 @@
+{
+  "created_utc": "2026-10-21T01:59:32.510086+00:00",
+  "interface": "notebooks/task_a_binary_tfidf_linear_svm_v2.ipynb",
+  "config": {
+    "experiment": "Task A binary jailbreak detection, TF-IDF + Linear SVM (RQ1 comparison) on dataset v2",
+    "base_config": "configs/task_a_binary_tfidf_v2.json",
+    "note": "Dataset, seed and TF-IDF settings come from base_config so features match the Logistic Regression baseline.",
+    "c_grid": [
+      0.01,
+      0.1,
+      1.0,
+      10.0
+    ],
+    "threshold": 0.0,
+    "max_iter": 5000,
+    "output_dir": "results/task_a_binary_tfidf_linear_svm_v2"
+  },
+  "base_config": {
+    "experiment": "Task A binary jailbreak detection, TF-IDF + Logistic Regression baseline (RQ1) on dataset v2 (reviewed JailbreakHub label corrections)",
+    "dataset": "data/processed/binary_jailbreak_v2/combined.parquet",
+    "seed": 42,
+    "c_grid": [
+      0.1,
+      1.0,
+      10.0
+    ],
+    "threshold": 0.5,
+    "model": {
+      "ngram_range": [
+        1,
+        2
+      ],
+      "min_df": 2,
+      "class_weight": "balanced",
+      "max_iter": 1000
+    },
+    "output_dir": "results/task_a_binary_tfidf_v2"
+  },
+  "seed": 42,
+  "dataset_sha256": "f4852e888871b09477149852ecf500c3344171cf5fcd5bf65b9828dfe7ec24f2",
+  "score_type": "LinearSVC decision score (not a probability)",
+  "selected_C": 1.0,
+  "selected_validation_macro_f1": 0.9810570814209193,
+  "c_search": [
+    {
+      "C": 0.01,
+      "validation_macro_f1": 0.9596295694557271
+    },
+    {
+      "C": 0.1,
+      "validation_macro_f1": 0.9748047609057587
+    },
+    {
+      "C": 1.0,
+      "validation_macro_f1": 0.9810570814209193
+    },
+    {
+      "C": 10.0,
+      "validation_macro_f1": 0.9810429494858297
+    }
+  ],
+  "label_provenance": "WildGuardMix adversarial flag; JailbreakHub labels with 174 reviewed (not human-verified) corrections and 13 ambiguous rows excluded; other JailbreakHub labels unreviewed.",
+  "versions": {
+    "python": "3.11.9",
+    "scikit_learn": "1.8.0"
+  }
+}

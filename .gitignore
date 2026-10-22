@@ -27,3 +27,14 @@ experiments/*/*/
 # and, with --include-prompts, licensed prompt text.
 outputs/annotation_agreement_pilot/prior_analysis/
 outputs/annotation_agreement_pilot/recomputed/disagreement_table.csv
+# Prediction dumps carry gold labels; keep them out of Git unless explicitly approved.
+results/task_a_binary_*/predictions.csv
+results/task_a_binary_*/**/predictions.csv
+# Serialized models are large, regenerable artifacts.
+results/task_a_binary_*/**/model.joblib
+results/task_a_binary_*/**/model/
+.ipynb_checkpoints/
+results/task_a_smoke_baseline/predictions.csv
+# Error-analysis tables carry gold labels; review-candidate CSVs also carry prompt text.
+results/error_analysis/task_a_v2_*/
+results/task_b_*/**/predictions.csv

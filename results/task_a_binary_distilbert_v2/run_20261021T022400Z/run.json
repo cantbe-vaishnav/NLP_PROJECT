@@ -1,0 +1,76 @@
+{
+  "created_utc": "2026-10-21T02:24:00.192476+00:00",
+  "interface": "notebooks/task_a_binary_distilbert_v2.ipynb",
+  "config": {
+    "experiment": "Task A binary jailbreak detection, fine-tuned DistilBERT (RQ1 comparison) on dataset v2",
+    "base_config": "configs/task_a_binary_tfidf_v2.json",
+    "note": "Dataset and seed come from base_config. Sized for an 8 GB GPU; runs on CPU but far slower.",
+    "model_name": "distilbert-base-uncased",
+    "max_length": 256,
+    "train_batch_size": 16,
+    "eval_batch_size": 64,
+    "learning_rate": 2e-05,
+    "weight_decay": 0.01,
+    "warmup_ratio": 0.1,
+    "max_epochs": 3,
+    "early_stopping_patience": 1,
+    "class_weight": "balanced",
+    "threshold": 0.5,
+    "output_dir": "results/task_a_binary_distilbert_v2"
+  },
+  "base_config": {
+    "experiment": "Task A binary jailbreak detection, TF-IDF + Logistic Regression baseline (RQ1) on dataset v2 (reviewed JailbreakHub label corrections)",
+    "dataset": "data/processed/binary_jailbreak_v2/combined.parquet",
+    "seed": 42,
+    "c_grid": [
+      0.1,
+      1.0,
+      10.0
+    ],
+    "threshold": 0.5,
+    "model": {
+      "ngram_range": [
+        1,
+        2
+      ],
+      "min_df": 2,
+      "class_weight": "balanced",
+      "max_iter": 1000
+    },
+    "output_dir": "results/task_a_binary_tfidf_v2"
+  },
+  "seed": 42,
+  "dataset_sha256": "f4852e888871b09477149852ecf500c3344171cf5fcd5bf65b9828dfe7ec24f2",
+  "score_type": "softmax P(adversarial), not calibrated",
+  "selected_epoch": 2,
+  "selected_validation_macro_f1": 0.9820718806305129,
+  "training_history": [
+    {
+      "epoch": 1,
+      "train_loss": 0.11811442597483361,
+      "validation_macro_f1": 0.9752817155035798
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.04969002034233646,
+      "validation_macro_f1": 0.9820718806305129
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.029151651854514574,
+      "validation_macro_f1": 0.9800452443111132
+    }
+  ],
+  "truncated_share": {
+    "train": 0.16916098940448426,
+    "validation": 0.16951062459755312,
+    "test_official": 0.07014492753623189,
+    "test_jailbreakhub": 0.44229440221147204
+  },
+  "label_provenance": "WildGuardMix adversarial flag; JailbreakHub labels with 174 reviewed (not human-verified) corrections and 13 ambiguous rows excluded; other JailbreakHub labels unreviewed.",
+  "versions": {
+    "python": "3.11.9",
+    "torch": "2.6.0+cu124",
+    "transformers": "5.3.0"
+  }
+}
