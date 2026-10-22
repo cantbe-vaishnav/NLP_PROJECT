@@ -3,8 +3,9 @@
 Labels: SUPPORTED, CONTRADICTED, UNSUPPORTED. All numbers come from saved runs under
 `outputs/task_b/` (Git-ignored; regenerate with the notebooks). Every cutoff was chosen on a
 validation sample drawn from FEVER `train.jsonl`; the test set (FEVER `shared_task_dev.jsonl`) was
-scored once per run. The NLI model (RoBERTa-MNLI) has not been run: its download is awaiting
-approval, so NLI results do not exist yet.
+scored once per run. NLI uses `FacebookAI/roberta-large-mnli` (commit `2a8f12d2`, MIT; weights
+checked against the published SHA-256), with evidence as premise and claim as hypothesis, labels
+read from the model config, and no tuned threshold.
 
 ## Data coverage
 
@@ -30,7 +31,12 @@ means "not supported", not "contradiction detected".
 | Lexical overlap | 0.6 (validation) | 0.575 | 0.574 | same |
 | Lexical cues (negation/number) | 0.5 (validation and fixed) | 0.602 | 0.593 | same |
 | MiniLM embedding similarity | 0.5 (fixed) | 0.557 | 0.523 | `embedding_nli/run_20261022T010937Z` |
-| MiniLM embedding similarity | 0.65 (validation) | 0.602 | **0.601** | same |
+| MiniLM embedding similarity | 0.65 (validation) | 0.602 | 0.601 | same |
+| **RoBERTa-MNLI (NLI)** | none | 0.814 | **0.811** | `embedding_nli/run_20261022T015303Z` |
+
+The embedding rows of that NLI run reproduce the earlier embedding run exactly. NLI per class:
+SUPPORTED precision 0.937 / recall 0.674, not-supported precision 0.746 / recall 0.955; 2,147 of the
+13,202 predictions were raw UNSUPPORTED (counted as not-supported here). Mean latency 341 ms per claim.
 
 ## 2. Three-class evaluation (19,754 claims)
 
@@ -40,8 +46,13 @@ means "not supported", not "contradiction detected".
 | Lexical overlap | 0.6 | 0.405 | 0.324 | 0.502 | 0.000 | 0.470 |
 | Lexical cues | 0.5 | 0.429 | **0.390** | 0.524 | 0.245 | 0.401 |
 | MiniLM embedding similarity | 0.65 | 0.411 | 0.329 | 0.498 | 0.000 | 0.490 |
+| **RoBERTa-MNLI (NLI)** | none | 0.704 | **0.699** | 0.738 | 0.776 | 0.583 |
 
-Run: `outputs/task_b/fever_three_class/run_20261022T010325Z`.
+Runs: `outputs/task_b/fever_three_class/run_20261022T010325Z` (baselines) and
+`run_20261022T030846Z` (same baselines reproduced exactly, plus NLI; mean NLI latency 25 ms per claim).
+NLI precision / recall: SUPPORTED 0.816 / 0.674, CONTRADICTED 0.686 / 0.891, UNSUPPORTED 0.625 / 0.546.
+Its main error is calling UNSUPPORTED claims CONTRADICTED (2,266 of 6,552) and SUPPORTED claims
+UNSUPPORTED (1,727 of 6,597).
 
 Three-class results are **not comparable** with the two-class diagnostic and must be reported
 separately.
@@ -54,8 +65,11 @@ separately.
   is 0. Only the negation/number cue baseline finds some contradictions (recall 0.149).
 - **Validation-chosen cutoffs help in the two-class diagnostic** (embedding 0.523 → 0.601), mostly
   by calling more claims "not supported", not by detecting contradictions.
-- The baselines are weak (0.39 three-class macro-F1), which is the expected motivation for the
-  NLI verifier (RQ5).
+- **NLI clearly beats similarity and lexical baselines** on identical claims: 0.811 vs 0.601
+  (two-class) and 0.699 vs 0.390 (three-class), because it is trained to separate entailment from
+  contradiction. It is far slower (25–341 ms vs under 1 ms per claim).
+- The three-class NLI result depends on unreviewed retrieved NEI evidence; its UNSUPPORTED scores
+  in particular are only as valid as that evidence.
 
 ## The NOT ENOUGH INFO evidence policy and its limits
 
@@ -79,7 +93,6 @@ no matching page are excluded and counted; empty evidence is never used.
 
 | Item | Status |
 |---|---|
-| NLI (RoBERTa-MNLI) on the same claims, two- and three-class | Code ready in both notebooks; needs model download approval (about 1.43 GB, MIT). |
 | Human review of retrieved NEI evidence | Review sheet generated; needs reviewers. |
 | RQ4 atomic claims vs sentences | Workflow, loader, validation and notebook ready; needs an independently reviewed paired dataset (`data/annotations/task_b_reviewed_pairs.jsonl`). No results exist. |
 | RQ6 difficult subsets | Not started; needs the custom annotated set. |

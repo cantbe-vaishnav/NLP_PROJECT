@@ -72,9 +72,10 @@ def nli_predictor(tokenizer, model, torch_module):
     model.eval()
 
     def predict(record: ClaimEvidence) -> str:
+        # Premise = evidence sentence, hypothesis = claim; inputs go to the model's device (CPU or GPU).
         pairs = tokenizer([item.text for item in record.evidence],
                           [record.claim] * len(record.evidence),
-                          return_tensors="pt", padding=True, truncation=True)
+                          return_tensors="pt", padding=True, truncation=True).to(model.device)
         with torch_module.no_grad():
             scores = model(**pairs).logits.softmax(dim=-1).tolist()
         best_label, best_score = "UNSUPPORTED", -1.0
