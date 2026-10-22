@@ -27,14 +27,14 @@ counted separately and excluded. No NEI evidence policy is implied here. Origina
 raw files are never changed. The prepared JSONL retains source file, line, FEVER
 ID, source label, all original references, selected group, and resolved text.
 
-Run in this order from the repository root in VS Code:
+Run in this order in VS Code (the notebooks find the project root themselves):
 
 1. `notebooks/task_b_fever_baselines.ipynb`
-2. Put complete local snapshots of `sentence-transformers/all-MiniLM-L6-v2`
-   and `FacebookAI/roberta-large-mnli` at
-   `models/task_b/all-MiniLM-L6-v2/` and
-   `models/task_b/roberta-large-mnli/`, then run
-   `notebooks/task_b_embedding_nli.ipynb`.
+2. `notebooks/task_b_embedding_nli.ipynb`. MiniLM is read from
+   `models/task_b/all-MiniLM-L6-v2/` if present, otherwise from the existing Hugging Face
+   cache (`local_files_only`, never downloaded). The NLI step runs only if a complete
+   `FacebookAI/roberta-large-mnli` snapshot exists at `models/task_b/roberta-large-mnli/`;
+   otherwise it is skipped and says so.
 3. After an independently reviewed paired custom set exists at
    `data/annotations/task_b_reviewed_pairs.jsonl`, run
    `notebooks/task_b_atomic_vs_sentence.ipynb`.
@@ -60,6 +60,51 @@ aggregation rule, not an established published method. Truncation can discard
 important text. Results under `outputs/task_b/` contain separate configs,
 predictions, scores, latency and confusion matrices. FEVER and custom results
 are never pooled.
+
+## Validation split, thresholds and run folders
+
+- **Test:** resolved SUPPORTS/REFUTES claims of `shared_task_dev.jsonl`. Scored once per run.
+- **Validation:** `write_validation_sample` draws a seeded (42), balanced sample of 2,000
+  SUPPORTS and 2,000 REFUTES claims from `train.jsonl`, skipping any claim whose text (case and
+  spacing ignored) also occurs in the dev file, then resolves its evidence the same way. It is
+  balanced because the test claims are balanced. Its manifest is saved with the prepared data.
+- **Thresholds:** the lexical-overlap, lexical-cue and embedding-cosine cutoffs are chosen by
+  validation macro-F1 on the same two-class diagnostic (`choose_threshold`, ties to the lower
+  cutoff). Each method is also reported at the original fixed 0.5 cutoff for comparison.
+  The majority prior uses only training labels.
+- **Runs:** every notebook run writes to a new `run_<UTC timestamp>/` folder and `save_run`
+  refuses to overwrite an existing folder. Prepared records are rebuilt deterministically
+  under `outputs/task_b/fever_prepared/` (`test/` and `validation_seed42_n2000/`).
+
+## Coverage, smoke mode and the earlier 20-claim pilots
+
+- **Pilot diagnostics only:** the embedding and NLI runs reported in
+  `task_b_handoff_2026-10-22.md` covered 20 claims each. They are pilot diagnostics, not model
+  evaluations, and must not be compared with the 13,202-claim baselines. Their artifacts were
+  never committed, and no committed version of any notebook or module contains a 20-claim limit
+  (the notebooks were added once, in `cb6c6a1`), so the cause of the limit cannot be established
+  from the repository.
+- **Full evaluation path:** `task_b_embedding_nli.ipynb` scores every resolved record in each
+  split. It checks that its test claims are exactly those of the latest baseline run, prints a
+  coverage table (eligible, processed, skipped, failed per split and model), stops if any claim
+  fails to score, and saves the coverage in each run's `config.json`.
+- **Smoke mode:** set `SMOKE_TEST = True` in the first cell to score only the first
+  `SMOKE_LIMIT` (20) claims per split. Smoke runs are written to `smoke_run_<timestamp>/`
+  folders and labelled "smoke test (not an evaluation)"; never report them.
+
+## Known limitations of the FEVER diagnostic
+
+- **Not three-class.** NOT ENOUGH INFO claims have no gold evidence and are excluded from the
+  two-class diagnostic, so it has no UNSUPPORTED gold label. The separate three-class evaluation
+  (`notebooks/task_b_fever_three_class.ipynb`, `retrieve_nei_evidence` in `fever.py`) gives NEI
+  claims retrieved, unreviewed evidence; its policy, shortcut check and results are in
+  [task_b_results.md](task_b_results.md).
+- **Gold evidence is given,** so retrieval is not tested.
+- **Evidence text is verbatim FEVER text,** which keeps Penn Treebank tokens such as `-LRB-`,
+  `-RRB-` and doubled backquotes (about 30% of sentences in a 3,000-page sample). Claims are
+  plain text. Whether to map these tokens back to brackets and quotes is an open decision.
+- **Train and dev claims may cite the same Wikipedia pages;** only exact claim-text overlap is
+  excluded. Validation is used solely for choosing cutoffs, never for fitting models.
 
 ## Independently reviewed custom set
 

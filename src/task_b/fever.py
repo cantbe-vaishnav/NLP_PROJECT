@@ -5,6 +5,7 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass
 import json
 from pathlib import Path
+import re
 from typing import Any
 
 from .schema import ClaimEvidence, parse_claim_evidence
@@ -24,6 +25,7 @@ class FeverRecord:
     raw_evidence: list[Any]
     selected_group: int
     raw_id: int | str
+    evidence_source: str = "gold"  # "gold" FEVER evidence, or "retrieved" for NOT ENOUGH INFO claims
 
     def to_dict(self) -> dict[str, Any]:
         claim = asdict(self.claim)
@@ -38,6 +40,7 @@ class FeverRecord:
             "source_file": self.source_file, "wiki_dir": self.wiki_dir,
             "source_line": self.source_line, "raw_evidence": self.raw_evidence,
             "selected_group": self.selected_group, "raw_id": self.raw_id,
+            "evidence_source": self.evidence_source,
         }
 
 
@@ -189,14 +192,166 @@ def write_prepared(records: list[FeverRecord], report: dict[str, Any], output_di
         json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
 
 
-def load_source_prior(path: str | Path) -> list[str]:
+def claim_key(text: str) -> str:
+    """Case- and whitespace-insensitive claim text, used to keep validation and evaluation disjoint."""
+    return " ".join(text.casefold().split())
+
+
+def write_validation_sample(train_path: str | Path, output_path: str | Path, per_label: int,
+                            seed: int, exclude_claims: set[str], include_nei: bool = False) -> dict[str, Any]:
+    """Sample SUPPORTS/REFUTES (and optionally NOT ENOUGH INFO) training rows, unchanged, for threshold selection.
+
+    Rows whose claim text matches an evaluation claim (after claim_key) are skipped.
+    Returns a manifest with the seed, counts and source so the sample can be rebuilt.
+    """
+    import random
+    wanted = [*GOLD_LABELS, *(["NOT ENOUGH INFO"] if include_nei else [])]
+    by_label: dict[str, list[str]] = {label: [] for label in wanted}
+    overlapping = 0
+    for number, row, error in _read_jsonl(Path(train_path)):
+        if error or not isinstance(row, dict) or row.get("label") not in wanted:
+            continue
+        if claim_key(str(row.get("claim", ""))) in exclude_claims:
+            overlapping += 1
+            continue
+        by_label[row["label"]].append(json.dumps(row, ensure_ascii=False))
+    rng = random.Random(seed)
+    chosen = []
+    for label, rows in by_label.items():
+        if len(rows) < per_label:
+            raise ValueError(f"only {len(rows)} {label} rows available for {per_label} requested")
+        chosen.extend(rng.sample(rows, per_label))
+    output_path = Path(output_path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text("\n".join(chosen) + "\n", encoding="utf-8")
+    return {"source_file": str(train_path), "seed": seed, "per_label": per_label, "labels": wanted,
+            "rows": len(chosen), "skipped_overlapping_with_evaluation": overlapping}
+
+
+def load_source_prior(path: str | Path, include_nei: bool = False) -> list[str]:
     """Read only source labels from an explicitly separate training/development file."""
+    mapping = {**GOLD_LABELS, **({"NOT ENOUGH INFO": "UNSUPPORTED"} if include_nei else {})}
     labels = []
     for number, row, error in _read_jsonl(Path(path)):
         if error or not isinstance(row, dict):
             raise ValueError(f"invalid prior source at line {number}: {error}")
-        if row.get("label") in GOLD_LABELS:
-            labels.append(GOLD_LABELS[row["label"]])
+        if row.get("label") in mapping:
+            labels.append(mapping[row["label"]])
     if not labels:
         raise ValueError("prior file has no SUPPORTS/REFUTES rows")
     return labels
+
+
+# --- Evidence for NOT ENOUGH INFO claims (three-class evaluation) -------------------------------------
+# FEVER annotators judged NEI claims unverifiable from Wikipedia, so their label maps to UNSUPPORTED.
+# They have no gold evidence; giving them none would let a model learn "empty evidence = UNSUPPORTED".
+# Policy: find Wikipedia pages whose title matches a capitalised phrase in the claim (FEVER-style
+# document retrieval by title), then keep the sentence(s) from those pages that share the most words
+# with the claim. Claims with no matching page are excluded and counted, never given placeholder text.
+
+_WORD = re.compile(r"\w+", re.UNICODE)
+_PTB = {"-LRB-": "(", "-RRB-": ")", "-LSB-": "[", "-RSB-": "]", "-LCB-": "{", "-RCB-": "}", "-COLON-": ":"}
+STOPWORDS = {"a", "an", "the", "of", "in", "on", "at", "to", "for", "by", "and", "or", "is", "was", "are",
+             "were", "be", "been", "has", "had", "have", "it", "its", "as", "with", "from", "that", "this"}
+
+
+def title_key(page_id: str) -> str:
+    """Page id -> lowercase words without the disambiguation, e.g. 'Gladiator_-LRB-2000_film-RRB-' -> 'gladiator'."""
+    title = page_id.replace("_", " ")
+    for token, char in _PTB.items():
+        title = title.replace(token, char)
+    title = re.sub(r"\s*\([^)]*\)\s*$", "", title)
+    return " ".join(_WORD.findall(title.casefold()))
+
+
+def claim_phrases(claim: str, max_words: int = 10) -> list[str]:
+    """Word n-grams that start with a capitalised word and are not only stopwords (longest first)."""
+    words = _WORD.findall(claim)
+    phrases = set()
+    for start, word in enumerate(words):
+        if not word[:1].isupper():
+            continue
+        for end in range(start + 1, min(start + max_words, len(words)) + 1):
+            phrase = [w.casefold() for w in words[start:end]]
+            if not all(w in STOPWORDS for w in phrase):
+                phrases.add(" ".join(phrase))
+    return sorted(phrases, key=lambda p: (-len(p.split()), p))
+
+
+def _sentences(lines: str) -> list[tuple[int, str]]:
+    found = []
+    for line in lines.splitlines():
+        parts = line.split("\t", 2)
+        if len(parts) >= 2 and parts[0].isdigit() and parts[1].strip():
+            found.append((int(parts[0]), parts[1]))
+    return found
+
+
+def retrieve_nei_evidence(claims_path: str | Path, wiki_dir: str | Path, sentences_per_claim: int = 1,
+                          max_pages: int = 3) -> tuple[list[FeverRecord], dict[str, Any]]:
+    """Retrieved evidence for every NOT ENOUGH INFO claim in a FEVER JSONL file (two Wikipedia scans)."""
+    claims_path, wiki_dir = Path(claims_path), Path(wiki_dir)
+    files = sorted(wiki_dir.glob("*.jsonl"))
+    if not files:
+        raise FileNotFoundError(f"No wiki-pages JSONL files in {wiki_dir}")
+    claims = []
+    for number, row, error in _read_jsonl(claims_path):
+        if not error and isinstance(row, dict) and row.get("label") == "NOT ENOUGH INFO" \
+                and isinstance(row.get("claim"), str) and row["claim"].strip():
+            claims.append((number, row, claim_phrases(row["claim"])))
+    wanted = {phrase for _, _, phrases in claims for phrase in phrases}
+    # Scan 1: which pages match a wanted phrase (ids only, to keep memory small).
+    pages_by_key: dict[str, list[str]] = {}
+    for path in files:
+        for _, page, error in _read_jsonl(path):
+            if error or not isinstance(page, dict) or not isinstance(page.get("id"), str) or not page["id"]:
+                continue
+            key = title_key(page["id"])
+            if key in wanted:
+                pages_by_key.setdefault(key, []).append(page["id"])
+    # Choose pages per claim: the longest matching phrase first; an undisambiguated title before others.
+    chosen: dict[int, list[str]] = {}
+    for index, (_, row, phrases) in enumerate(claims):
+        picked: list[str] = []
+        for phrase in phrases:
+            candidates = sorted(pages_by_key.get(phrase, []), key=lambda pid: ("-LRB-" in pid, pid))
+            for page_id in candidates:
+                if page_id not in picked and len(picked) < max_pages:
+                    picked.append(page_id)
+            if len(picked) >= max_pages:
+                break
+        if picked:
+            chosen[index] = picked
+    # Scan 2: sentences of the chosen pages only.
+    needed = {page_id for pages in chosen.values() for page_id in pages}
+    page_sentences: dict[str, list[tuple[int, str]]] = {}
+    for path in files:
+        for _, page, error in _read_jsonl(path):
+            if not error and isinstance(page, dict) and page.get("id") in needed and isinstance(page.get("lines"), str):
+                page_sentences[page["id"]] = _sentences(page["lines"])
+    records, no_page, no_sentence = [], 0, 0
+    for index, (number, row, _) in enumerate(claims):
+        if index not in chosen:
+            no_page += 1
+            continue
+        content = set(_WORD.findall(row["claim"].casefold())) - STOPWORDS
+        # Most shared content words first; ties go to the earlier-chosen page, then its earlier sentence.
+        ranked = sorted(((len(content & set(_WORD.findall(text.casefold()))), rank, sid, page_id, text)
+                         for rank, page_id in enumerate(chosen[index])
+                         for sid, text in page_sentences.get(page_id, [])),
+                        key=lambda item: (-item[0], item[1], item[2]))
+        if not ranked:
+            no_sentence += 1
+            continue
+        selected = [(page_id, sid, text) for _, _, sid, page_id, text in ranked[:sentences_per_claim]]
+        claim = parse_claim_evidence({
+            "claim_id": str(row["id"]), "claim": row["claim"],
+            "evidence": [{"evidence_id": json.dumps([page_id, sid], ensure_ascii=False),
+                          "source_document_id": page_id, "text": text} for page_id, sid, text in selected]})
+        records.append(FeverRecord(claim, "UNSUPPORTED", "NOT ENOUGH INFO", str(claims_path), str(wiki_dir),
+                                   number, row.get("evidence", []), -1, row["id"], evidence_source="retrieved"))
+    report = {"source_file": str(claims_path), "nei_claims": len(claims), "retrieved": len(records),
+              "no_matching_page": no_page, "no_sentence_on_matched_pages": no_sentence,
+              "sentences_per_claim": sentences_per_claim, "max_pages": max_pages,
+              "policy": "title-matched pages, highest word-overlap sentence(s); unreviewed"}
+    return records, report

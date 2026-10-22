@@ -6,11 +6,12 @@ import tempfile
 import unittest
 
 from task_b.custom import load_reviewed_pairs
-from task_b.fever import load_source_prior, prepare_fever, write_prepared
-from task_b.models import nli_label_ids
+from task_b.fever import (claim_key, claim_phrases, load_source_prior, prepare_fever, retrieve_nei_evidence,
+                          title_key, write_prepared, write_validation_sample)
+from task_b.models import embedding_similarities, nli_label_ids
 from task_b.schema import parse_claim_evidence
-from task_b.verification import (evaluate, fever_binary_proxy, lexical_cues,
-                                 lexical_overlap, majority_prior)
+from task_b.verification import (choose_threshold, evaluate, fever_binary_proxy, lexical_cues,
+                                 lexical_overlap, majority_prior, overlap_score, save_run)
 
 
 class FeverTests(unittest.TestCase):
@@ -67,6 +68,84 @@ class FeverTests(unittest.TestCase):
         self.assertEqual(evaluate(["CONTRADICTED"], ["SUPPORTED"],
                                   ("SUPPORTED", "CONTRADICTED", "UNSUPPORTED"))
                          ["incorrect_supported"], 1)
+
+    def test_validation_sample_is_reproducible_and_disjoint(self):
+        with tempfile.TemporaryDirectory() as temp:
+            base = Path(temp)
+            rows = [{"id": i, "claim": f"Claim {i}", "label": label, "evidence": []}
+                    for i, label in enumerate(["SUPPORTS"] * 6 + ["REFUTES"] * 6 + ["NOT ENOUGH INFO"] * 3)]
+            (base / "train.jsonl").write_text("\n".join(json.dumps(row) for row in rows) + "\n")
+            excluded = {claim_key("  CLAIM 0 ")}
+            first = write_validation_sample(base / "train.jsonl", base / "a.jsonl", 2, 42, excluded)
+            write_validation_sample(base / "train.jsonl", base / "b.jsonl", 2, 42, excluded)
+            sample = [json.loads(line) for line in (base / "a.jsonl").read_text().splitlines()]
+            self.assertEqual((base / "a.jsonl").read_text(), (base / "b.jsonl").read_text())
+            self.assertEqual(sorted(row["label"] for row in sample), ["REFUTES"] * 2 + ["SUPPORTS"] * 2)
+            self.assertNotIn("Claim 0", [row["claim"] for row in sample])
+            self.assertEqual(first["skipped_overlapping_with_evaluation"], 1)
+            with self.assertRaises(ValueError):
+                write_validation_sample(base / "train.jsonl", base / "c.jsonl", 9, 42, set())
+
+    def test_threshold_choice_scores_and_no_overwrite(self):
+        record = parse_claim_evidence({"claim_id": "x", "claim": "Mars has two moons",
+                                       "evidence": [{"evidence_id": "e", "text": "Mars has moons"}]})
+        self.assertEqual(overlap_score(record), 0.75)
+        scores, gold = [0.2, 0.4, 0.6, 0.8], ["CONTRADICTED", "CONTRADICTED", "SUPPORTED", "SUPPORTED"]
+        best, search = choose_threshold(
+            gold, lambda t: ["SUPPORTED" if s >= t else "UNSUPPORTED" for s in scores], [0.3, 0.5, 0.7])
+        self.assertEqual(best, 0.5)
+        self.assertEqual(len(search), 3)
+        with self.assertRaises(ValueError):
+            choose_threshold(gold, lambda t: gold, [0.7, 0.3])
+
+        class FakeEncoder:  # unit vectors keyed by text, so cosines are known
+            vectors = {"c1": (1.0, 0.0), "c2": (0.0, 1.0), "e1": (1.0, 0.0), "e2": (0.6, 0.8), "e3": (0.0, 1.0)}
+            def encode(self, texts, batch_size, normalize_embeddings):
+                import numpy
+                return numpy.array([self.vectors[t] for t in texts])
+        records = [parse_claim_evidence({"claim_id": "1", "claim": "c1", "evidence": [
+                       {"evidence_id": "a", "text": "e2"}, {"evidence_id": "b", "text": "e1"}]}),
+                   parse_claim_evidence({"claim_id": "2", "claim": "c2", "evidence": [
+                       {"evidence_id": "a", "text": "e3"}]})]
+        self.assertEqual([round(s, 6) for s in embedding_similarities(FakeEncoder(), records)], [1.0, 1.0])
+        with tempfile.TemporaryDirectory() as temp:
+            save_run(Path(temp) / "run", {}, [], {})
+            with self.assertRaises(FileExistsError):
+                save_run(Path(temp) / "run", {}, [], {})
+
+    def test_nei_evidence_is_retrieved_never_empty(self):
+        self.assertEqual(title_key("Gladiator_-LRB-2000_film-RRB-"), "gladiator")
+        self.assertEqual(title_key("Guns_N'_Roses"), "guns n roses")
+        self.assertIn("mars rover", claim_phrases("The Mars Rover landed in 2004."))
+        self.assertNotIn("the", claim_phrases("The Mars Rover landed in 2004."))
+        with tempfile.TemporaryDirectory() as temp:
+            base = Path(temp)
+            wiki = base / "wiki-pages"
+            wiki.mkdir()
+            pages = [{"id": "Mars", "lines": "0\tMars is the fourth planet.\n1\tMars has two moons named Phobos and Deimos.\n"},
+                     {"id": "Mars_-LRB-band-RRB-", "lines": "0\tMars is a band.\n"},
+                     {"id": "Venus", "lines": "0\tVenus is hot.\n"}]
+            (wiki / "wiki-001.jsonl").write_text("\n".join(json.dumps(p) for p in pages) + "\n")
+            claims = [{"id": 7, "claim": "Mars has a moon called Phobos.", "label": "NOT ENOUGH INFO", "evidence": [[[1, 2, None, None]]]},
+                      {"id": 8, "claim": "nobody knows this.", "label": "NOT ENOUGH INFO", "evidence": [[[1, 3, None, None]]]},
+                      {"id": 9, "claim": "Mars is red.", "label": "SUPPORTS", "evidence": [[[1, 4, "Mars", 0]]]}]
+            path = base / "claims.jsonl"
+            path.write_text("\n".join(json.dumps(c) for c in claims) + "\n")
+            records, report = retrieve_nei_evidence(path, wiki)
+            self.assertEqual((report["nei_claims"], report["retrieved"], report["no_matching_page"]), (2, 1, 1))
+            record = records[0]
+            self.assertEqual((record.gold_label, record.evidence_source, record.selected_group), ("UNSUPPORTED", "retrieved", -1))
+            self.assertEqual(record.claim.evidence[0].source_document_id, "Mars")  # undisambiguated page first
+            self.assertEqual(record.claim.evidence[0].text, "Mars has two moons named Phobos and Deimos.")
+            self.assertEqual(record.to_dict()["evidence_source"], "retrieved")
+            self.assertEqual(load_source_prior(path, include_nei=True), ["UNSUPPORTED", "UNSUPPORTED", "SUPPORTED"])
+
+    def test_three_class_threshold_scores_unsupported_as_itself(self):
+        gold = ["SUPPORTED", "UNSUPPORTED", "UNSUPPORTED"]
+        scores = [0.9, 0.4, 0.2]
+        best, _ = choose_threshold(gold, lambda t: ["SUPPORTED" if s >= t else "UNSUPPORTED" for s in scores],
+                                   [0.3, 0.5], labels=("SUPPORTED", "CONTRADICTED", "UNSUPPORTED"))
+        self.assertEqual(best, 0.5)
 
     def test_nli_ids_use_config_names(self):
         class Config:

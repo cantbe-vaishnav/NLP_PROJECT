@@ -28,16 +28,21 @@ def majority_prior(training_labels: list[str]) -> str:
     return max(LABELS, key=lambda label: counts[label])
 
 
+def overlap_score(record: ClaimEvidence) -> float:
+    """Largest share of claim tokens found in one evidence sentence (0 for an empty claim)."""
+    claim_tokens = tokens(record.claim)
+    if not claim_tokens:
+        return 0.0
+    return max(len(claim_tokens & tokens(item.text)) / len(claim_tokens) for item in record.evidence)
+
+
 def lexical_overlap(record: ClaimEvidence, threshold: float = 0.5) -> str:
     """Only SUPPORTED/UNSUPPORTED; cannot identify contradictions."""
     if not 0 <= threshold <= 1:
         raise ValueError("threshold must be between 0 and 1")
-    claim_tokens = tokens(record.claim)
-    if not claim_tokens:
+    if not tokens(record.claim):
         return "UNSUPPORTED"
-    score = max(len(claim_tokens & tokens(item.text)) / len(claim_tokens)
-                for item in record.evidence)
-    return "SUPPORTED" if score >= threshold else "UNSUPPORTED"
+    return "SUPPORTED" if overlap_score(record) >= threshold else "UNSUPPORTED"
 
 
 def lexical_cues(record: ClaimEvidence, threshold: float = 0.5) -> str:
@@ -110,9 +115,29 @@ def fever_binary_proxy(label: str) -> str:
     return "SUPPORTED" if label == "SUPPORTED" else "CONTRADICTED"
 
 
+def choose_threshold(gold: list[str], predict_at: Callable[[float], list[str]],
+                     grid: list[float], labels: tuple[str, ...] = ("SUPPORTED", "CONTRADICTED")) -> tuple[float, list[dict]]:
+    """Pick the cutoff with the best validation macro-F1.
+
+    With the default two labels this scores the FEVER binary diagnostic (UNSUPPORTED counted as
+    not-supported); with all three LABELS, predictions are scored as they are. Use validation
+    records only. Ties keep the earlier (lower) grid value.
+    """
+    if not grid or sorted(grid) != list(grid):
+        raise ValueError("grid must be non-empty and ascending")
+    binary = tuple(labels) == ("SUPPORTED", "CONTRADICTED")
+    search = []
+    for threshold in grid:
+        predicted = [fever_binary_proxy(label) if binary else label for label in predict_at(threshold)]
+        search.append({"threshold": threshold, "validation_macro_f1": evaluate(gold, predicted, labels)["macro_f1"]})
+    best = max(search, key=lambda row: row["validation_macro_f1"])  # max() keeps the first of equal values
+    return best["threshold"], search
+
+
 def save_run(output_dir: str | Path, config: dict, predictions: list[dict], results: dict) -> None:
+    """Write one run to a new directory; an existing run is never overwritten."""
     directory = Path(output_dir)
-    directory.mkdir(parents=True, exist_ok=True)
+    directory.mkdir(parents=True, exist_ok=False)
     for name, data in (("config.json", config), ("results.json", results)):
         (directory / name).write_text(json.dumps(data, indent=2), encoding="utf-8")
     with (directory / "predictions.jsonl").open("w", encoding="utf-8") as handle:

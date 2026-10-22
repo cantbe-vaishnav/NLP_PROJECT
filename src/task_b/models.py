@@ -40,6 +40,20 @@ def embedding_predictor(model, threshold: float = 0.5):
     return predict
 
 
+def embedding_similarities(model, records: list[ClaimEvidence], batch_size: int = 64) -> list[float]:
+    """Largest claim-evidence cosine per record, encoding all texts once in batches."""
+    claims = model.encode([record.claim for record in records], batch_size=batch_size,
+                          normalize_embeddings=True)
+    evidence_texts = [item.text for record in records for item in record.evidence]
+    evidence = model.encode(evidence_texts, batch_size=batch_size, normalize_embeddings=True)
+    scores, start = [], 0
+    for claim, record in zip(claims, records):
+        end = start + len(record.evidence)
+        scores.append(max(float(claim @ vector) for vector in evidence[start:end]))
+        start = end
+    return scores
+
+
 def nli_label_ids(config) -> dict[str, int]:
     """Read model labels by name; never rely on classifier head order."""
     names = {str(name).lower(): int(index) for index, name in config.id2label.items()}
