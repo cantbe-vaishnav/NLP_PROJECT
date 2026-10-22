@@ -1,0 +1,29 @@
+{
+  "experiment": "Task B first baselines on FEVER-style claim/evidence pairs: majority, claim-only TF-IDF, claim-evidence embedding similarity",
+  "data_dir": "data/processed/task_b_fever",
+  "files": {
+    "train": "train.jsonl",
+    "validation": "validation.jsonl",
+    "test": "test.jsonl"
+  },
+  "labels": [
+    "SUPPORTED",
+    "CONTRADICTED",
+    "UNSUPPORTED"
+  ],
+  "seed": 42,
+  "tfidf": {
+    "ngram_range": [
+      1,
+      2
+    ],
+    "min_df": 2
+  },
+  "c_grid": [
+    0.1,
+    1.0,
+    10.0
+  ],
+  "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+  "output_dir": "results/task_b_fever_baselines"
+}
