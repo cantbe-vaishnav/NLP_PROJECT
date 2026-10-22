@@ -41,3 +41,5 @@ results/error_analysis/task_a_v2_*/
 # Proposed label-review tables carry gold labels and model scores per example.
 results/label_review/*/proposed_review.csv
 results/task_b_*/**/predictions.csv
+# RQ2 hard-negative predictions carry labels and per-example scores.
+results/task_a_rq2_hard_negatives/**/predictions.csv

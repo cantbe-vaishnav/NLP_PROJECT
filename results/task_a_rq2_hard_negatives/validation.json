@@ -1,0 +1,79 @@
+{
+  "rows": 659,
+  "by_component_label": {
+    "notinject|0": 339,
+    "synthetic_v1|0": 240,
+    "synthetic_v1|1": 80
+  },
+  "synthetic_by_category_label": {
+    "CLS|0": 30,
+    "CLS|1": 10,
+    "DOC|0": 30,
+    "DOC|1": 10,
+    "EDU|0": 30,
+    "EDU|1": 10,
+    "META|0": 30,
+    "META|1": 10,
+    "MIT|0": 30,
+    "MIT|1": 10,
+    "POL|0": 30,
+    "POL|1": 10,
+    "ROL|0": 30,
+    "ROL|1": 10,
+    "SEC|0": 30,
+    "SEC|1": 10
+  },
+  "synthetic_structures": 172,
+  "notinject_by_category": {
+    "NotInject Common Queries": 126,
+    "NotInject Technique Queries": 87,
+    "NotInject Multilingual": 84,
+    "NotInject Virtual Creation": 42
+  },
+  "multilingual_rows": 84,
+  "strong_cue_share_by_component_label": {
+    "notinject|0": 0.065,
+    "synthetic_v1|0": 0.417,
+    "synthetic_v1|1": 0.537
+  },
+  "exact_overlap_with_dataset_v2": [],
+  "rows_with_max_similarity_ge_0.8": {
+    "train": 0,
+    "validation": 0,
+    "test_official": 0,
+    "test_jailbreakhub": 0
+  },
+  "closest_train_similarity_quantiles": {
+    "notinject|0": [
+      0.0,
+      0.157,
+      0.276
+    ],
+    "synthetic_v1|0": [
+      0.112,
+      0.161,
+      0.247
+    ],
+    "synthetic_v1|1": [
+      0.107,
+      0.141,
+      0.2
+    ]
+  },
+  "within_component": {
+    "notinject": {
+      "near_duplicate_pairs": [],
+      "designed_pairs_over_threshold": [],
+      "max_within_similarity_median": 0.141
+    },
+    "synthetic_v1": {
+      "near_duplicate_pairs": [],
+      "designed_pairs_over_threshold": [],
+      "max_within_similarity_median": 0.113
+    }
+  },
+  "text_length_chars_median": {
+    "notinject": 90,
+    "synthetic_v1": 187
+  }
+}

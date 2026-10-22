@@ -1,0 +1,42 @@
+{
+  "created_utc": "2026-10-22T15:58:31.690256+00:00",
+  "builder": "scripts/build_hard_negative_set.py",
+  "categories": {
+    "EDU": "Educational explanations of jailbreaks and prompt injection",
+    "SEC": "Cybersecurity research and threat analysis",
+    "CLS": "Quoting or classifying malicious prompts for defensive purposes",
+    "POL": "Safety-policy and AI-governance discussion",
+    "MIT": "Requests to detect, test or mitigate attacks",
+    "DOC": "Benign documentation containing suspicious phrases",
+    "ROL": "Role-play and personas without any rule override",
+    "META": "Transparent questions about the assistant's own rules"
+  },
+  "random_seed": "none used (no sampling); dataset v2 seed 42 unchanged",
+  "sources_sha256": {
+    "CLS.txt": "7348e25ddb5ef81880638287de1637c8a585d07f21f7b9afdf3428a9157d880b",
+    "CLS_scale.txt": "a8fcee0cf8d215b1971343f126203f73c9fb2556d45b2eee8426688a2cad2f44",
+    "DOC.txt": "15514b4c13a4af06b0b05468384cbaa5b94799a61e2820826a23e8e2cab4b817",
+    "DOC_scale.txt": "0d6d7930472376270386f613d64eeb6903476395e504b6e85fcde745425d701e",
+    "EDU.txt": "b56df45e224b50653060be22bbd0974edc197c6a7fe408e7e9244fa7ab3661ee",
+    "EDU_scale.txt": "13a4aab43edc96bc7d7668f6eb30f14bdea50055f9153277e434f23a32a3c40e",
+    "META.txt": "67116fb2ac8aecb271feceac754c9fe2068056577367c6db406de1e6fb93c4fd",
+    "META_scale.txt": "5c4a3014c3079f2cd07a822ed01c89736ed57fda61bcc0a49b13b75113a27045",
+    "MIT.txt": "58582f735040e52a23114ee42cbfa3b5cb3e5ebec10d30cdbf1d9b33ab91e68e",
+    "MIT_scale.txt": "f62cfebe7f4d1c02ba76e8d84ced087b24a8a771b1058adfa8448c3ed4c5250d",
+    "POL.txt": "c62ede871da92b6197431083390426fcebb1883f00a0db99c849e826990be73a",
+    "POL_scale.txt": "1933601fccadaf9aad9f9e0083d721f795fda513e5d696c6ca59a7f22ef58c49",
+    "ROL.txt": "6b728b9fb70371288944301c987c8c134f63749d22ae3c4598f5dffd2f42d4c7",
+    "ROL_scale.txt": "e9967ce0627ec6cca75b78abc410a379ff0cd2338b7d21fd383a2526bd9de2c3",
+    "SEC.txt": "05097adf8b798e7393232c355d8c6c6c6f179f1ea97ff5090a82ec5ed11ca829",
+    "SEC_scale.txt": "6f987910401d6cd7e25ea1f8560be57b83e72379d78fad6751c10548ea3dc30f"
+  },
+  "notinject_revision": "847ae76cf8fea5ed325429e569ae8cfef022d2e0",
+  "notinject_sha256": {
+    "NotInject_one.parquet": "5b1d3a8ec341205305efd8c6d2cabeb5ba0f594dd8726b08ee7fde1a46ddc6ec",
+    "NotInject_three.parquet": "d5c685b123570c092a0f374ba6bdf324b2026d905a2751a243eb2bb360d411a8",
+    "NotInject_two.parquet": "a5a8c1b3b851b0b5acc3b6caf8bfee26d7da631b2967dd31ca90358df8883feb"
+  },
+  "dataset_v2_sha256": "f4852e888871b09477149852ecf500c3344171cf5fcd5bf65b9828dfe7ec24f2",
+  "output": "data/processed/task_a_hard_negatives_v1/hard_negatives.parquet",
+  "output_sha256": "82509d62d56a9ccf3de9d963d424d737086fc77774bd49d10d5f1b4b0543ed59"
+}
