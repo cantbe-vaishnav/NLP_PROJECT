@@ -1,0 +1,86 @@
+{
+  "selected_C": 10.0,
+  "c_search": [
+    {
+      "C": 0.1,
+      "validation_macro_f1": 0.9593365015912532
+    },
+    {
+      "C": 1.0,
+      "validation_macro_f1": 0.9717706146621874
+    },
+    {
+      "C": 10.0,
+      "validation_macro_f1": 0.9794591275499147
+    }
+  ],
+  "created_utc": "2026-10-22T23:02:45.666462+00:00",
+  "script": "scripts/run_rq3_experiment.py",
+  "experiment": "A",
+  "model": "logreg",
+  "dataset_sha256": "f4852e888871b09477149852ecf500c3344171cf5fcd5bf65b9828dfe7ec24f2",
+  "seed": 42,
+  "configs": {
+    "base": {
+      "experiment": "Task A binary jailbreak detection, TF-IDF + Logistic Regression baseline (RQ1) on dataset v2 (reviewed JailbreakHub label corrections)",
+      "dataset": "data/processed/binary_jailbreak_v2/combined.parquet",
+      "seed": 42,
+      "c_grid": [
+        0.1,
+        1.0,
+        10.0
+      ],
+      "threshold": 0.5,
+      "model": {
+        "ngram_range": [
+          1,
+          2
+        ],
+        "min_df": 2,
+        "class_weight": "balanced",
+        "max_iter": 1000
+      },
+      "output_dir": "results/task_a_binary_tfidf_v2"
+    },
+    "svm": null,
+    "distilbert": null
+  },
+  "threshold": 0.5,
+  "split_counts": {
+    "train": {
+      "benign": 31873,
+      "adversarial": 20752
+    },
+    "validation": {
+      "benign": 3690,
+      "adversarial": 2324
+    },
+    "heldout_cyberattack_pool": {
+      "benign": 383,
+      "adversarial": 150
+    },
+    "heldout_cyberattack_official_test": {
+      "benign": 17,
+      "adversarial": 31
+    },
+    "official_test_without_cyberattack": {
+      "benign": 898,
+      "adversarial": 779
+    },
+    "test_jailbreakhub": {
+      "benign": 1306,
+      "adversarial": 141
+    },
+    "keyword_related_removed": {
+      "benign": 484,
+      "adversarial": 969
+    }
+  },
+  "family_closure_rows_removed": 44,
+  "train_ids_sha256": "552fadb57cb18b0ad17f2e2cccd89c4a1e2685e7131d4b73648e716adcf39aaa",
+  "validation_ids_sha256": "5d34bd9ae80fa570a3d7127870fc6303f304ff99f54019d4409a0c45909dc586",
+  "runtime_seconds": {
+    "train_and_select": 80.2,
+    "total": 83.5
+  }
+}

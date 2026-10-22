@@ -1,6 +1,6 @@
 # Task A status report
 
-Updated: 2026-10-22. Branch `task-a-binary-dataset` (pushed; not merged into `main`).
+Updated: 2026-10-23. Branch `task-a-binary-dataset` (pushed; not merged into `main`).
 
 ## Completed and measured (backed by saved evaluation outputs)
 
@@ -9,6 +9,8 @@ Updated: 2026-10-22. Branch `task-a-binary-dataset` (pushed; not merged into `ma
 - Error analysis and proxy slices ([task_a_error_analysis.md](task_a_error_analysis.md)).
 - RQ2 on a frozen hard-negative benchmark ([task_a_rq2_report.md](task_a_rq2_report.md)): measured FPR,
   precision/recall/F1, AUROC and per-category rates. Inference reproduces the saved RQ1 predictions exactly.
+- RQ3 held-out retraining, Experiments A (unseen harm topic `cyberattack`) and B (unseen source, no JailbreakHub),
+  three models each, one seed ([task_a_rq3_report.md](task_a_rq3_report.md)).
 
 ## Completed but not independently validated
 
@@ -21,19 +23,18 @@ Updated: 2026-10-22. Branch `task-a-binary-dataset` (pushed; not merged into `ma
 
 ## Partially completed
 
-- RQ3: similarity-bin proxy only. A held-out experiment is designed but not run
-  ([task_a_rq3_plan.md](task_a_rq3_plan.md)).
+- RQ3 covers topic and source generalisation only; attack-technique generalisation cannot be tested without
+  technique labels. Single seed; residual keyword-free topic leakage in Experiment A.
 
 ## Awaiting owner approval
 
-- RQ3 Experiments A (unseen harm category `cyberattack`) and B (unseen source); about 1–1.5 h of compute.
 - Optional: apply any of the 22 recommended label corrections as a dataset v3.
 - Optional: human review of the synthetic RQ2 items (CLS/ROL/META and the 80 attacks).
 
 ## Optional extensions (Phase 5, not started)
 
 - Repeated seeds. TF-IDF models are deterministic (liblinear), so seeds add nothing there. DistilBERT-256 with
-  3 extra seeds costs about 1 hour on the RTX 4060. That would put error bars on RQ1's small official-test
+  3 extra seeds costs about 1 hour for RQ1, plus about 1 hour for the two RQ3 experiments on the RTX 4060. That would put error bars on RQ1's small official-test
   differences (1–4 errors between models) and on the RQ3 degradation. Worth doing after RQ3 if time allows;
   not started without approval.
 

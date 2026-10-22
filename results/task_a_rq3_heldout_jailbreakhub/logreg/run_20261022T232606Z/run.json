@@ -1,0 +1,82 @@
+{
+  "selected_C": 10.0,
+  "c_search": [
+    {
+      "C": 0.1,
+      "validation_macro_f1": 0.9857033281303719
+    },
+    {
+      "C": 1.0,
+      "validation_macro_f1": 0.9913801018786229
+    },
+    {
+      "C": 10.0,
+      "validation_macro_f1": 0.995165123207413
+    }
+  ],
+  "created_utc": "2026-10-22T23:26:46.208344+00:00",
+  "script": "scripts/run_rq3_experiment.py",
+  "experiment": "B",
+  "model": "logreg",
+  "dataset_sha256": "f4852e888871b09477149852ecf500c3344171cf5fcd5bf65b9828dfe7ec24f2",
+  "seed": 42,
+  "configs": {
+    "base": {
+      "experiment": "Task A binary jailbreak detection, TF-IDF + Logistic Regression baseline (RQ1) on dataset v2 (reviewed JailbreakHub label corrections)",
+      "dataset": "data/processed/binary_jailbreak_v2/combined.parquet",
+      "seed": 42,
+      "c_grid": [
+        0.1,
+        1.0,
+        10.0
+      ],
+      "threshold": 0.5,
+      "model": {
+        "ngram_range": [
+          1,
+          2
+        ],
+        "min_df": 2,
+        "class_weight": "balanced",
+        "max_iter": 1000
+      },
+      "output_dir": "results/task_a_binary_tfidf_v2"
+    },
+    "svm": null,
+    "distilbert": null
+  },
+  "threshold": 0.5,
+  "split_counts": {
+    "train": {
+      "benign": 22272,
+      "adversarial": 20606
+    },
+    "validation": {
+      "benign": 2475,
+      "adversarial": 2290
+    },
+    "test_jailbreakhub": {
+      "benign": 1306,
+      "adversarial": 141
+    },
+    "test_jailbreakhub_jbh_rows_only": {
+      "benign": 1301,
+      "adversarial": 141
+    },
+    "all_jailbreakhub_rows": {
+      "benign": 12870,
+      "adversarial": 1466
+    },
+    "official_test": {
+      "benign": 915,
+      "adversarial": 810
+    }
+  },
+  "family_closure_rows_removed": 132,
+  "train_ids_sha256": "9a05117bda3e6481c3d35872e1dcd736d288577da2a99bd699225906c0f2790c",
+  "validation_ids_sha256": "4acbe007163a6dbb67cfcfcbfaf17ecabb10d3b9846c7a81e7bc32852d55fde3",
+  "runtime_seconds": {
+    "train_and_select": 36.6,
+    "total": 43.5
+  }
+}

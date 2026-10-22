@@ -1,0 +1,212 @@
+{
+  "validation": {
+    "n": 6014,
+    "confusion_matrix": {
+      "tn": 3640,
+      "fp": 50,
+      "fn": 67,
+      "tp": 2257
+    },
+    "per_class": {
+      "ADVERSARIAL": {
+        "precision": 0.9783268313827481,
+        "recall": 0.9711703958691911,
+        "f1": 0.9747354782984237,
+        "support": 2324
+      },
+      "BENIGN": {
+        "precision": 0.9819260857836526,
+        "recall": 0.986449864498645,
+        "f1": 0.9841827768014059,
+        "support": 3690
+      }
+    },
+    "macro_f1": 0.9794591275499147,
+    "accuracy": 0.9805453940804789,
+    "fpr": 0.013550135501355014,
+    "fnr": 0.02882960413080895,
+    "recall_ci95": [
+      0.9636,
+      0.9772
+    ],
+    "fpr_ci95": [
+      0.0103,
+      0.0178
+    ]
+  },
+  "heldout_cyberattack_pool": {
+    "n": 533,
+    "confusion_matrix": {
+      "tn": 363,
+      "fp": 20,
+      "fn": 0,
+      "tp": 150
+    },
+    "per_class": {
+      "ADVERSARIAL": {
+        "precision": 0.8823529411764706,
+        "recall": 1.0,
+        "f1": 0.9375,
+        "support": 150
+      },
+      "BENIGN": {
+        "precision": 1.0,
+        "recall": 0.9477806788511749,
+        "f1": 0.9731903485254692,
+        "support": 383
+      }
+    },
+    "macro_f1": 0.9553451742627346,
+    "accuracy": 0.9624765478424016,
+    "fpr": 0.05221932114882506,
+    "fnr": 0.0,
+    "recall_ci95": [
+      0.975,
+      1.0
+    ],
+    "fpr_ci95": [
+      0.0341,
+      0.0793
+    ]
+  },
+  "heldout_cyberattack_official_test": {
+    "n": 48,
+    "confusion_matrix": {
+      "tn": 17,
+      "fp": 0,
+      "fn": 0,
+      "tp": 31
+    },
+    "per_class": {
+      "ADVERSARIAL": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 31
+      },
+      "BENIGN": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 17
+      }
+    },
+    "macro_f1": 1.0,
+    "accuracy": 1.0,
+    "fpr": 0.0,
+    "fnr": 0.0,
+    "recall_ci95": [
+      0.8897,
+      1.0
+    ],
+    "fpr_ci95": [
+      0.0,
+      0.1843
+    ]
+  },
+  "official_test_without_cyberattack": {
+    "n": 1677,
+    "confusion_matrix": {
+      "tn": 889,
+      "fp": 9,
+      "fn": 3,
+      "tp": 776
+    },
+    "per_class": {
+      "ADVERSARIAL": {
+        "precision": 0.9885350318471338,
+        "recall": 0.9961489088575096,
+        "f1": 0.9923273657289001,
+        "support": 779
+      },
+      "BENIGN": {
+        "precision": 0.9966367713004485,
+        "recall": 0.9899777282850779,
+        "f1": 0.9932960893854749,
+        "support": 898
+      }
+    },
+    "macro_f1": 0.9928117275571875,
+    "accuracy": 0.9928443649373881,
+    "fpr": 0.01002227171492205,
+    "fnr": 0.0038510911424903724,
+    "recall_ci95": [
+      0.9887,
+      0.9987
+    ],
+    "fpr_ci95": [
+      0.0053,
+      0.0189
+    ]
+  },
+  "test_jailbreakhub": {
+    "n": 1447,
+    "confusion_matrix": {
+      "tn": 1245,
+      "fp": 61,
+      "fn": 48,
+      "tp": 93
+    },
+    "per_class": {
+      "ADVERSARIAL": {
+        "precision": 0.6038961038961039,
+        "recall": 0.6595744680851063,
+        "f1": 0.6305084745762711,
+        "support": 141
+      },
+      "BENIGN": {
+        "precision": 0.962877030162413,
+        "recall": 0.9532924961715161,
+        "f1": 0.9580607926125434,
+        "support": 1306
+      }
+    },
+    "macro_f1": 0.7942846335944073,
+    "accuracy": 0.9246717346233587,
+    "fpr": 0.04670750382848392,
+    "fnr": 0.3404255319148936,
+    "recall_ci95": [
+      0.5781,
+      0.7326
+    ],
+    "fpr_ci95": [
+      0.0365,
+      0.0595
+    ]
+  },
+  "keyword_related_removed": {
+    "n": 1453,
+    "confusion_matrix": {
+      "tn": 458,
+      "fp": 26,
+      "fn": 27,
+      "tp": 942
+    },
+    "per_class": {
+      "ADVERSARIAL": {
+        "precision": 0.9731404958677686,
+        "recall": 0.9721362229102167,
+        "f1": 0.9726381001548787,
+        "support": 969
+      },
+      "BENIGN": {
+        "precision": 0.9443298969072165,
+        "recall": 0.9462809917355371,
+        "f1": 0.9453044375644993,
+        "support": 484
+      }
+    },
+    "macro_f1": 0.958971268859689,
+    "accuracy": 0.9635237439779766,
+    "fpr": 0.05371900826446281,
+    "fnr": 0.02786377708978328,
+    "recall_ci95": [
+      0.9598,
+      0.9808
+    ],
+    "fpr_ci95": [
+      0.0369,
+      0.0775
+    ]
+  }
+}

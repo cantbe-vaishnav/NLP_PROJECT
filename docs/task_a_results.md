@@ -75,7 +75,7 @@ model names: `src/task_a/plotting.py`.
 |---|---|
 | RQ1 TF-IDF vs DistilBERT | Done (table above). |
 | RQ2 hard negatives | Measured on a frozen hard-negative benchmark ([task_a_rq2_report.md](task_a_rq2_report.md)): 240 synthetic LLM-authored benign prompts plus 80 matched attacks (labels not independently validated), and NotInject (339, external). Benign-discussion FPR is 4–6% overall but 17–33% when a full attack is quoted for classification; recall on the matched synthetic attacks is only 25–49%. The 66-prompt proxy slice is kept for comparison. |
-| RQ3 unseen formulations / categories | Partial: recall by similarity to the closest training prompt (fixed bins). An unseen-category split needs retraining with a held-out category (WildGuardMix has category metadata); not run, requires approval. |
+| RQ3 unseen formulations / categories | Measured as unseen harm *topic* and unseen *source*, not attack technique (no technique labels) ([task_a_rq3_report.md](task_a_rq3_report.md)). Held-out `cyberattack` topic: attack recall stays 1.000 for all models, but FPR on harmful direct requests rises to 5.2–5.5% (TF-IDF) and 24.5% (DistilBERT). Trained without JailbreakHub: JailbreakHub test macro-F1 falls from 0.79–0.82 to 0.46–0.47. One seed. |
 | RQ7 threshold trade-off | Done for validation-chosen operating points. |
 | Human annotation pilot | 200 prompts, 3 reviewers, Fleiss' kappa 0.541 (`outputs/annotation_agreement_pilot/recomputed/`). Uses the four-label scheme; no adjudicated gold set; reviewer independence owner-confirmed, not audited. Not used by the binary experiments. |
 

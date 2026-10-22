@@ -17,3 +17,11 @@
 - Phase 4 plan saved, stopped for approval. Metadata supports an unseen *harm-topic* split (WildGuardMix subcategory)
   and an unseen *source* split, not an unseen attack-technique split. Proposed: hold out `cyberattack` with keyword
   closure (533 held-out rows) plus a WildGuardMix-only companion run. Plan: [task_a_rq3_plan.md](task_a_rq3_plan.md).
+
+## 2026-10-23
+
+- Phase 4 complete (approved). Run in a separate worktree of `task-a-binary-dataset` (the main checkout is on the
+  owner's `consolidation` branch). A (unseen `cyberattack` topic): recall 1.000 for all models; FPR on harmful
+  direct requests 5.2–5.5% TF-IDF, 24.5% DistilBERT. B (no JailbreakHub in training): JailbreakHub test macro-F1
+  0.79–0.82 → 0.46–0.47. About 40 min of compute. Existing results verified unchanged.
+  Report: [task_a_rq3_report.md](task_a_rq3_report.md).

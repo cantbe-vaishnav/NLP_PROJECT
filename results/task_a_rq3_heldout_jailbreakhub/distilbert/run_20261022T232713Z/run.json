@@ -1,0 +1,109 @@
+{
+  "selected_epoch": 3,
+  "selected_validation_macro_f1": 0.9983186653201874,
+  "training_history": [
+    {
+      "epoch": 1,
+      "train_loss": 0.0602189134466868,
+      "validation_macro_f1": 0.9930670706955094,
+      "minutes": 4.62
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.007908108255329597,
+      "validation_macro_f1": 0.9978981269554257,
+      "minutes": 4.62
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.0017549265649066327,
+      "validation_macro_f1": 0.9983186653201874,
+      "minutes": 4.32
+    }
+  ],
+  "versions": {
+    "torch": "2.6.0+cu124",
+    "transformers": "5.3.0"
+  },
+  "created_utc": "2026-10-22T23:41:39.744220+00:00",
+  "script": "scripts/run_rq3_experiment.py",
+  "experiment": "B",
+  "model": "distilbert",
+  "dataset_sha256": "f4852e888871b09477149852ecf500c3344171cf5fcd5bf65b9828dfe7ec24f2",
+  "seed": 42,
+  "configs": {
+    "base": {
+      "experiment": "Task A binary jailbreak detection, TF-IDF + Logistic Regression baseline (RQ1) on dataset v2 (reviewed JailbreakHub label corrections)",
+      "dataset": "data/processed/binary_jailbreak_v2/combined.parquet",
+      "seed": 42,
+      "c_grid": [
+        0.1,
+        1.0,
+        10.0
+      ],
+      "threshold": 0.5,
+      "model": {
+        "ngram_range": [
+          1,
+          2
+        ],
+        "min_df": 2,
+        "class_weight": "balanced",
+        "max_iter": 1000
+      },
+      "output_dir": "results/task_a_binary_tfidf_v2"
+    },
+    "svm": null,
+    "distilbert": {
+      "experiment": "Task A binary jailbreak detection, fine-tuned DistilBERT (RQ1 comparison) on dataset v2",
+      "base_config": "configs/task_a_binary_tfidf_v2.json",
+      "note": "Dataset and seed come from base_config. Sized for an 8 GB GPU; runs on CPU but far slower.",
+      "model_name": "distilbert-base-uncased",
+      "max_length": 256,
+      "train_batch_size": 16,
+      "eval_batch_size": 64,
+      "learning_rate": 2e-05,
+      "weight_decay": 0.01,
+      "warmup_ratio": 0.1,
+      "max_epochs": 3,
+      "early_stopping_patience": 1,
+      "class_weight": "balanced",
+      "threshold": 0.5,
+      "output_dir": "results/task_a_binary_distilbert_v2"
+    }
+  },
+  "threshold": 0.5,
+  "split_counts": {
+    "train": {
+      "benign": 22272,
+      "adversarial": 20606
+    },
+    "validation": {
+      "benign": 2475,
+      "adversarial": 2290
+    },
+    "test_jailbreakhub": {
+      "benign": 1306,
+      "adversarial": 141
+    },
+    "test_jailbreakhub_jbh_rows_only": {
+      "benign": 1301,
+      "adversarial": 141
+    },
+    "all_jailbreakhub_rows": {
+      "benign": 12870,
+      "adversarial": 1466
+    },
+    "official_test": {
+      "benign": 915,
+      "adversarial": 810
+    }
+  },
+  "family_closure_rows_removed": 132,
+  "train_ids_sha256": "9a05117bda3e6481c3d35872e1dcd736d288577da2a99bd699225906c0f2790c",
+  "validation_ids_sha256": "4acbe007163a6dbb67cfcfcbfaf17ecabb10d3b9846c7a81e7bc32852d55fde3",
+  "runtime_seconds": {
+    "train_and_select": 834.2,
+    "total": 869.6
+  }
+}
