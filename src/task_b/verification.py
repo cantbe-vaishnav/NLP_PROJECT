@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from collections import Counter
+from datetime import datetime, timezone
 import json
 from pathlib import Path
 import re
@@ -132,6 +133,21 @@ def choose_threshold(gold: list[str], predict_at: Callable[[float], list[str]],
         search.append({"threshold": threshold, "validation_macro_f1": evaluate(gold, predicted, labels)["macro_f1"]})
     best = max(search, key=lambda row: row["validation_macro_f1"])  # max() keeps the first of equal values
     return best["threshold"], search
+
+
+def new_run_dir(parent: str | Path, prefix: str = "run_") -> Path:
+    """Create and return a new <prefix><UTC timestamp> folder; a taken name gets a numeric suffix, never reused."""
+    parent = Path(parent)
+    parent.mkdir(parents=True, exist_ok=True)
+    stamp = prefix + datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    for attempt in range(1, 1000):
+        path = parent / (stamp if attempt == 1 else f"{stamp}_{attempt}")
+        try:
+            path.mkdir()
+            return path
+        except FileExistsError:
+            continue
+    raise FileExistsError(f"no free run folder name for {parent / stamp}")
 
 
 def save_run(output_dir: str | Path, config: dict, predictions: list[dict], results: dict) -> None:

@@ -228,6 +228,68 @@ def write_validation_sample(train_path: str | Path, output_path: str | Path, per
             "rows": len(chosen), "skipped_overlapping_with_evaluation": overlapping}
 
 
+def select_training_claims(train_path: str | Path, excluded_texts: dict[str, set[str]],
+                           conflict_labels: tuple[str, ...] = (*GOLD_LABELS, "NOT ENOUGH INFO")
+                           ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    """SUPPORTS/REFUTES training rows, unchanged, that survive claim-text exclusions applied in order.
+
+    `excluded_texts` maps a reason to claim_key texts; every row with such a text is removed whatever its id.
+    Texts carrying more than one of `conflict_labels` within the training file are removed last.
+    Duplicate ids or unreadable rows raise instead of being skipped.
+    """
+    rows: list[tuple[str, dict[str, Any]]] = []
+    ids: set[str] = set()
+    labels_by_text: dict[str, set[str]] = {}
+    for number, row, error in _read_jsonl(Path(train_path)):
+        if error or not isinstance(row, dict) or not isinstance(row.get("claim"), str):
+            raise ValueError(f"invalid training row at line {number}: {error or 'expected object with a claim'}")
+        raw_id = str(row.get("id"))
+        if raw_id in ids:
+            raise ValueError(f"duplicate training id {raw_id} at line {number}")
+        ids.add(raw_id)
+        key = claim_key(row["claim"])
+        if row.get("label") in conflict_labels:
+            labels_by_text.setdefault(key, set()).add(row["label"])
+        if row.get("label") in GOLD_LABELS:
+            rows.append((key, row))
+    conflicting = {key for key, labels in labels_by_text.items() if len(labels) > 1}
+    combos: dict[str, int] = {}
+    for key in conflicting:
+        name = "+".join(sorted(labels_by_text[key]))
+        combos[name] = combos.get(name, 0) + 1
+    reasons = [*excluded_texts.items(), ("conflicting_labels", conflicting)]
+    count = lambda subset: {label: sum(r["label"] == label for _, r in subset) for label in GOLD_LABELS}
+    report: dict[str, Any] = {
+        "source_file": str(train_path), "rows_read": len(ids), "supports_refutes_rows": len(rows),
+        "supports_refutes_by_label": count(rows), "normalisation": "claim_key: casefold, whitespace collapsed",
+        "conflict_labels": list(conflict_labels), "conflicting_claim_texts": len(conflicting),
+        "conflicting_claim_texts_by_labels": dict(sorted(combos.items())),
+        "rows_matching_each_exclusion_independently": {
+            reason: sum(key in texts for key, _ in rows) for reason, texts in reasons},
+        "removed_in_order": {}}
+    kept = rows
+    for reason, texts in reasons:
+        removed = [item for item in kept if item[0] in texts]
+        kept = [item for item in kept if item[0] not in texts]
+        report["removed_in_order"][reason] = {"rows": len(removed), "by_label": count(removed),
+                                              "distinct_claim_texts": len({key for key, _ in removed})}
+    report["eligible_rows"] = len(kept)
+    report["eligible_by_label"] = count(kept)
+    report["eligible_distinct_claim_texts"] = len({key for key, _ in kept})
+    return [row for _, row in kept], report
+
+
+def balanced_sample(records: list[FeverRecord], seed: int) -> list[FeverRecord]:
+    """Every CONTRADICTED record plus an equal seeded sample of SUPPORTED records, returned in file order."""
+    import random
+    contradicted = [record for record in records if record.gold_label == "CONTRADICTED"]
+    supported = [record for record in records if record.gold_label == "SUPPORTED"]
+    if len(supported) < len(contradicted):
+        raise ValueError(f"only {len(supported)} SUPPORTED records for {len(contradicted)} CONTRADICTED")
+    chosen = contradicted + random.Random(seed).sample(supported, len(contradicted))
+    return sorted(chosen, key=lambda record: record.source_line)
+
+
 def load_source_prior(path: str | Path, include_nei: bool = False) -> list[str]:
     """Read only source labels from an explicitly separate training/development file."""
     mapping = {**GOLD_LABELS, **({"NOT ENOUGH INFO": "UNSUPPORTED"} if include_nei else {})}

@@ -6,12 +6,13 @@ import tempfile
 import unittest
 
 from task_b.custom import load_reviewed_pairs
-from task_b.fever import (claim_key, claim_phrases, load_source_prior, prepare_fever, retrieve_nei_evidence,
-                          title_key, write_prepared, write_validation_sample)
-from task_b.models import embedding_similarities, nli_label_ids
+from task_b.fever import (FeverRecord, balanced_sample, claim_key, claim_phrases, load_source_prior, prepare_fever,
+                          retrieve_nei_evidence, select_training_claims, title_key, write_prepared,
+                          write_validation_sample)
+from task_b.models import embedding_similarities, joined_premise, nli_label_ids, nli_scores_to_label
 from task_b.schema import parse_claim_evidence
 from task_b.verification import (choose_threshold, evaluate, fever_binary_proxy, lexical_cues,
-                                 lexical_overlap, majority_prior, overlap_score, save_run)
+                                 lexical_overlap, majority_prior, new_run_dir, overlap_score, save_run)
 
 
 class FeverTests(unittest.TestCase):
@@ -186,6 +187,57 @@ class FeverTests(unittest.TestCase):
             path.write_text(json.dumps(row) + "\n")
             with self.assertRaisesRegex(ValueError, "verbatim"):
                 load_reviewed_pairs(path)
+
+
+class TrainingSplitTests(unittest.TestCase):
+    def test_exclusions_cover_duplicate_texts_ids_and_conflicts(self):
+        rows = [(1, "Mars is red.", "SUPPORTS"), (2, "  MARS is  red. ", "SUPPORTS"), (3, "Dev claim", "SUPPORTS"),
+                (4, "Val claim", "REFUTES"), (5, "val  CLAIM", "SUPPORTS"), (6, "Conflict", "SUPPORTS"),
+                (7, "conflict", "REFUTES"), (8, "Nei conflict", "SUPPORTS"), (9, "Nei conflict", "NOT ENOUGH INFO"),
+                (10, "Kept refute", "REFUTES"), (11, "Only nei", "NOT ENOUGH INFO")]
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / "train.jsonl"
+            path.write_text("\n".join(json.dumps({"id": i, "claim": c, "label": l, "evidence": []})
+                                      for i, c, l in rows) + "\n")
+            kept, report = select_training_claims(path, {"dev": {claim_key("DEV claim")},
+                                                         "validation": {claim_key("Val Claim")}})
+            self.assertEqual([row["id"] for row in kept], [1, 2, 10])  # duplicate kept texts stay, unchanged
+            self.assertEqual({k: v["rows"] for k, v in report["removed_in_order"].items()},
+                             {"dev": 1, "validation": 2, "conflicting_labels": 3})
+            # "Val claim" also conflicts but is already removed by the validation exclusion.
+            self.assertEqual(report["conflicting_claim_texts"], 3)
+            self.assertEqual(report["removed_in_order"]["conflicting_labels"]["distinct_claim_texts"], 2)
+            self.assertEqual(report["conflicting_claim_texts_by_labels"],
+                             {"NOT ENOUGH INFO+SUPPORTS": 1, "REFUTES+SUPPORTS": 2})
+            self.assertEqual(report["eligible_distinct_claim_texts"], 2)
+            path.write_text(path.read_text() + json.dumps({"id": 1, "claim": "x", "label": "SUPPORTS"}) + "\n")
+            with self.assertRaisesRegex(ValueError, "duplicate training id"):
+                select_training_claims(path, {})
+
+    def test_balanced_sample_is_seeded_equal_and_in_file_order(self):
+        def record(line, label):
+            claim = parse_claim_evidence({"claim_id": str(line), "claim": f"c{line}",
+                                          "evidence": [{"evidence_id": "e", "text": "t"}]})
+            return FeverRecord(claim, label, label, "f", "w", line, [], 0, line)
+        records = [record(i, "SUPPORTED") for i in range(1, 9)] + [record(i, "CONTRADICTED") for i in (9, 10, 11)]
+        first, second = balanced_sample(records, 42), balanced_sample(records, 42)
+        self.assertEqual([r.source_line for r in first], [r.source_line for r in second])
+        self.assertEqual([r.gold_label for r in first].count("SUPPORTED"), 3)
+        self.assertEqual([r.source_line for r in first], sorted(r.source_line for r in first))
+        with self.assertRaises(ValueError):
+            balanced_sample(records[6:], 42)
+
+    def test_joined_premise_label_mapping_and_run_folders(self):
+        record = parse_claim_evidence({"claim_id": "x", "claim": "c", "evidence": [
+            {"evidence_id": "a", "text": "First."}, {"evidence_id": "b", "text": "Second."}]})
+        self.assertEqual(joined_premise(record), "First. Second.")
+        ids = {"entailment": 2, "contradiction": 0, "neutral": 1}
+        self.assertEqual([nli_scores_to_label(s, ids) for s in ([0.1, 0.2, 0.7], [0.6, 0.3, 0.1], [0.2, 0.5, 0.3])],
+                         ["SUPPORTED", "CONTRADICTED", "UNSUPPORTED"])
+        with tempfile.TemporaryDirectory() as temp:
+            folders = [new_run_dir(temp, "smoke_run_") for _ in range(3)]
+            self.assertEqual(len(set(folders)), 3)
+            self.assertTrue(all(f.is_dir() and f.name.startswith("smoke_run_") for f in folders))
 
 
 if __name__ == "__main__":
