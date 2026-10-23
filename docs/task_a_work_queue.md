@@ -18,4 +18,4 @@ Updated: 2026-10-23.
 
 ## Feedback
 
-See [task_a_feedback_log.md](task_a_feedback_log.md). Open items: F6 (Task B publication, awaiting the owner's push approval), F7 (final report).
+See [task_a_feedback_log.md](task_a_feedback_log.md). Open items: none.
